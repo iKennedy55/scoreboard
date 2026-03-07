@@ -475,7 +475,7 @@
         }
 
         .mockup-wrap {
-            background: #111;
+            background: #000000;
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid #1e1e1e;
@@ -496,12 +496,12 @@
         }
 
         .mock-side.r {
-            background: #1a0808;
+            background: #000000;
             border-right: 1px solid #1e1e1e;
         }
 
         .mock-side.b {
-            background: #08101a;
+            background: #000000;
             border-left: 1px solid #1e1e1e;
         }
 
@@ -794,11 +794,11 @@
         }
 
         .comp-table thead tr {
-            background: #0f1623;
+            background: #000000;
         }
 
         .comp-table th {
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 1);
             text-align: left;
         }
 
@@ -849,7 +849,7 @@
 
         /* REC BOX */
         .rec {
-            background: #0f1623;
+            background: #000000;
             border-radius: 14px;
             padding: 32px 36px;
             color: rgba(255, 255, 255, 0.65);
@@ -946,7 +946,7 @@
         </div>
 
         <div class="cover-body">
-            <span class="cover-tag">Herramienta de Marcador Digital</span>
+            <span class="cover-tag">Sistema local de control de combate y marcador digital</span>
             <h1 class="cover-title">
                 Scoreboard<br>
                 <span>para Competencias</span><br>
@@ -1089,15 +1089,15 @@
         <div class="card">
             <div class="card-header a">
                 <h3>Scoreboard Lite</h3>
-                <p class="sub">Lista para usar el mismo dia. Sin datos guardados, sin configuracion.</p>
-                <span class="badge lite">Version Simple</span>
+                <p class="sub">Lista para usar el mismo día de entrega. Sin datos guardados, sin configuración.</p>
+                <span class="badge lite">Versión Operativa</span>
             </div>
             <div class="card-body">
                 <p class="philosophy">La idea es que se abra el navegador y funcione de inmediato. Sin registro, sin
                     base de datos. Para competencias donde solo se necesita marcar puntos y controlar el tiempo.</p>
 
                 <div class="feat-group">
-                    <p class="feat-title">Puntuacion y Control del Encuentro</p>
+                    <p class="feat-title">Puntuación y Control del Encuentro</p>
                     <ul class="feat-list">
                         <li>Cuadros clickeables con los valores 1, 2, 4 y 5 para cada esquina</li>
                         <li>Boton para deshacer el ultimo punto ingresado (correcciones de arbitro)</li>
@@ -1155,7 +1155,8 @@
                     <div class="platform-grid">
                         <div class="plat-item">
                             <div class="pk">Pantalla publica</div>
-                            <div class="pv">Se abre en una segunda pestana o en cualquier pantalla conectada</div>
+                            <div class="pv">Despliegue dual nativo (Requiere TV/Proyector en la misma red local del
+                                operador)</div>
                         </div>
                         <div class="plat-item">
                             <div class="pk">Instalacion</div>
@@ -1167,18 +1168,16 @@
                         </div>
                         <div class="plat-item">
                             <div class="pk">Portabilidad</div>
-                            <div class="pv">Un archivo HTML copiable en USB</div>
+                            <div class="pv">Solución ligera, ejecutable localmente en el equipo del operador, sin
+                                depender de servicios externos.</div>
                         </div>
-                    </div>
-                    <div class="platform-note">La pantalla del publico se actualiza en tiempo real. Solo se necesita
-                        abrir la segunda pagina en el mismo dispositivo o en una TV conectada a la misma red local.
                     </div>
                 </div>
 
                 <div class="delivery">
                     <div class="del-box time">
                         <div class="dk">Tiempo de desarrollo</div>
-                        <div class="dv">2 a 3 dias</div>
+                        <div class="dv">5 a 7 dias</div>
                     </div>
                     <div class="del-box cost">
                         <div class="dk">Inversion relativa</div>
@@ -1206,23 +1205,19 @@
             <div class="card-body">
                 <p class="philosophy">Una plataforma que crece con la federacion. Los datos se guardan entre sesiones,
                     los encuentros se cargan con los nombres de los luchadores y el sistema evita errores como enfrentar
-                    generos o categorias distintas.</p>
+                    generos, pesos y/o categorias distintas.</p>
 
                 <div class="feat-group">
-                    <p class="feat-title">✨ Todo lo incluido en la Version Lite</p>
-                    <ul class="feat-list">
-                        <li>Panel de puntuacion completo, temporizador principal, descansos oficiales y vistas para
-                            publico y operador.</li>
-                    </ul>
+                    <p class="feat-title">Todo lo incluido en la Version Lite</p>
                 </div>
 
                 <div class="feat-group">
-                    <p class="feat-title">Gestion Completa de Atletas y Ligas</p>
+                    <p class="feat-title">Gestion Completa de Atletas</p>
                     <ul class="feat-list">
-                        <li>Registro de luchadores por delegacion o club con persistencia local</li>
+                        <li>Registro de luchadores</li>
                         <li>Emparejamiento automatico con candados de seguridad (no permite cruces de genero o pesos
                             distintos por error)</li>
-                        <li>Configuracion de llaves y generacion de lista de combates diarios</li>
+                        <li>Configuracion y generacion de lista de combates diarios</li>
                         <li>Busqueda y filtrado intantaneo desde el panel del operador</li>
                     </ul>
                 </div>
@@ -1234,8 +1229,8 @@
                             automatica y al azar entre los luchadores registrados del mismo peso/genero.</li>
                         <li><strong>Integracion a la medida:</strong> Flexibilidad para agregar botones especificos,
                             atajos o sugerencias particulares de los arbitros una vez prueben la plataforma.</li>
-                        <li><strong>Ajustes de reglas locales:</strong> Podemos modificar como se castigan las faltas o
-                            como fluye el tiempo segun las reglas internas de la delegacion.</li>
+                        <li><strong>Ajustes de reglas internacionales:</strong> Se pueden modificar como se castigan las
+                            faltas o como fluye el tiempo segun las reglas internacionales.</li>
                     </ul>
                 </div>
 
@@ -1244,7 +1239,7 @@
                     <ul class="feat-list">
                         <li>Registro de resultados: ganador, puntos finales y tiempo</li>
                         <li>Opcion de exportar el resumen del dia en tabla imprimible</li>
-                        <li>Todo se guarda en el mismo equipo del operador</li>
+                        <li>Todo se guarda en el mismo equipo del operador y se puede exportar a un archivo local</li>
                     </ul>
                 </div>
 
@@ -1299,7 +1294,7 @@
                 <div class="delivery">
                     <div class="del-box time">
                         <div class="dk">Tiempo de desarrollo</div>
-                        <div class="dv">1 a 2 semanas</div>
+                        <div class="dv">2 a 3 semanas</div>
                     </div>
                     <div class="del-box cost">
                         <div class="dk">Inversion relativa</div>
@@ -1344,7 +1339,7 @@
                     <td class="yes">Si</td>
                 </tr>
                 <tr>
-                    <td>Generacion de llave y combates aleatorios</td>
+                    <td>Generacion de combates aleatorios</td>
                     <td class="no">No</td>
                     <td class="yes">Si</td>
                 </tr>
@@ -1356,12 +1351,12 @@
                 <tr>
                     <td>Instalacion y configuracion del sistema</td>
                     <td class="na">Ninguna</td>
-                    <td class="na">Instalacion de App</td>
+                    <td class="na">Instalacion local</td>
                 </tr>
                 <tr>
                     <td>Tiempo de desarrollo</td>
-                    <td><strong>2 a 3 dias</strong></td>
-                    <td><strong>1 a 2 semanas</strong></td>
+                    <td><strong>5 a 7 dias</strong></td>
+                    <td><strong>2 a 3 semanas</strong></td>
                 </tr>
             </tbody>
         </table>
@@ -1373,26 +1368,26 @@
         <h2>El valor de una herramienta a la medida</h2>
         <div class="rule"></div>
 
-        <p style="color:#555;margin-bottom:20px;">Existen cronometros gratuitos en internet. La diferencia entre uno de
-            esos y esta herramienta es la misma que hay entre una hoja de calculo y un sistema de nomina: ambos manejan
-            numeros, pero uno esta hecho para el trabajo especifico y el otro no.</p>
+        <p style="color:#555;margin-bottom:20px;">Existen cronómetros gratuitos en internet. La diferencia entre uno de
+            esos y esta herramienta es la misma que hay entre una hoja de cálculo y un sistema de nómina: ambos manejan
+            números, pero uno está hecho para el trabajo específico y el otro no.</p>
 
         <table class="comp-table" style="margin-bottom:36px;">
             <thead>
                 <tr>
                     <th>Aspecto</th>
-                    <th>Contador online generico</th>
+                    <th>Contador online genérico</th>
                     <th>Esta herramienta</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Puntuacion de lucha (1, 2, 4, 5)</td>
+                    <td>Puntuación de lucha (1, 2, 4, 5)</td>
                     <td class="no">No</td>
                     <td class="yes">Si</td>
                 </tr>
                 <tr>
-                    <td>Deshacer el ultimo punto</td>
+                    <td>Deshacer el último punto</td>
                     <td class="no">No</td>
                     <td class="yes">Si</td>
                 </tr>
@@ -1407,7 +1402,7 @@
                     <td class="yes">Si</td>
                 </tr>
                 <tr>
-                    <td>Vista separada para el publico</td>
+                    <td>Vista separada para el público</td>
                     <td class="no">No</td>
                     <td class="yes">Si</td>
                 </tr>
@@ -1417,31 +1412,42 @@
                     <td class="yes">Si</td>
                 </tr>
                 <tr>
-                    <td>Control con teclado (barra espaciadora)</td>
-                    <td class="no">No</td>
-                    <td class="yes">Si</td>
-                </tr>
-                <tr>
-                    <td>Disenada para el reglamento UWW</td>
+                    <td>Control con teclado personalizado</td>
                     <td class="no">No</td>
                     <td class="yes">Si</td>
                 </tr>
             </tbody>
         </table>
 
+        <span class="eyebrow">Aclaraciones operativas</span>
+        <h2>Supuestos y límites</h2>
+        <div class="rule"></div>
+        <div class="feat-group" style="margin-bottom: 40px; padding: 0 16px;">
+            <ul class="feat-list">
+                <li><strong>Persistencia de datos:</strong> La versión Lite no guarda histórico permanente entre
+                    sesiones; la versión Pro sí contempla persistencia local.</li>
+                <li><strong>Pantalla pública:</strong> La capacidad de proyectar a un segundo dispositivo
+                    inalámbricamente depende enteramente de la infraestructura de red local del evento (routers y red
+                    WiFi asignada).</li>
+                <li><strong>Alcance oficial:</strong> Este sistema está diseñado como herramienta primaria para torneos
+                    internos y topes de fogueo. No sustituye ni busca integrarse al sistema oficial <em>UWWTiming</em>
+                    exigido en competencias de ranking internacional.</li>
+            </ul>
+        </div>
+
         <span class="eyebrow">06 Inversion</span>
         <h2>Costo del proyecto</h2>
         <div class="rule"></div>
 
-        <p style="color:#555;margin-bottom:20px;">El precio cubre el desarrollo completo, las pruebas, la capacitacion
-            al operador y un mes de ajustes posteriores a la entrega. No hay costos mensuales ni licencias.</p>
+        <p style="color:#555;margin-bottom:20px;">El precio cubre el desarrollo completo, las pruebas y un mes de
+            ajustes posteriores a la entrega. No hay costos mensuales ni licencias ocultas.</p>
 
         <div style="border:1px solid #e0e0e0;border-radius:14px;overflow:hidden;margin-bottom:36px;">
             <div style="background:#000000;padding:20px 28px;">
                 <div
                     style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:4px;">
                     Version Lite</div>
-                <div style="font-size:32px;font-weight:800;color:#fff;font-family:'Roboto Mono',monospace;">$100 USD
+                <div style="font-size:32px;font-weight:800;color:#fff;font-family:'Roboto Mono',monospace;">$450 USD
                 </div>
                 <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px;">Pago unico. Sin costos
                     adicionales.</div>
@@ -1449,15 +1455,11 @@
             <div style="padding:22px 28px;">
                 <table style="width:100%;font-size:13px;border-collapse:collapse;">
                     <tr style="border-bottom:1px solid #f3f3f3;">
-                        <td style="padding:9px 0;color:#444;">Desarrollo de la herramienta</td>
-                        <td style="text-align:right;font-weight:600;color:#222;">$100</td>
+                        <td style="padding:9px 0;color:#444;">Desarrollo integral del sistema</td>
+                        <td style="text-align:right;font-weight:600;color:#222;">$450</td>
                     </tr>
                     <tr style="border-bottom:1px solid #f3f3f3;">
-                        <td style="padding:9px 0;color:#444;">Pruebas y ajustes</td>
-                        <td style="text-align:right;font-weight:600;color:#222;">Incluido</td>
-                    </tr>
-                    <tr style="border-bottom:1px solid #f3f3f3;">
-                        <td style="padding:9px 0;color:#444;">Capacitacion al operador (presencial o remota)</td>
+                        <td style="padding:9px 0;color:#444;">Pruebas locales y ajustes</td>
                         <td style="text-align:right;font-weight:600;color:#222;">Incluido</td>
                     </tr>
                     <tr style="border-bottom:1px solid #f3f3f3;">
@@ -1477,7 +1479,7 @@
                 <div
                     style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:4px;">
                     Version Pro</div>
-                <div style="font-size:32px;font-weight:800;color:#fff;font-family:'Roboto Mono',monospace;">$700 USD
+                <div style="font-size:32px;font-weight:800;color:#fff;font-family:'Roboto Mono',monospace;">$1,200 USD
                 </div>
                 <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px;">Pago unico. Sin costos
                     mensuales.</div>
@@ -1485,19 +1487,15 @@
             <div style="padding:22px 28px;">
                 <table style="width:100%;font-size:13px;border-collapse:collapse;">
                     <tr style="border-bottom:1px solid #f3f3f3;">
-                        <td style="padding:9px 0;color:#444;">Desarrollo completo (Lite + gestion de luchadores)</td>
-                        <td style="text-align:right;font-weight:600;color:#222;">$550</td>
+                        <td style="padding:9px 0;color:#444;">Desarrollo completo (Lite + plataforma de gestion)</td>
+                        <td style="text-align:right;font-weight:600;color:#222;">$1,200</td>
                     </tr>
                     <tr style="border-bottom:1px solid #f3f3f3;">
-                        <td style="padding:9px 0;color:#444;">Pruebas, ajustes y control de calidad</td>
+                        <td style="padding:9px 0;color:#444;">Pruebas de torneo, ajustes y calidad</td>
                         <td style="text-align:right;font-weight:600;color:#222;">Incluido</td>
                     </tr>
                     <tr style="border-bottom:1px solid #f3f3f3;">
-                        <td style="padding:9px 0;color:#444;">Capacitacion al operador y al administrador</td>
-                        <td style="text-align:right;font-weight:600;color:#222;">Incluido</td>
-                    </tr>
-                    <tr style="border-bottom:1px solid #f3f3f3;">
-                        <td style="padding:9px 0;color:#444;">Soporte por 60 dias post-entrega</td>
+                        <td style="padding:9px 0;color:#444;">Soporte prioritario por 60 dias</td>
                         <td style="text-align:right;font-weight:600;color:#222;">Incluido</td>
                     </tr>
                     <tr>
@@ -1515,14 +1513,17 @@
         <div class="rec">
             <h3>Ruta sugerida</h3>
             <p>Para los encuentros internos de la federacion, <strong>la version Lite es la solucion correcta en este
-                    momento</strong>. Resuelve el problema real que existe hoy: un marcador que funcione sin depender de
-                la red, sin necesitar soporte tecnico y que cualquier miembro del equipo pueda operar.</p>
-            <p>La version Pro se presenta para que la federacion conozca hasta donde puede escalar la herramienta.
-                Cuando los encuentros internos crezcan o cuando se quiera llevar un registro formal de luchadores y
-                resultados por categoria, la base ya esta planteada y el costo de escalar es menor que empezar desde
-                cero.</p>
-            <p>La sugerencia concreta es iniciar con la version Lite, usarla en dos o tres eventos internos y con esa
-                experiencia real decidir si se justifica la version Pro. No hay riesgo en este camino.</p>
+                    momento</strong>. Resuelve el problema operativo inmediato: un marcador digital que funcione sin
+                depender
+                de internet, estable y listo para competencias de fogueo.</p>
+            <p>Más allá de solucionar el problema actual, <strong>la versión Lite sirve como una base tecnológica
+                    validada</strong>.
+                Cuando la federación decida crecer el proyecto e integrar gestión de llaves y atletas, todo el trabajo y
+                la lógica de la Lite se aprovecha íntegramente para evolucionar a la versión Pro sin necesidad de
+                rehacer el sistema desde cero ni pagar una segunda implementación doble.</p>
+            <p>La sugerencia concreta es iniciar con la version Lite, correr un par de torneos internos, asimilar la
+                digitalización y, con esa experiencia real y el código operando, escalar a la versión Pro con total
+                seguridad institucional.</p>
         </div>
 
         <!-- CLOSING -->
