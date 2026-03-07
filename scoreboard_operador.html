@@ -463,27 +463,27 @@
         }
 
         .btn-edit-time {
-            position: absolute;
-            right: -10px;
-            bottom: -5px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px dashed rgba(255, 255, 255, 0.2);
+            margin-top: 4px;
+            margin-bottom: 2px;
+            background: transparent;
+            border: 1px solid var(--border);
             color: var(--muted);
-            font-size: 9px;
-            padding: 4px 8px;
-            border-radius: 4px;
+            font-size: 10px;
+            padding: 4px 12px;
+            border-radius: 99px;
             cursor: pointer;
             transition: all 0.2s;
             display: none;
             text-transform: uppercase;
             font-weight: 700;
+            letter-spacing: 1px;
         }
 
         .btn-edit-time:hover {
-            border-color: #fff;
+            border-color: #555;
             color: #fff;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            background: #111;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
 
         .time-selector {
@@ -1111,9 +1111,9 @@
         </div>
 
         <div class="center">
-            <div style="position: relative; width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
                 <div class="clock-display paused" id="clock">3:00</div>
-                <button class="btn-edit-time" id="btn-edit-time" onclick="promptEditTime()">✏️ Editar Tiempo</button>
+                <button class="btn-edit-time" id="btn-edit-time" onclick="promptEditTime()">EDICION MANUAL</button>
             </div>
             <div class="time-selector">
                 <button class="time-btn" onclick="setTime(60,this)">1:00</button>
