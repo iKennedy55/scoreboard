@@ -20,7 +20,7 @@
         :root {
             --red: #ff003c;
             --red-bg: #000000;
-            --blue: #00e1ff;
+            --blue: #0088ff;
             --blue-bg: #000000;
             --center: #000000;
             --surface: #000000;
@@ -270,7 +270,7 @@
             font-weight: 900;
             color: #fff;
             user-select: none;
-            transition: transform 0.12s ease, box-shadow 0.3s;
+            transition: transform 0.12s ease, box-shadow 0.3s, background 0.3s;
         }
 
         .score-display.bump {
@@ -279,14 +279,18 @@
 
         .side.red .score-display {
             color: var(--red);
+            background: rgba(255, 0, 60, 0.12);
             text-shadow: 0 0 20px rgba(255, 0, 60, 0.6);
-            border-color: rgba(255, 0, 60, 0.3);
+            border-color: rgba(255, 0, 60, 0.4);
+            box-shadow: inset 0 0 20px rgba(255, 0, 60, 0.1);
         }
 
         .side.blue .score-display {
             color: var(--blue);
-            text-shadow: 0 0 20px rgba(0, 225, 255, 0.6);
-            border-color: rgba(0, 225, 255, 0.3);
+            background: rgba(0, 136, 255, 0.12);
+            text-shadow: 0 0 20px rgba(0, 136, 255, 0.6);
+            border-color: rgba(0, 136, 255, 0.4);
+            box-shadow: inset 0 0 20px rgba(0, 136, 255, 0.1);
         }
 
         /* Botones de puntos */
@@ -306,12 +310,13 @@
             font-weight: 900;
             cursor: pointer;
             transition: all 0.2s ease;
-            background: var(--card);
+            background: #000;
             color: #fff;
         }
 
         .side.red .pt-btn {
             color: var(--red);
+            background: rgba(255, 0, 60, 0.08);
             border-color: rgba(255, 0, 60, 0.4);
         }
 
@@ -328,14 +333,15 @@
 
         .side.blue .pt-btn {
             color: var(--blue);
-            border-color: rgba(0, 225, 255, 0.4);
+            background: rgba(0, 136, 255, 0.08);
+            border-color: rgba(0, 136, 255, 0.4);
         }
 
         .side.blue .pt-btn:hover:not(:disabled) {
             background: var(--blue);
             color: #000;
             border-color: var(--blue);
-            box-shadow: 0 0 16px rgba(0, 225, 255, 0.6);
+            box-shadow: 0 0 16px rgba(0, 136, 255, 0.6);
         }
 
         .side.blue .pt-btn:active:not(:disabled) {
@@ -405,7 +411,7 @@
 
         .clock-display {
             font-family: 'Roboto Mono', monospace;
-            font-size: 56px;
+            font-size: 72px;
             font-weight: 900;
             letter-spacing: 2px;
             line-height: 1;
@@ -582,10 +588,10 @@
         }
 
         .period-btn.active {
-            background: #fff;
+            background: var(--green);
             color: #000;
-            border-color: #fff;
-            box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+            border-color: var(--green);
+            box-shadow: 0 0 16px rgba(0, 255, 91, 0.6);
         }
 
         .history-label {
@@ -657,7 +663,7 @@
             cursor: pointer;
             font-family: 'Inter', sans-serif;
             transition: all 0.2s;
-            background: transparent;
+            background: rgba(0, 255, 91, 0.12);
             color: var(--green);
         }
 
@@ -669,6 +675,7 @@
 
         .btn-start.running {
             border-color: var(--red);
+            background: rgba(255, 0, 60, 0.12);
             color: var(--red);
         }
 
@@ -825,8 +832,9 @@
 
         .ds-preset.active {
             border-color: var(--green);
-            color: var(--green);
-            box-shadow: 0 0 12px rgba(0, 255, 91, 0.3);
+            background: var(--green);
+            color: #000;
+            box-shadow: 0 0 16px rgba(0, 255, 91, 0.5);
         }
 
         .ds-custom {
