@@ -146,43 +146,88 @@
 
         @media print {
             * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
 
             body {
                 background: white;
             }
 
-            .page {
-                margin: 0;
-                box-shadow: none;
-                min-height: auto;
-                padding: 40px 0;
+            .cover {
+                page-break-after: always;
+                break-after: page;
+                min-height: 100vh;
             }
 
-            .cover {
-                padding: 40px 0;
+            .page {
+                page-break-before: always;
+                break-before: page;
+                max-width: 100%;
+                padding: 48px 60px;
+                margin: 0;
+                box-shadow: none;
             }
 
             .card {
-                overflow: visible !important;
-                break-inside: auto;
-                page-break-inside: auto;
-            }
-
-            .card-header {
-                border-top-left-radius: 13px;
-                border-top-right-radius: 13px;
-            }
-
-            .feat-group,
-            .del-box,
-            tr,
-            .platform,
-            .rec {
-                break-inside: avoid;
                 page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .feat-group {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .platform {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .delivery {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .mockup-section {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .mockup-wrap {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .views-grid {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .rec {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .comp-table {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            h2,
+            h3,
+            h4 {
+                page-break-after: avoid;
+                break-after: avoid;
+            }
+
+            .eyebrow {
+                page-break-after: avoid;
+                break-after: avoid;
+            }
+
+            .spacer {
+                display: none;
             }
         }
 
@@ -235,6 +280,7 @@
         .card {
             border: 1px solid var(--border);
             border-radius: 14px;
+            overflow: hidden;
             margin-bottom: 40px;
         }
 
@@ -1248,10 +1294,8 @@
                     los encuentros se cargan con los nombres de los luchadores y el sistema evita errores como enfrentar
                     generos, pesos y/o categorias distintas.</p>
 
-                <div class="context-box" style="margin-bottom: 22px;">
-                    <strong>Incluye todo lo de la Versión Lite</strong> mas una capa completa de gestión de atletas,
-                    emparejamientos y registro de resultados. La base de código de la Lite se extiende directamente, sin
-                    reescribir el sistema desde cero.
+                <div class="feat-group">
+                    <p class="feat-title">Todo lo incluido en la Version Lite</p>
                 </div>
 
                 <div class="feat-group">
