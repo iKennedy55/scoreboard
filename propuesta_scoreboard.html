@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Propuesta Scoreboard Digital</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --ink: #000000;
+            --ink-mid: #444;
+            --ink-light: #777;
+            --border: #e0e0e0;
+            --bg: #fafaf8;
+            --accent: #000000;
+            --red: #c0392b;
+            --blue: #2471a3;
+            --green: #1a7a3c;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* PORTADA */
+        .cover {
+            min-height: 100vh;
+            background: #000000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 64px;
+            page-break-after: always;
+        }
+
+        .cover-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .cover-sender {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.35);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .cover-date {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.25);
+            text-align: right;
+        }
+
+        .cover-body {
+            text-align: left;
+        }
+
+        .cover-tag {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 5px 14px;
+            border-radius: 99px;
+            margin-bottom: 28px;
+        }
+
+        .cover-title {
+            font-size: 56px;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.05;
+            letter-spacing: -1.5px;
+            margin-bottom: 20px;
+        }
+
+        .cover-title span {
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        .cover-desc {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.45);
+            max-width: 480px;
+            line-height: 1.75;
+        }
+
+        .cover-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            padding-top: 28px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+
+        .cover-footer-item label {
+            display: block;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.2);
+            margin-bottom: 5px;
+        }
+
+        .cover-footer-item p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+        }
+
+        /* PAGES */
+        .page {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 64px 72px;
+            background: white;
+            min-height: 100vh;
+        }
+
+        @media screen {
+            .page {
+                margin: 24px auto;
+                box-shadow: 0 2px 24px rgba(0, 0, 0, 0.07);
+            }
+        }
+
+        /* TYPOGRAPHY */
+        .eyebrow {
+            display: block;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+
+        .rule {
+            width: 36px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 2px;
+            margin-bottom: 24px;
+        }
+
+        p {
+            color: #444;
+            font-size: 14px;
+            margin-bottom: 14px;
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* CONTEXT BOX */
+        .context-box {
+            border-left: 3px solid #c0c0b8;
+            padding: 18px 22px;
+            background: #f5f5f0;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 36px;
+        }
+
+        /* PROPOSAL CARD */
+        .card {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .card-header {
+            padding: 24px 28px;
+        }
+
+        .card-header.a {
+            background: #0f1623;
+        }
+
+        .card-header.b {
+            background: #081208;
+        }
+
+        .card-header h3 {
+            font-size: 20px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .card-header .sub {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .card-header .badge {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 99px;
+        }
+
+        .badge.lite {
+            background: rgba(255, 255, 255, 0.07);
+            color: rgba(255, 255, 255, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .badge.pro {
+            background: rgba(26, 122, 60, 0.2);
+            color: #4aab70;
+            border: 1px solid rgba(26, 122, 60, 0.3);
+        }
+
+        .card-body {
+            padding: 28px;
+        }
+
+        .philosophy {
+            font-style: italic;
+            color: #888;
+            font-size: 13.5px;
+            margin-bottom: 24px;
+            padding: 14px 18px;
+            background: #fafaf8;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        /* FEATURE LIST */
+        .feat-group {
+            margin-bottom: 22px;
+        }
+
+        .feat-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+
+        .feat-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feat-list li {
+            font-size: 13.5px;
+            color: #555;
+            padding: 4px 0 4px 18px;
+            position: relative;
+            border-bottom: 1px solid #f3f3f3;
+        }
+
+        .feat-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feat-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 13px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ccc;
+        }
+
+        /* SCORE BUTTONS DEMO */
+        .demo-buttons {
+            display: flex;
+            gap: 8px;
+            margin: 12px 0 4px 18px;
+            flex-wrap: wrap;
+        }
+
+        .demo-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            background: #1a3a6b;
+            color: #fff;
+            border: 1.5px solid #2d5aad;
+        }
+
+        /* TWO VIEWS */
+        .views-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-left: 18px;
+            margin-top: 10px;
+        }
+
+        .view-box {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px 16px;
+            background: #fafafa;
+        }
+
+        .view-box .vlabel {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+
+        .vlabel.op {
+            color: var(--accent);
+        }
+
+        .vlabel.pub {
+            color: var(--green);
+        }
+
+        .view-box ul {
+            list-style: none;
+        }
+
+        .view-box ul li {
+            font-size: 12px;
+            color: #666;
+            padding: 2px 0 2px 12px;
+            position: relative;
+        }
+
+        .view-box ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #ccc;
+        }
+
+        /* PLATFORM BOX */
+        .platform {
+            background: #f8f6ee;
+            border: 1px solid #e4d99a;
+            border-radius: 10px;
+            padding: 18px 22px;
+            margin-top: 24px;
+        }
+
+        .platform h4 {
+            font-size: 12px;
+            font-weight: 700;
+            color: #6b5200;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .platform-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 12.5px;
+        }
+
+        .plat-item {
+            background: #fff;
+            border: 1px solid #e4d99a;
+            border-radius: 7px;
+            padding: 10px 14px;
+        }
+
+        .plat-item .pk {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 3px;
+            letter-spacing: 0.5px;
+        }
+
+        .plat-item .pv {
+            color: #333;
+        }
+
+        .platform-note {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #6b5200;
+            padding: 8px 12px;
+            background: rgba(201, 168, 76, 0.1);
+            border-radius: 6px;
+        }
+
+        /* DELIVERY */
+        .delivery {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .del-box {
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .del-box.time {
+            background: #f0f4ff;
+            border: 1px solid #c0cfff;
+        }
+
+        .del-box.cost {
+            background: #f0fff5;
+            border: 1px solid #a0e0b8;
+        }
+
+        .del-box .dk {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #888;
+            margin-bottom: 6px;
+        }
+
+        .del-box .dv {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        /* SCOREBOARD MOCKUP */
+        .mockup-section {
+            margin-bottom: 36px;
+        }
+
+        .mockup-wrap {
+            background: #111;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #1e1e1e;
+            padding: 0;
+        }
+
+        .mockup-board {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+        }
+
+        .mock-side {
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mock-side.r {
+            background: #1a0808;
+            border-right: 1px solid #1e1e1e;
+        }
+
+        .mock-side.b {
+            background: #08101a;
+            border-left: 1px solid #1e1e1e;
+        }
+
+        .mock-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .mock-side.r .mock-label {
+            color: #c0392b;
+        }
+
+        .mock-side.b .mock-label {
+            color: #2471a3;
+        }
+
+        .mock-score {
+            width: 80px;
+            height: 65px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 44px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .mock-side.r .mock-score {
+            background: #c0392b;
+        }
+
+        .mock-side.b .mock-score {
+            background: #2471a3;
+        }
+
+        .mock-pts {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+            width: 100%;
+        }
+
+        .mock-pt {
+            height: 28px;
+            border-radius: 5px;
+            border: 1px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .mock-side.r .mock-pt {
+            border-color: #c0392b;
+            color: #c0392b;
+        }
+
+        .mock-side.b .mock-pt {
+            border-color: #2471a3;
+            color: #2471a3;
+        }
+
+        .mock-warns {
+            display: flex;
+            gap: 5px;
+        }
+
+        .mock-w {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 1.5px solid;
+        }
+
+        .mock-side.r .mock-w {
+            border-color: #c0392b;
+        }
+
+        .mock-side.b .mock-w {
+            border-color: #2471a3;
+        }
+
+        .mock-center {
+            background: #0d0d0d;
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            min-width: 150px;
+        }
+
+        .mock-clock {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 36px;
+            font-weight: 900;
+            color: #f0d060;
+            letter-spacing: 2px;
+        }
+
+        .mock-time-sel {
+            display: flex;
+            gap: 4px;
+        }
+
+        .mock-ts {
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #333;
+            background: #1a1a1a;
+            color: #888;
+            font-size: 10px;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .mock-ts.a {
+            background: #2a2a2a;
+            color: #ccc;
+        }
+
+        .mock-history {
+            display: flex;
+            gap: 3px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .mock-chip {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .mock-chip.r {
+            background: rgba(192, 57, 43, 0.25);
+            color: #e07070;
+            border: 1px solid rgba(192, 57, 43, 0.3);
+        }
+
+        .mock-chip.b {
+            background: rgba(36, 113, 163, 0.25);
+            color: #70a8e0;
+            border: 1px solid rgba(36, 113, 163, 0.3);
+        }
+
+        .mock-ctrl {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 100%;
+        }
+
+        .mock-start {
+            width: 100%;
+            padding: 6px;
+            background: #27ae60;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+        }
+
+        .mock-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+        }
+
+        .mock-small {
+            padding: 5px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 5px;
+            font-size: 9px;
+            color: #666;
+            text-align: center;
+        }
+
+        .mockup-caption {
+            text-align: center;
+            font-size: 11px;
+            color: #999;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* PUBLIC MOCKUP */
+        .mock-public {
+            background: #0a0a0a;
+            border-radius: 12px;
+            border: 1px solid #1a1a1a;
+            padding: 30px 20px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .mock-pub-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mock-pub-name {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .mock-pub-side.r .mock-pub-name {
+            color: #c0392b;
+        }
+
+        .mock-pub-side.b .mock-pub-name {
+            color: #2471a3;
+        }
+
+        .mock-pub-score {
+            width: 110px;
+            height: 90px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 64px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .mock-pub-side.r .mock-pub-score {
+            background: #c0392b;
+        }
+
+        .mock-pub-side.b .mock-pub-score {
+            background: #2471a3;
+        }
+
+        .mock-pub-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mock-pub-period {
+            font-size: 10px;
+            color: #444;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .mock-pub-clock {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 52px;
+            font-weight: 900;
+            color: #555;
+            letter-spacing: 2px;
+        }
+
+        /* TABLE */
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .comp-table th {
+            padding: 11px 14px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .comp-table thead tr {
+            background: #0f1623;
+        }
+
+        .comp-table th {
+            color: rgba(255, 255, 255, 0.5);
+            text-align: left;
+        }
+
+        .comp-table th:nth-child(2),
+        .comp-table th:nth-child(3) {
+            text-align: center;
+        }
+
+        .comp-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #f3f3f3;
+            color: #444;
+        }
+
+        .comp-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comp-table td:nth-child(2),
+        .comp-table td:nth-child(3) {
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .comp-table td:first-child {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .comp-table tr:hover td {
+            background: #fafafa;
+        }
+
+        .yes {
+            color: #27ae60;
+            font-weight: 700;
+        }
+
+        .no {
+            color: #ddd;
+        }
+
+        .na {
+            color: #aaa;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* REC BOX */
+        .rec {
+            background: #0f1623;
+            border-radius: 14px;
+            padding: 32px 36px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-top: 36px;
+        }
+
+        .rec h3 {
+            font-size: 17px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+
+        .rec p {
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 12px;
+        }
+
+        .rec p:last-child {
+            margin-bottom: 0;
+        }
+
+        .rec strong {
+            color: #fff;
+        }
+
+        /* CLOSING */
+        .closing {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .closing-sig {
+            font-size: 13px;
+            color: #555;
+        }
+
+        .closing-sig strong {
+            display: block;
+            color: #222;
+            margin-bottom: 2px;
+        }
+
+        .closing-conf {
+            font-size: 10px;
+            color: #bbb;
+            text-align: right;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .spacer {
+            height: 28px;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .cover {
+                page-break-after: always;
+            }
+
+            .page {
+                margin: 0;
+                box-shadow: none;
+                padding: 56px 64px;
+                page-break-after: always;
+            }
+
+            .card {
+                break-inside: avoid;
+            }
+
+            .rec {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PORTADA -->
+    <div class="cover">
+        <div class="cover-meta">
+            <span class="cover-sender">Propuesta de Software</span>
+            <span class="cover-date">Marzo 2026</span>
+        </div>
+
+        <div class="cover-body">
+            <span class="cover-tag">Herramienta de Marcador Digital</span>
+            <h1 class="cover-title">
+                Scoreboard<br>
+                <span>para Competencias</span><br>
+                de Lucha
+            </h1>
+            <p class="cover-desc">
+                Propuesta con dos alternativas de desarrollo para la federacion. Desde una version lista para usar en
+                dias hasta una plataforma con gestion completa de luchadores y encuentros.
+            </p>
+        </div>
+
+        <div class="cover-footer">
+            <div class="cover-footer-item">
+                <label>Dirigido a</label>
+                <p>Gerencia Administrativa</p>
+            </div>
+            <div class="cover-footer-item">
+                <label>Propuestas</label>
+                <p>2 versiones de desarrollo</p>
+            </div>
+            <div class="cover-footer-item">
+                <label>Plataforma</label>
+                <p>Aplicacion web local</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGINA 1: CONTEXTO + PROPUESTA A -->
+    <div class="page">
+
+        <span class="eyebrow">01 Contexto</span>
+        <h2>¿Por que una herramienta propia?</h2>
+        <div class="rule"></div>
+
+        <div class="context-box">
+            <p>La federación ya cuenta con el UWWTiming como sistema oficial para competencias internacionales. Es una
+                herramienta robusta, diseñada para eventos de alto nivel con personal técnico dedicado. El problema
+                surge en los encuentros internos y de práctica.</p>
+            <p>Esta propuesta no busca reemplazar al UWWTiming. Su objetivo es cubrir un caso de uso diferente:
+                competencias internas donde se necesita algo que funcione sin configuración de red, sin soporte técnico
+                y que cualquier persona pueda operar desde el primer día.</p>
+            <p>La herramienta propuesta corre directamente en el navegador del equipo del operador. No depende de
+                servidores externos, no requiere internet y la pantalla del publico se actualiza en tiempo real. Si el
+                WiFi falla, el sistema sigue funcionando.</p>
+        </div>
+
+        <!-- MOCKUP OPERADOR -->
+        <div class="mockup-section">
+            <span class="eyebrow">Vista del operador</span>
+
+            <div class="mockup-wrap">
+                <div class="mockup-board">
+                    <div class="mock-side r">
+                        <span class="mock-label">Rojo</span>
+                        <div class="mock-score">4</div>
+                        <div class="mock-pts">
+                            <div class="mock-pt">1</div>
+                            <div class="mock-pt">2</div>
+                            <div class="mock-pt">4</div>
+                            <div class="mock-pt">5</div>
+                        </div>
+                        <div class="mock-warns">
+                            <div class="mock-w" style="background:#c0392b"></div>
+                            <div class="mock-w"></div>
+                            <div class="mock-w"></div>
+                        </div>
+                    </div>
+
+                    <div class="mock-center">
+                        <div class="mock-clock">2:14</div>
+                        <div class="mock-time-sel">
+                            <div class="mock-ts">1:00</div>
+                            <div class="mock-ts a">3:00</div>
+                            <div class="mock-ts">5:00</div>
+                        </div>
+                        <div class="mock-history">
+                            <div class="mock-chip r">1</div>
+                            <div class="mock-chip b">2</div>
+                            <div class="mock-chip r">4</div>
+                            <div class="mock-chip b">1</div>
+                            <div class="mock-chip b">4</div>
+                        </div>
+                        <div class="mock-ctrl">
+                            <div class="mock-start">Pausar</div>
+                            <div class="mock-row">
+                                <div class="mock-small">Deshacer</div>
+                                <div class="mock-small">Reiniciar</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mock-side b">
+                        <span class="mock-label">Azul</span>
+                        <div class="mock-score">7</div>
+                        <div class="mock-pts">
+                            <div class="mock-pt">1</div>
+                            <div class="mock-pt">2</div>
+                            <div class="mock-pt">4</div>
+                            <div class="mock-pt">5</div>
+                        </div>
+                        <div class="mock-warns">
+                            <div class="mock-w"></div>
+                            <div class="mock-w"></div>
+                            <div class="mock-w"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="mockup-caption">Vista del operador. Los botones de puntos son cuadros clickeables. El historial
+                muestra los ultimos puntos ingresados por esquina.</p>
+        </div>
+
+        <!-- MOCKUP PUBLICO -->
+        <div class="mockup-section">
+            <span class="eyebrow">Vista del publico (pantalla o proyector)</span>
+
+            <div class="mock-public">
+                <div class="mock-pub-side r">
+                    <span class="mock-pub-name">Rojo</span>
+                    <div class="mock-pub-score">4</div>
+                </div>
+                <div class="mock-pub-center">
+                    <span class="mock-pub-period">Periodo 1</span>
+                    <div class="mock-pub-clock">2:14</div>
+                </div>
+                <div class="mock-pub-side b">
+                    <span class="mock-pub-name">Azul</span>
+                    <div class="mock-pub-score">7</div>
+                </div>
+            </div>
+            <p class="mockup-caption">Vista del publico. Limpia, sin controles, se actualiza en tiempo real desde la
+                pantalla del operador.</p>
+        </div>
+
+        <!-- PROPUESTA A -->
+        <span class="eyebrow">02 Primera propuesta</span>
+        <h2>Version Lite</h2>
+        <div class="rule"></div>
+
+        <div class="card">
+            <div class="card-header a">
+                <h3>Scoreboard Lite</h3>
+                <p class="sub">Lista para usar el mismo dia. Sin datos guardados, sin configuracion.</p>
+                <span class="badge lite">Version Simple</span>
+            </div>
+            <div class="card-body">
+                <p class="philosophy">La idea es que se abra el navegador y funcione de inmediato. Sin registro, sin
+                    base de datos. Para competencias donde solo se necesita marcar puntos y controlar el tiempo.</p>
+
+                <div class="feat-group">
+                    <p class="feat-title">Puntuacion</p>
+                    <ul class="feat-list">
+                        <li>Cuadros clickeables con los valores 1, 2, 4 y 5 para cada esquina</li>
+                        <li>Boton para deshacer el ultimo punto ingresado (correcciones de arbitro)</li>
+                        <li>Marcador de advertencias por luchador (tres circulos por esquina)</li>
+                        <li>Historial visual de los ultimos puntos ingresados en el centro del panel</li>
+                    </ul>
+                    <div class="demo-buttons">
+                        <div class="demo-btn">1</div>
+                        <div class="demo-btn">2</div>
+                        <div class="demo-btn">4</div>
+                        <div class="demo-btn">5</div>
+                    </div>
+                </div>
+
+                <div class="feat-group">
+                    <p class="feat-title">Temporizador</p>
+                    <ul class="feat-list">
+                        <li>Barra espaciadora para pausar y reanudar sin tocar el mouse</li>
+                        <li>Tiempo seleccionable: 1, 3 o 5 minutos, o un valor personalizado</li>
+                        <li>Indicador visual claro cuando el tiempo esta corriendo o pausado</li>
+                        <li>Alerta cuando llega a cero</li>
+                    </ul>
+                </div>
+
+                <div class="feat-group">
+                    <p class="feat-title">Dos vistas independientes</p>
+                    <div class="views-grid">
+                        <div class="view-box">
+                            <div class="vlabel op">Operador</div>
+                            <ul>
+                                <li>Botones de puntuacion</li>
+                                <li>Controles del temporizador</li>
+                                <li>Historial de puntos</li>
+                                <li>Boton deshacer y reiniciar</li>
+                            </ul>
+                        </div>
+                        <div class="view-box">
+                            <div class="vlabel pub">Publico</div>
+                            <ul>
+                                <li>Marcador grande y limpio</li>
+                                <li>Tiempo visible</li>
+                                <li>Sin controles</li>
+                                <li>Optimizada para TV o proyector</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="platform">
+                    <h4>Plataforma: aplicacion web local</h4>
+                    <div class="platform-grid">
+                        <div class="plat-item">
+                            <div class="pk">Pantalla publica</div>
+                            <div class="pv">Se abre en una segunda pestana o en cualquier pantalla conectada</div>
+                        </div>
+                        <div class="plat-item">
+                            <div class="pk">Instalacion</div>
+                            <div class="pv">Ninguna. Un archivo en el navegador</div>
+                        </div>
+                        <div class="plat-item">
+                            <div class="pk">Internet</div>
+                            <div class="pv">No requerido. Funciona completamente offline</div>
+                        </div>
+                        <div class="plat-item">
+                            <div class="pk">Portabilidad</div>
+                            <div class="pv">Un archivo HTML copiable en USB</div>
+                        </div>
+                    </div>
+                    <div class="platform-note">La pantalla del publico se actualiza en tiempo real. Solo se necesita
+                        abrir la segunda pagina en el mismo dispositivo o en una TV conectada a la misma red local.
+                    </div>
+                </div>
+
+                <div class="delivery">
+                    <div class="del-box time">
+                        <div class="dk">Tiempo de desarrollo</div>
+                        <div class="dv">2 a 3 dias</div>
+                    </div>
+                    <div class="del-box cost">
+                        <div class="dk">Inversion relativa</div>
+                        <div class="dv">Baja</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PAGINA 2: PROPUESTA B + COMPARATIVA + RECOMENDACION -->
+    <div class="page">
+
+        <span class="eyebrow">03 Segunda propuesta</span>
+        <h2>Version Pro</h2>
+        <div class="rule"></div>
+
+        <div class="card">
+            <div class="card-header b">
+                <h3>Scoreboard Pro</h3>
+                <p class="sub">Todo lo de la version Lite mas gestion de luchadores y encuentros.</p>
+                <span class="badge pro">Version Completa</span>
+            </div>
+            <div class="card-body">
+                <p class="philosophy">Una plataforma que crece con la federacion. Los datos se guardan entre sesiones,
+                    los encuentros se cargan con los nombres de los luchadores y el sistema evita errores como enfrentar
+                    generos o categorias distintas.</p>
+
+                <div class="feat-group">
+                    <p class="feat-title">Gestion de luchadores</p>
+                    <ul class="feat-list">
+                        <li>Registro de nombre, apellido y club o delegacion</li>
+                        <li>Asignacion de categoria de peso (segun las categorias que maneje la federacion)</li>
+                        <li>Asignacion de genero: masculino o femenino</li>
+                        <li>Los datos persisten entre sesiones, no se pierden al cerrar</li>
+                        <li>Busqueda y filtrado desde el panel del operador</li>
+                    </ul>
+                </div>
+
+                <div class="feat-group">
+                    <p class="feat-title">Emparejamiento por genero y categoria</p>
+                    <ul class="feat-list">
+                        <li>El sistema solo permite enfrentar luchadores del mismo genero</li>
+                        <li>No se pueden cruzar hombres con mujeres por error del operador</li>
+                        <li>Filtro automatico por categoria de peso al crear un encuentro</li>
+                        <li>Al cargar un encuentro, los nombres aparecen solos en el marcador</li>
+                        <li>Lista de encuentros del dia programable desde el panel</li>
+                    </ul>
+                </div>
+
+                <div class="feat-group">
+                    <p class="feat-title">Puntuacion y temporizador</p>
+                    <ul class="feat-list">
+                        <li>Cuadros clickeables con valores 1, 2, 4 y 5</li>
+                        <li>Boton deshacer para corregir el ultimo punto ingresado</li>
+                        <li>Advertencias por luchador</li>
+                        <li>Barra espaciadora para pausar o reanudar</li>
+                        <li>Tiempo personalizable por encuentro</li>
+                    </ul>
+                </div>
+
+                <div class="feat-group">
+                    <p class="feat-title">Historial del dia</p>
+                    <ul class="feat-list">
+                        <li>Registro de resultados: ganador, puntos finales y tiempo</li>
+                        <li>Opcion de exportar el resumen del dia en tabla imprimible</li>
+                        <li>Todo se guarda en el mismo equipo del operador</li>
+                    </ul>
+                </div>
+
+                <div class="feat-group">
+                    <p class="feat-title">Dos vistas</p>
+                    <div class="views-grid">
+                        <div class="view-box">
+                            <div class="vlabel op">Operador</div>
+                            <ul>
+                                <li>Gestion de luchadores</li>
+                                <li>Carga de encuentros</li>
+                                <li>Puntuacion y tiempo</li>
+                                <li>Historial del dia</li>
+                            </ul>
+                        </div>
+                        <div class="view-box">
+                            <div class="vlabel pub">Publico</div>
+                            <ul>
+                                <li>Nombres de luchadores</li>
+                                <li>Marcador grande</li>
+                                <li>Tiempo y periodo</li>
+                                <li>Sin controles</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="platform">
+                    <h4>Plataforma: aplicacion web local con motor de datos</h4>
+                    <div class="platform-grid">
+                        <div class="plat-item">
+                            <div class="pk">Pantalla publica</div>
+                            <div class="pv">Cualquier TV o tablet en red abre la vista del publico</div>
+                        </div>
+                        <div class="plat-item">
+                            <div class="pk">Instalacion</div>
+                            <div class="pv">Minima: un programa ligero en la laptop del operador</div>
+                        </div>
+                        <div class="plat-item">
+                            <div class="pk">Base de datos</div>
+                            <div class="pv">Local en el equipo. Sin servidores externos ni mensualidades</div>
+                        </div>
+                        <div class="plat-item">
+                            <div class="pk">Internet</div>
+                            <div class="pv">No requerido durante la competencia</div>
+                        </div>
+                    </div>
+                    <div class="platform-note">La pantalla del publico puede estar en cualquier dispositivo conectado a
+                        la misma red WiFi local del evento. No se necesitan cables ni configuracion adicional.</div>
+                </div>
+
+                <div class="delivery">
+                    <div class="del-box time">
+                        <div class="dk">Tiempo de desarrollo</div>
+                        <div class="dv">1 a 2 semanas</div>
+                    </div>
+                    <div class="del-box cost">
+                        <div class="dk">Inversion relativa</div>
+                        <div class="dv">Media</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COMPARATIVA -->
+        <span class="eyebrow">04 Comparativa</span>
+        <h2>Lite vs Pro</h2>
+        <div class="rule"></div>
+
+        <table class="comp-table">
+            <thead>
+                <tr>
+                    <th>Caracteristica</th>
+                    <th>Lite</th>
+                    <th>Pro</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cuadros de puntos clickeables (1, 2, 4, 5)</td>
+                    <td class="yes">Si</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Deshacer el ultimo punto ingresado</td>
+                    <td class="yes">Si</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Temporizador con barra espaciadora</td>
+                    <td class="yes">Si</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Tiempo personalizable</td>
+                    <td class="yes">Si</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Advertencias por luchador</td>
+                    <td class="yes">Si</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Vista del operador con controles</td>
+                    <td class="yes">Si</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Vista del publico en tiempo real</td>
+                    <td class="yes">Si</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Sin conexion a internet</td>
+                    <td class="yes">Si</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Registro de luchadores</td>
+                    <td class="no">No</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Categorias de peso configurables</td>
+                    <td class="no">No</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Emparejamiento por genero</td>
+                    <td class="no">No</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Nombres en pantalla al cargar encuentro</td>
+                    <td class="no">No</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Historial de resultados del dia</td>
+                    <td class="no">No</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Instalacion requerida</td>
+                    <td class="na">Ninguna</td>
+                    <td class="na">Minima</td>
+                </tr>
+                <tr>
+                    <td>Tiempo de desarrollo</td>
+                    <td><strong>2 a 3 dias</strong></td>
+                    <td><strong>1 a 2 semanas</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="spacer"></div>
+
+        <!-- RECOMENDACION -->
+        <span class="eyebrow">05 Por que no basta con un contador online</span>
+        <h2>El valor de una herramienta a la medida</h2>
+        <div class="rule"></div>
+
+        <p style="color:#555;margin-bottom:20px;">Existen cronometros gratuitos en internet. La diferencia entre uno de
+            esos y esta herramienta es la misma que hay entre una hoja de calculo y un sistema de nomina: ambos manejan
+            numeros, pero uno esta hecho para el trabajo especifico y el otro no.</p>
+
+        <table class="comp-table" style="margin-bottom:36px;">
+            <thead>
+                <tr>
+                    <th>Aspecto</th>
+                    <th>Contador online generico</th>
+                    <th>Esta herramienta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Puntuacion de lucha (1, 2, 4, 5)</td>
+                    <td class="no">No</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Deshacer el ultimo punto</td>
+                    <td class="no">No</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Historial de puntos del encuentro</td>
+                    <td class="no">No</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Advertencias por luchador</td>
+                    <td class="no">No</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Vista separada para el publico</td>
+                    <td class="no">No</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Funciona sin internet</td>
+                    <td class="no">No</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Control con teclado (barra espaciadora)</td>
+                    <td class="no">No</td>
+                    <td class="yes">Si</td>
+                </tr>
+                <tr>
+                    <td>Disenada para el reglamento UWW</td>
+                    <td class="no">No</td>
+                    <td class="yes">Si</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <span class="eyebrow">06 Inversion</span>
+        <h2>Costo del proyecto</h2>
+        <div class="rule"></div>
+
+        <p style="color:#555;margin-bottom:20px;">El precio cubre el desarrollo completo, las pruebas, la capacitacion
+            al operador y un mes de ajustes posteriores a la entrega. No hay costos mensuales ni licencias.</p>
+
+        <div style="border:1px solid #e0e0e0;border-radius:14px;overflow:hidden;margin-bottom:36px;">
+            <div style="background:#0f1623;padding:20px 28px;">
+                <div
+                    style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:4px;">
+                    Version Lite</div>
+                <div style="font-size:32px;font-weight:800;color:#fff;font-family:'Roboto Mono',monospace;">$300 USD
+                </div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px;">Pago unico. Sin costos
+                    adicionales.</div>
+            </div>
+            <div style="padding:22px 28px;">
+                <table style="width:100%;font-size:13px;border-collapse:collapse;">
+                    <tr style="border-bottom:1px solid #f3f3f3;">
+                        <td style="padding:9px 0;color:#444;">Desarrollo de la herramienta</td>
+                        <td style="text-align:right;font-weight:600;color:#222;">$220</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #f3f3f3;">
+                        <td style="padding:9px 0;color:#444;">Pruebas y ajustes</td>
+                        <td style="text-align:right;font-weight:600;color:#222;">Incluido</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #f3f3f3;">
+                        <td style="padding:9px 0;color:#444;">Capacitacion al operador (presencial o remota)</td>
+                        <td style="text-align:right;font-weight:600;color:#222;">Incluido</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #f3f3f3;">
+                        <td style="padding:9px 0;color:#444;">Soporte por 30 dias post-entrega</td>
+                        <td style="text-align:right;font-weight:600;color:#222;">Incluido</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:9px 0;color:#444;">Instalacion o servidor externo</td>
+                        <td style="text-align:right;font-weight:600;color:#27ae60;">No requerido</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div style="border:1px solid #e0e0e0;border-radius:14px;overflow:hidden;margin-bottom:36px;">
+            <div style="background:#081208;padding:20px 28px;">
+                <div
+                    style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:4px;">
+                    Version Pro</div>
+                <div style="font-size:32px;font-weight:800;color:#fff;font-family:'Roboto Mono',monospace;">$700 USD
+                </div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px;">Pago unico. Sin costos
+                    mensuales.</div>
+            </div>
+            <div style="padding:22px 28px;">
+                <table style="width:100%;font-size:13px;border-collapse:collapse;">
+                    <tr style="border-bottom:1px solid #f3f3f3;">
+                        <td style="padding:9px 0;color:#444;">Desarrollo completo (Lite + gestion de luchadores)</td>
+                        <td style="text-align:right;font-weight:600;color:#222;">$550</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #f3f3f3;">
+                        <td style="padding:9px 0;color:#444;">Pruebas, ajustes y control de calidad</td>
+                        <td style="text-align:right;font-weight:600;color:#222;">Incluido</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #f3f3f3;">
+                        <td style="padding:9px 0;color:#444;">Capacitacion al operador y al administrador</td>
+                        <td style="text-align:right;font-weight:600;color:#222;">Incluido</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #f3f3f3;">
+                        <td style="padding:9px 0;color:#444;">Soporte por 60 dias post-entrega</td>
+                        <td style="text-align:right;font-weight:600;color:#222;">Incluido</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:9px 0;color:#444;">Servidor o infraestructura externa</td>
+                        <td style="text-align:right;font-weight:600;color:#27ae60;">No requerido</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <span class="eyebrow">07 Recomendacion</span>
+        <h2>Por donde empezar</h2>
+        <div class="rule"></div>
+
+        <div class="rec">
+            <h3>Ruta sugerida</h3>
+            <p>Para los encuentros internos de la federacion, <strong>la version Lite es la solucion correcta en este
+                    momento</strong>. Resuelve el problema real que existe hoy: un marcador que funcione sin depender de
+                la red, sin necesitar soporte tecnico y que cualquier miembro del equipo pueda operar.</p>
+            <p>La version Pro se presenta para que la federacion conozca hasta donde puede escalar la herramienta.
+                Cuando los encuentros internos crezcan o cuando se quiera llevar un registro formal de luchadores y
+                resultados por categoria, la base ya esta planteada y el costo de escalar es menor que empezar desde
+                cero.</p>
+            <p>La sugerencia concreta es iniciar con la version Lite, usarla en dos o tres eventos internos y con esa
+                experiencia real decidir si se justifica la version Pro. No hay riesgo en este camino.</p>
+        </div>
+
+        <!-- CLOSING -->
+        <div class="closing">
+            <div class="closing-sig">
+                <strong>Propuesta para la Gerencia Administrativa</strong>
+                - Marzo 2026
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
