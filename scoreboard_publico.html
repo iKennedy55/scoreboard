@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scoreboard — Pantalla Publica</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700;900&family=Inter:wght@500;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #080808;
+            font-family: 'Inter', sans-serif;
+            color: #f0f0f0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .fs-btn {
+            position: fixed;
+            top: 14px;
+            right: 14px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.18);
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: color 0.2s, background 0.2s;
+            z-index: 5;
+            line-height: 0;
+        }
+
+        .fs-btn:hover {
+            color: rgba(255, 255, 255, 0.55);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        /* BANNER FIN DE COMBATE — sutil, arriba */
+        .fin-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 10px;
+            text-align: center;
+            font-size: clamp(10px, 1.4vw, 14px);
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.35);
+            z-index: 10;
+            display: none;
+        }
+
+        .fin-banner.show {
+            display: block;
+        }
+
+        /* BOARD */
+        .board {
+            width: 100%;
+            max-width: 1280px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            padding: 0 5vw;
+        }
+
+        .side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4vw 3vw;
+            gap: 2.5vh;
+        }
+
+        .fighter-name {
+            font-size: clamp(14px, 2vw, 22px);
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #fff;
+            text-align: center;
+        }
+
+        .score-box {
+            width: clamp(140px, 20vw, 240px);
+            height: clamp(110px, 16vw, 200px);
+            border-radius: clamp(10px, 1.5vw, 18px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto Mono', monospace;
+            font-size: clamp(72px, 12vw, 130px);
+            font-weight: 900;
+            color: #fff;
+            transition: transform 0.15s ease, box-shadow 0.3s ease;
+        }
+
+        .score-box.bump {
+            transform: scale(1.08);
+        }
+
+        .side.r .score-box {
+            background: #c0392b;
+            box-shadow: 0 0 60px rgba(192, 57, 43, 0.25);
+        }
+
+        .side.b .score-box {
+            background: #2471a3;
+            box-shadow: 0 0 60px rgba(36, 113, 163, 0.25);
+        }
+
+        /* NEON GANADOR */
+        .side.r .score-box.winner {
+            animation: neon-red 0.9s infinite alternate;
+        }
+
+        .side.b .score-box.winner {
+            animation: neon-blue 0.9s infinite alternate;
+        }
+
+        @keyframes neon-red {
+            from {
+                box-shadow: 0 0 30px rgba(192, 57, 43, 0.5), 0 0 80px rgba(192, 57, 43, 0.2);
+            }
+
+            to {
+                box-shadow: 0 0 60px rgba(255, 80, 60, 0.9), 0 0 140px rgba(255, 80, 60, 0.45), 0 0 200px rgba(255, 80, 60, 0.15);
+            }
+        }
+
+        @keyframes neon-blue {
+            from {
+                box-shadow: 0 0 30px rgba(36, 113, 163, 0.5), 0 0 80px rgba(36, 113, 163, 0.2);
+            }
+
+            to {
+                box-shadow: 0 0 60px rgba(60, 160, 240, 0.9), 0 0 140px rgba(60, 160, 240, 0.45), 0 0 200px rgba(60, 160, 240, 0.15);
+            }
+        }
+
+        /* Perdedor: se atenúa un poco */
+        .side.r .score-box.loser {
+            opacity: 0.45;
+            box-shadow: none;
+        }
+
+        .side.b .score-box.loser {
+            opacity: 0.45;
+            box-shadow: none;
+        }
+
+        .warn-row {
+            display: flex;
+            gap: clamp(6px, 1vw, 12px);
+        }
+
+        .warn-circle {
+            width: clamp(16px, 2vw, 26px);
+            height: clamp(16px, 2vw, 26px);
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.2s;
+        }
+
+        .side.r .warn-circle.on {
+            background: #c0392b;
+            border-color: #c0392b;
+        }
+
+        .side.b .warn-circle.on {
+            background: #2471a3;
+            border-color: #2471a3;
+        }
+
+        /* CENTER */
+        .center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5vh;
+            min-width: clamp(180px, 20vw, 300px);
+        }
+
+        .period-tag {
+            font-size: clamp(10px, 1.2vw, 14px);
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .clock {
+            font-family: 'Roboto Mono', monospace;
+            font-size: clamp(52px, 9vw, 108px);
+            font-weight: 900;
+            letter-spacing: 4px;
+            line-height: 1;
+            transition: color 0.3s;
+        }
+
+        .clock.paused {
+            color: rgba(255, 255, 255, 0.18);
+        }
+
+        .clock.running {
+            color: #f0d060;
+        }
+
+        .clock.danger {
+            color: #e74c3c;
+            animation: blink 0.5s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.3
+            }
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            transition: background 0.3s;
+        }
+
+        .status-dot.running {
+            background: #27ae60;
+            animation: pulse 1.2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.2
+            }
+        }
+
+        /* SUPERIORIDAD */
+        .superiority-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 14px;
+            background: #1a1400;
+            border-top: 2px solid #c0a000;
+            text-align: center;
+            font-size: clamp(14px, 2vw, 18px);
+            font-weight: 700;
+            color: #f0d060;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: none;
+        }
+
+        .superiority-banner.show {
+            display: block;
+            animation: blink 1s infinite;
+        }
+
+        /* DESCANSO OVERLAY */
+        .descanso-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 5, 0.82);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            z-index: 15;
+        }
+
+        .descanso-overlay.show {
+            display: flex;
+        }
+
+        .ds-ov-label {
+            font-size: clamp(12px, 1.8vw, 16px);
+            font-weight: 700;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #ffffff;
+            transition: color 0.4s;
+        }
+
+        .ds-ov-label.active {
+            color: #2ecc71;
+        }
+
+        .ds-ov-clock {
+            font-family: 'Roboto Mono', monospace;
+            font-size: clamp(90px, 20vw, 220px);
+            font-weight: 900;
+            color: rgba(39, 174, 96, 0.15);
+            letter-spacing: 6px;
+            line-height: 1;
+            transition: color 0.4s;
+        }
+
+        .ds-ov-clock.active {
+            color: #27ae60;
+        }
+
+        .ds-ov-sub {
+            font-size: clamp(10px, 1.2vw, 13px);
+            color: rgba(255, 255, 255, 0.8);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color 0.4s;
+        }
+
+        .ds-ov-sub.active {
+            color: rgba(46, 204, 113, 0.9);
+        }
+
+        /* NO SIGNAL */
+        .no-signal {
+            position: fixed;
+            inset: 0;
+            background: #080808;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 14px;
+            z-index: 20;
+        }
+
+        .no-signal p {
+            color: #181818;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .bounce {
+            display: flex;
+            gap: 6px;
+        }
+
+        .bounce span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #181818;
+            animation: b 1.2s infinite;
+        }
+
+        .bounce span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .bounce span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes b {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-7px);
+                background: #282828;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .board {
+                grid-template-columns: 1fr;
+                padding: 20px;
+                gap: 16px;
+            }
+
+            .center {
+                order: -1;
+            }
+
+            .side {
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="no-signal" id="no-signal">
+        <p>Esperando senal</p>
+        <div class="bounce"><span></span><span></span><span></span></div>
+    </div>
+
+    <!-- Overlay de descanso entre periodos -->
+    <div class="descanso-overlay" id="descanso-overlay">
+        <span class="ds-ov-label" id="ds-ov-label">Fin del periodo</span>
+        <div class="ds-ov-clock" id="ds-ov-clock"></div>
+        <span class="ds-ov-sub" id="ds-ov-sub">Preparando siguiente periodo</span>
+    </div>
+
+    <!-- Banner sutil de fin de combate (encima del marcador) -->
+    <div class="fin-banner" id="fin-banner">Fin del Combate 1</div>
+
+    <button class="fs-btn" id="fs-btn" onclick="toggleFullscreen()" title="Pantalla completa">
+        <!-- icono expandir -->
+        <svg id="icon-expand" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 3 21 3 21 9" />
+            <polyline points="9 21 3 21 3 15" />
+            <line x1="21" y1="3" x2="14" y2="10" />
+            <line x1="3" y1="21" x2="10" y2="14" />
+        </svg>
+        <!-- icono comprimir -->
+        <svg id="icon-compress" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            style="display:none">
+            <polyline points="4 14 10 14 10 20" />
+            <polyline points="20 10 14 10 14 4" />
+            <line x1="10" y1="14" x2="3" y2="21" />
+            <line x1="21" y1="3" x2="14" y2="10" />
+        </svg>
+    </button>
+
+    <div class="board">
+        <div class="side r">
+            <span class="fighter-name" id="pub-name-red">Rojo</span>
+            <div class="score-box" id="pub-score-red">0</div>
+            <div class="warn-row" id="pub-warns-red">
+                <div class="warn-circle"></div>
+                <div class="warn-circle"></div>
+                <div class="warn-circle"></div>
+            </div>
+        </div>
+
+        <div class="center">
+            <span class="period-tag" id="pub-period">Periodo 1</span>
+            <div class="clock paused" id="pub-clock">0:00</div>
+            <div class="status-dot" id="pub-dot"></div>
+        </div>
+
+        <div class="side b">
+            <span class="fighter-name" id="pub-name-blue">Azul</span>
+            <div class="score-box" id="pub-score-blue">0</div>
+            <div class="warn-row" id="pub-warns-blue">
+                <div class="warn-circle"></div>
+                <div class="warn-circle"></div>
+                <div class="warn-circle"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="superiority-banner" id="superiority-banner">Superioridad Tecnica</div>
+
+    <script>
+        let lastTs = 0, prevRed = -1, prevBlue = -1;
+
+        function render(s) {
+            document.getElementById('no-signal').style.display = 'none';
+
+            // ── Overlay descanso ──
+            const dsOverlay = document.getElementById('descanso-overlay');
+            const dsLabel = document.getElementById('ds-ov-label');
+            const dsClock = document.getElementById('ds-ov-clock');
+            const dsSub = document.getElementById('ds-ov-sub');
+
+            if (!s.descanso) {
+                dsOverlay.classList.remove('show');
+            } else if (s.descanso === 'waiting') {
+                dsOverlay.classList.add('show');
+                dsLabel.textContent = 'Fin del ' + (s.periodLabel || 'Periodo 1');
+                dsLabel.classList.remove('active');
+                dsClock.textContent = ''; dsClock.classList.remove('active');
+                dsSub.textContent = 'Preparando siguiente periodo'; dsSub.classList.remove('active');
+            } else {
+                dsOverlay.classList.add('show');
+                dsLabel.textContent = 'Descanso entre periodos'; dsLabel.classList.add('active');
+                dsClock.textContent = s.descanso; dsClock.classList.add('active');
+                dsSub.textContent = 'Proximo periodo en breve'; dsSub.classList.add('active');
+            }
+
+            // ── Banner fin de combate ──
+            const finBanner = document.getElementById('fin-banner');
+            if (s.matchFinished) {
+                finBanner.classList.add('show');
+                finBanner.textContent = 'Fin del Combate';
+            } else {
+                finBanner.classList.remove('show');
+            }
+
+            // ── Scores ──
+            const redEl = document.getElementById('pub-score-red');
+            const blueEl = document.getElementById('pub-score-blue');
+            if (s.red !== prevRed) {
+                redEl.classList.remove('bump'); void redEl.offsetWidth;
+                redEl.classList.add('bump');
+                setTimeout(() => redEl.classList.remove('bump'), 200);
+                prevRed = s.red;
+            }
+            if (s.blue !== prevBlue) {
+                blueEl.classList.remove('bump'); void blueEl.offsetWidth;
+                blueEl.classList.add('bump');
+                setTimeout(() => blueEl.classList.remove('bump'), 200);
+                prevBlue = s.blue;
+            }
+            redEl.textContent = s.red;
+            blueEl.textContent = s.blue;
+
+            // Neon al ganador cuando el combate termina
+            redEl.classList.remove('winner', 'loser');
+            blueEl.classList.remove('winner', 'loser');
+            if (s.matchFinished && s.red !== s.blue) {
+                if (s.red > s.blue) {
+                    redEl.classList.add('winner');
+                    blueEl.classList.add('loser');
+                } else {
+                    blueEl.classList.add('winner');
+                    redEl.classList.add('loser');
+                }
+            }
+
+            // Nombres
+            document.getElementById('pub-name-red').textContent = s.nameRed || 'Rojo';
+            document.getElementById('pub-name-blue').textContent = s.nameBlue || 'Azul';
+
+            // Reloj
+            const clock = document.getElementById('pub-clock');
+            clock.textContent = s.time;
+            clock.className = 'clock';
+            if (s.running) {
+                const p = s.time.split(':');
+                const rem = parseInt(p[0]) * 60 + parseInt(p[1]);
+                clock.classList.add(rem <= 10 ? 'danger' : 'running');
+            } else {
+                clock.classList.add('paused');
+            }
+
+            // Dot
+            document.getElementById('pub-dot').className = 'status-dot' + (s.running ? ' running' : '');
+
+            // Periodo
+            document.getElementById('pub-period').textContent = s.periodLabel || 'Periodo 1';
+
+            // Advertencias
+            ['red', 'blue'].forEach(side => {
+                const arr = side === 'red' ? s.warnsRed : s.warnsBlue;
+                document.getElementById('pub-warns-' + side)
+                    .querySelectorAll('.warn-circle')
+                    .forEach((d, i) => d.classList.toggle('on', arr && arr[i]));
+            });
+
+            // Superioridad (oculta si el combate ya termino)
+            document.getElementById('superiority-banner')
+                .classList.toggle('show', Math.abs(s.red - s.blue) >= 10 && !s.matchFinished);
+        }
+
+        function poll() {
+            try {
+                const raw = localStorage.getItem('scoreboard_state');
+                if (!raw) return;
+                const s = JSON.parse(raw);
+                if (s.ts !== lastTs) { lastTs = s.ts; render(s); }
+            } catch (e) { }
+        }
+
+        setInterval(poll, 150);
+        window.addEventListener('storage', e => {
+            if (e.key === 'scoreboard_state') try { render(JSON.parse(e.newValue)); } catch (e2) { }
+        });
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => { });
+                document.getElementById('icon-expand').style.display = 'none';
+                document.getElementById('icon-compress').style.display = '';
+            } else {
+                document.exitFullscreen().catch(() => { });
+                document.getElementById('icon-expand').style.display = '';
+                document.getElementById('icon-compress').style.display = 'none';
+            }
+        }
+        document.addEventListener('keydown', e => { if (e.code === 'KeyF') toggleFullscreen(); });
+    </script>
+</body>
+
+</html>

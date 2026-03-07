@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scoreboard — Operador</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --red: #e84040;
+            --red-dim: #7a1a1a;
+            --red-bg: #120808;
+            --blue: #3a8fd4;
+            --blue-dim: #1a3a6a;
+            --blue-bg: #080f1a;
+            --center: #0a0a0a;
+            --surface: #111214;
+            --surface2: #18191c;
+            --border: rgba(255, 255, 255, 0.06);
+            --text: #f0f0f0;
+            --muted: #44474d;
+            --green: #2ecc71;
+            --green-bg: #0a1a10;
+        }
+
+        body {
+            background: #0c0c0e;
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 14px 16px;
+            gap: 10px;
+        }
+
+        /* ── TOP BAR ── */
+        .top-bar {
+            width: 100%;
+            max-width: 960px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 14px;
+            background: var(--surface);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .top-bar-title {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .top-bar-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .top-btn {
+            font-size: 11px;
+            color: var(--muted);
+            text-decoration: none;
+            border: 1px solid var(--border);
+            padding: 5px 14px;
+            border-radius: 6px;
+            background: transparent;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.15s;
+        }
+
+        .top-btn:hover {
+            background: var(--surface2);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.14);
+        }
+
+        /* ── NAMES ── */
+        .names-row {
+            width: 100%;
+            max-width: 960px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .name-input-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .name-input-wrap label {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .name-input-wrap.r label {
+            color: var(--red);
+        }
+
+        .name-input-wrap.b label {
+            color: var(--blue);
+        }
+
+        .name-input {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1.5px solid;
+            background: var(--surface);
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .name-input.r {
+            border-color: rgba(232, 64, 64, 0.2);
+        }
+
+        .name-input.r:focus {
+            border-color: var(--red);
+            box-shadow: 0 0 0 3px rgba(232, 64, 64, 0.08);
+        }
+
+        .name-input.b {
+            border-color: rgba(58, 143, 212, 0.2);
+        }
+
+        .name-input.b:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(58, 143, 212, 0.08);
+        }
+
+        .name-input::placeholder {
+            color: #2a2a2a;
+            font-weight: 400;
+        }
+
+        /* ── ALERTS ── */
+        .alert-bar {
+            display: none;
+            width: 100%;
+            max-width: 960px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .alert-bar.show {
+            display: block;
+        }
+
+        .alert-bar.superiority {
+            background: rgba(240, 180, 0, 0.07);
+            border: 1px solid rgba(240, 180, 0, 0.25);
+            color: #f0c050;
+            animation: pulse-a 1s infinite;
+        }
+
+        .alert-bar.match-end {
+            background: rgba(230, 120, 0, 0.07);
+            border: 1px solid rgba(230, 120, 0, 0.3);
+            color: #f0a060;
+            animation: pulse-a 0.8s infinite;
+        }
+
+        .alert-bar.finished {
+            background: rgba(46, 204, 113, 0.07);
+            border: 1px solid rgba(46, 204, 113, 0.25);
+            color: var(--green);
+        }
+
+        @keyframes pulse-a {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.55
+            }
+        }
+
+        /* ── SCOREBOARD ── */
+        .scoreboard {
+            width: 100%;
+            max-width: 960px;
+            display: grid;
+            grid-template-columns: 1fr 220px 1fr;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .side {
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .side.red {
+            background: var(--red-bg);
+            border-right: 1px solid var(--border);
+        }
+
+        .side.blue {
+            background: var(--blue-bg);
+            border-left: 1px solid var(--border);
+        }
+
+        .corner-label {
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .side.red .corner-label {
+            color: var(--red);
+        }
+
+        .side.blue .corner-label {
+            color: var(--blue);
+        }
+
+        .score-display {
+            width: 150px;
+            height: 115px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 76px;
+            font-weight: 900;
+            color: #fff;
+            user-select: none;
+            transition: transform 0.12s ease, box-shadow 0.3s;
+        }
+
+        .score-display.bump {
+            transform: scale(1.12);
+        }
+
+        .side.red .score-display {
+            background: linear-gradient(145deg, #c0392b, #922b21);
+            box-shadow: 0 8px 32px rgba(192, 57, 43, 0.35), 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .side.blue .score-display {
+            background: linear-gradient(145deg, #2980b9, #1a5276);
+            box-shadow: 0 8px 32px rgba(36, 113, 163, 0.35), 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Botones de puntos */
+        .point-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 7px;
+            width: 100%;
+        }
+
+        .pt-btn {
+            height: 52px;
+            border-radius: 10px;
+            border: none;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 22px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.12s ease;
+            color: #fff;
+        }
+
+        .side.red .pt-btn {
+            background: linear-gradient(180deg, rgba(192, 57, 43, 0.28), rgba(192, 57, 43, 0.14));
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 1px 3px rgba(0, 0, 0, 0.4);
+            color: #ff8070;
+        }
+
+        .side.red .pt-btn:hover:not(:disabled) {
+            background: linear-gradient(180deg, rgba(192, 57, 43, 0.7), rgba(192, 57, 43, 0.5));
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(192, 57, 43, 0.4);
+        }
+
+        .side.red .pt-btn:active:not(:disabled) {
+            transform: translateY(0) scale(0.96);
+        }
+
+        .side.blue .pt-btn {
+            background: linear-gradient(180deg, rgba(36, 113, 163, 0.28), rgba(36, 113, 163, 0.14));
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 1px 3px rgba(0, 0, 0, 0.4);
+            color: #70b8f0;
+        }
+
+        .side.blue .pt-btn:hover:not(:disabled) {
+            background: linear-gradient(180deg, rgba(36, 113, 163, 0.7), rgba(36, 113, 163, 0.5));
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(36, 113, 163, 0.4);
+        }
+
+        .side.blue .pt-btn:active:not(:disabled) {
+            transform: translateY(0) scale(0.96);
+        }
+
+        .warns-label {
+            font-size: 9px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .warnings {
+            display: flex;
+            gap: 10px;
+        }
+
+        .warn-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .side.red .warn-dot {
+            border-color: rgba(232, 64, 64, 0.3);
+        }
+
+        .side.red .warn-dot:hover {
+            border-color: var(--red);
+        }
+
+        .side.red .warn-dot.active {
+            background: var(--red);
+            border-color: var(--red);
+            box-shadow: 0 0 10px rgba(232, 64, 64, 0.4);
+        }
+
+        .side.blue .warn-dot {
+            border-color: rgba(58, 143, 212, 0.3);
+        }
+
+        .side.blue .warn-dot:hover {
+            border-color: var(--blue);
+        }
+
+        .side.blue .warn-dot.active {
+            background: var(--blue);
+            border-color: var(--blue);
+            box-shadow: 0 0 10px rgba(58, 143, 212, 0.4);
+        }
+
+        /* ── CENTER ── */
+        .center {
+            background: var(--center);
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .clock-display {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 56px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            line-height: 1;
+            transition: color 0.3s;
+            text-align: center;
+        }
+
+        .clock-display.paused {
+            color: #2a2a2a;
+        }
+
+        .clock-display.running {
+            color: #f0d060;
+            text-shadow: 0 0 24px rgba(240, 208, 96, 0.3);
+        }
+
+        .clock-display.danger {
+            color: #e74c3c;
+            text-shadow: 0 0 20px rgba(231, 76, 60, 0.4);
+            animation: blink 0.5s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.3
+            }
+        }
+
+        .time-selector {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        .time-btn {
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Roboto Mono', monospace;
+            transition: all 0.12s;
+        }
+
+        .time-btn:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #aaa;
+            background: var(--surface2);
+        }
+
+        .time-btn.active {
+            background: var(--surface2);
+            color: #f0d060;
+            border-color: rgba(240, 208, 96, 0.3);
+        }
+
+        .time-custom {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .time-custom input {
+            width: 68px;
+            padding: 5px 8px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: #aaa;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 13px;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .time-custom input:focus {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .set-btn {
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.12s;
+        }
+
+        .set-btn:hover {
+            background: var(--surface2);
+            color: #ccc;
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .time-extend {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        .ext-btn {
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(46, 204, 113, 0.25);
+            background: rgba(46, 204, 113, 0.07);
+            color: #2ecc71;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Roboto Mono', monospace;
+            transition: all 0.12s;
+        }
+
+        .ext-btn:hover {
+            background: rgba(46, 204, 113, 0.18);
+            border-color: rgba(46, 204, 113, 0.5);
+        }
+
+        .ext-btn:disabled {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+
+        .period-row {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .period-label {
+            font-size: 9px;
+            color: #2a2a2a;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-right: 3px;
+        }
+
+        .period-btn {
+            min-width: 32px;
+            padding: 0 9px;
+            height: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: #333;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: 'Roboto Mono', monospace;
+            transition: all 0.12s;
+        }
+
+        .period-btn.active {
+            background: var(--surface2);
+            color: #e0e0e0;
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        .history-label {
+            font-size: 9px;
+            color: #222;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            align-self: flex-start;
+        }
+
+        .history-track {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            justify-content: center;
+            min-height: 28px;
+        }
+
+        .h-chip {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .h-chip.r {
+            background: rgba(192, 57, 43, 0.2);
+            color: #e08070;
+            border: 1px solid rgba(192, 57, 43, 0.3);
+        }
+
+        .h-chip.b {
+            background: rgba(36, 113, 163, 0.2);
+            color: #70a8e0;
+            border: 1px solid rgba(36, 113, 163, 0.3);
+        }
+
+        .h-chip.last {
+            outline: 2px solid rgba(255, 255, 255, 0.45);
+            outline-offset: 1px;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            width: 100%;
+        }
+
+        .btn-start {
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            border: none;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.15s;
+            background: linear-gradient(135deg, #1db954, #17a349);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(29, 185, 84, 0.25);
+        }
+
+        .btn-start:hover {
+            box-shadow: 0 6px 24px rgba(29, 185, 84, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .btn-start.running {
+            background: linear-gradient(135deg, #d4721a, #b05a10) !important;
+            box-shadow: 0 4px 20px rgba(180, 90, 16, 0.25) !important;
+        }
+
+        .btn-start.waiting {
+            background: rgba(240, 180, 0, 0.1) !important;
+            color: #f0c050;
+            border: 1px solid rgba(240, 180, 0, 0.3);
+            box-shadow: none;
+            animation: pulse-a 1s infinite;
+            transform: none !important;
+        }
+
+        .ctrl-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 7px;
+        }
+
+        .btn-ctrl {
+            padding: 9px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.12s;
+        }
+
+        .btn-ctrl:hover {
+            background: var(--surface2);
+            color: #ccc;
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .btn-ctrl.danger:hover {
+            background: rgba(180, 30, 30, 0.15);
+            color: #e07070;
+            border-color: rgba(200, 50, 50, 0.3);
+        }
+
+        .spacebar-hint {
+            font-size: 9px;
+            color: #1e1e1e;
+            text-align: center;
+        }
+
+        /* ── DESCANSO ── */
+        .descanso-panel {
+            width: 100%;
+            max-width: 960px;
+            background: var(--green-bg);
+            border: 1px solid rgba(46, 204, 113, 0.12);
+            border-radius: 14px;
+            padding: 16px 22px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .descanso-panel.active {
+            border-color: rgba(46, 204, 113, 0.35);
+            box-shadow: 0 0 30px rgba(46, 204, 113, 0.07);
+        }
+
+        .descanso-label {
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: rgba(46, 204, 113, 0.35);
+            white-space: nowrap;
+        }
+
+        .descanso-clock {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 34px;
+            font-weight: 900;
+            color: #1a2e1a;
+            letter-spacing: 2px;
+            min-width: 90px;
+            transition: color 0.3s;
+        }
+
+        .descanso-clock.running {
+            color: var(--green);
+            text-shadow: 0 0 20px rgba(46, 204, 113, 0.25);
+        }
+
+        .descanso-clock.danger {
+            color: #e74c3c;
+            animation: blink 0.5s infinite;
+        }
+
+        .descanso-presets {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .ds-preset {
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(46, 204, 113, 0.12);
+            background: transparent;
+            color: rgba(46, 204, 113, 0.35);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Roboto Mono', monospace;
+            transition: all 0.12s;
+        }
+
+        .ds-preset:hover,
+        .ds-preset.active {
+            background: rgba(46, 204, 113, 0.12);
+            color: var(--green);
+            border-color: rgba(46, 204, 113, 0.35);
+        }
+
+        .ds-custom {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .ds-custom input {
+            width: 62px;
+            padding: 5px 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(46, 204, 113, 0.15);
+            background: rgba(46, 204, 113, 0.05);
+            color: var(--green);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .ds-custom input:focus {
+            border-color: rgba(46, 204, 113, 0.4);
+        }
+
+        .ds-set {
+            padding: 5px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(46, 204, 113, 0.15);
+            background: rgba(46, 204, 113, 0.05);
+            color: rgba(46, 204, 113, 0.4);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.12s;
+        }
+
+        .ds-set:hover {
+            background: rgba(46, 204, 113, 0.12);
+            color: var(--green);
+            border-color: rgba(46, 204, 113, 0.35);
+        }
+
+        .btn-descanso {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(46, 204, 113, 0.25);
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.5px;
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--green);
+            transition: all 0.15s;
+            margin-left: auto;
+            white-space: nowrap;
+        }
+
+        .btn-descanso:hover {
+            background: rgba(46, 204, 113, 0.2);
+            border-color: rgba(46, 204, 113, 0.5);
+        }
+
+        .btn-descanso.running {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e07070;
+            border-color: rgba(231, 76, 60, 0.25);
+        }
+
+        .btn-descanso.running:hover {
+            background: rgba(231, 76, 60, 0.2);
+            border-color: rgba(231, 76, 60, 0.5);
+        }
+
+        /* ── CONTROLS ── */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            width: 100%;
+        }
+
+        .btn-start {
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            border: none;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.15s;
+            background: linear-gradient(135deg, #1db954, #17a349);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(29, 185, 84, 0.25);
+        }
+
+        .btn-start:hover:not([style*="opacity"]):not([style*="cursor: default"]) {
+            box-shadow: 0 6px 24px rgba(29, 185, 84, 0.38);
+            transform: translateY(-1px);
+        }
+
+        .btn-start.running {
+            background: linear-gradient(135deg, #d4721a, #b05a10) !important;
+            box-shadow: 0 4px 20px rgba(180, 90, 16, 0.3) !important;
+        }
+
+        .btn-start.waiting {
+            background: rgba(240, 180, 0, 0.1) !important;
+            color: #f0c050;
+            border: 1px solid rgba(240, 180, 0, 0.3) !important;
+            box-shadow: none !important;
+            animation: pulse-a 1s infinite;
+        }
+
+        .ctrl-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 7px;
+        }
+
+        .btn-ctrl {
+            padding: 9px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.12s;
+        }
+
+        .btn-ctrl:hover {
+            background: var(--surface2);
+            color: #ccc;
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .btn-ctrl.danger:hover {
+            background: rgba(180, 30, 30, 0.15);
+            color: #e07070;
+            border-color: rgba(200, 50, 50, 0.3);
+        }
+
+        .spacebar-hint {
+            font-size: 9px;
+            color: #1e1e1e;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── INSTRUCTIONS ── */
+        .instructions {
+            width: 100%;
+            max-width: 960px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 20px;
+        }
+
+        .instructions h4 {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .instructions ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 20px;
+        }
+
+        .instructions ul li {
+            font-size: 11px;
+            color: #444;
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .instructions ul li span.key {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 1px 7px;
+            font-size: 10px;
+            font-family: 'Roboto Mono', monospace;
+            color: #666;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 640px) {
+            .scoreboard {
+                grid-template-columns: 1fr;
+            }
+
+            .center {
+                border: 1px solid var(--border);
+                border-radius: 14px;
+                width: 100%;
+            }
+
+            .side.red,
+            .side.blue {
+                border: 1px solid var(--border);
+                border-radius: 14px;
+            }
+
+            .instructions ul {
+                grid-template-columns: 1fr;
+            }
+
+            .names-row {
+                grid-template-columns: 1fr;
+            }
+
+            .descanso-panel {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .btn-descanso {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <span class="top-bar-title">Vista del Operador</span>
+        <div class="top-bar-actions">
+            <a class="top-btn" href="scoreboard_publico.html" target="_blank">Abrir pantalla publica</a>
+            <button class="top-btn" onclick="resetAll()">Reiniciar todo</button>
+        </div>
+    </div>
+
+    <div class="names-row">
+        <div class="name-input-wrap r">
+            <label>Nombre — Esquina Roja</label>
+            <input class="name-input r" id="name-red" type="text" placeholder="Nombre del luchador rojo"
+                oninput="syncPublic()" maxlength="30" />
+        </div>
+        <div class="name-input-wrap b">
+            <label>Nombre — Esquina Azul</label>
+            <input class="name-input b" id="name-blue" type="text" placeholder="Nombre del luchador azul"
+                oninput="syncPublic()" maxlength="30" />
+        </div>
+    </div>
+
+    <div class="alert-bar superiority" id="alert-superiority">Superioridad tecnica — diferencia de 10 puntos</div>
+    <div class="alert-bar match-end" id="alert-match-end">Tiempo terminado — Presiona Espacio para iniciar el descanso
+    </div>
+    <div class="alert-bar finished" id="alert-finished">Combate finalizado — Puedes reiniciar para el siguiente
+        encuentro</div>
+
+    <div class="scoreboard">
+        <div class="side red">
+            <span class="corner-label">Rojo</span>
+            <div class="score-display" id="score-red">0</div>
+            <div class="point-buttons">
+                <button class="pt-btn" onclick="addPoints('red',1)">1</button>
+                <button class="pt-btn" onclick="addPoints('red',2)">2</button>
+                <button class="pt-btn" onclick="addPoints('red',4)">4</button>
+                <button class="pt-btn" onclick="addPoints('red',5)">5</button>
+            </div>
+            <span class="warns-label">Advertencias</span>
+            <div class="warnings" id="warns-red">
+                <div class="warn-dot" onclick="toggleWarn('red',0)"></div>
+                <div class="warn-dot" onclick="toggleWarn('red',1)"></div>
+                <div class="warn-dot" onclick="toggleWarn('red',2)"></div>
+            </div>
+        </div>
+
+        <div class="center">
+            <div class="clock-display paused" id="clock">3:00</div>
+            <div class="time-selector">
+                <button class="time-btn" onclick="setTime(60,this)">1:00</button>
+                <button class="time-btn active" onclick="setTime(180,this)">3:00</button>
+                <button class="time-btn" onclick="setTime(300,this)">5:00</button>
+            </div>
+            <div class="time-custom">
+                <input type="text" id="custom-time" placeholder="1:30" maxlength="5" oninput="maskTime(this)" />
+                <button class="set-btn" onclick="setCustomTime()">Set</button>
+            </div>
+            <!-- Extension de tiempo: solo visible cuando el combate ya inicio -->
+            <div class="time-extend" id="time-extend" style="display:none">
+                <button class="ext-btn" onclick="extendTime(30)">+30s</button>
+                <button class="ext-btn" onclick="extendTime(60)">+1:00</button>
+                <button class="ext-btn" onclick="extendTime(120)">+2:00</button>
+            </div>
+            <div class="period-row">
+                <span class="period-label">Periodo</span>
+                <button class="period-btn active" id="p1" onclick="setPeriod(1)">1</button>
+                <button class="period-btn" id="p2" onclick="setPeriod(2)">2</button>
+                <button class="period-btn" id="p3" onclick="setPeriod(3)">OT</button>
+            </div>
+            <span class="history-label">Historial</span>
+            <div class="history-track" id="history"></div>
+            <div class="controls">
+                <button class="btn-start" id="btn-ss" onclick="handleMainButton()">Iniciar</button>
+                <div class="ctrl-row">
+                    <button class="btn-ctrl" onclick="undoLast()">Deshacer ultimo</button>
+                    <button class="btn-ctrl danger" onclick="resetAll()">Reiniciar</button>
+                </div>
+            </div>
+            <span class="spacebar-hint">Espacio = pausar / reanudar / iniciar descanso</span>
+        </div>
+
+        <div class="side blue">
+            <span class="corner-label">Azul</span>
+            <div class="score-display" id="score-blue">0</div>
+            <div class="point-buttons">
+                <button class="pt-btn" onclick="addPoints('blue',1)">1</button>
+                <button class="pt-btn" onclick="addPoints('blue',2)">2</button>
+                <button class="pt-btn" onclick="addPoints('blue',4)">4</button>
+                <button class="pt-btn" onclick="addPoints('blue',5)">5</button>
+            </div>
+            <span class="warns-label">Advertencias</span>
+            <div class="warnings" id="warns-blue">
+                <div class="warn-dot" onclick="toggleWarn('blue',0)"></div>
+                <div class="warn-dot" onclick="toggleWarn('blue',1)"></div>
+                <div class="warn-dot" onclick="toggleWarn('blue',2)"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DESCANSO -->
+    <div class="descanso-panel" id="descanso-panel">
+        <span class="descanso-label">Descanso</span>
+        <div class="descanso-clock" id="ds-clock">0:30</div>
+        <div class="descanso-presets">
+            <button class="ds-preset active" onclick="setDescanso(30,this)">0:30</button>
+            <button class="ds-preset" onclick="setDescanso(60,this)">1:00</button>
+            <button class="ds-preset" onclick="setDescanso(120,this)">2:00</button>
+            <button class="ds-preset" onclick="setDescanso(300,this)">5:00</button>
+        </div>
+        <div class="ds-custom">
+            <input type="text" id="ds-custom-input" placeholder="1:30" maxlength="5" oninput="maskTime(this)" />
+            <button class="ds-set" onclick="setDescansoCustom()">Set</button>
+        </div>
+        <button class="btn-descanso" id="btn-descanso" onclick="toggleDescanso()">Iniciar descanso</button>
+    </div>
+
+    <div class="instructions">
+        <h4>Atajos de teclado</h4>
+        <ul>
+            <li><span class="key">Espacio</span> Pausar / reanudar / iniciar descanso al terminar</li>
+            <li><span class="key">Z</span> Deshacer el ultimo punto ingresado</li>
+            <li><span class="key">R</span> Reiniciar el encuentro (pide confirmacion)</li>
+        </ul>
+    </div>
+
+    <script>
+        // ── ESTADO ──
+        let state = {
+            red: 0, blue: 0,
+            warnsRed: [false, false, false],
+            warnsBlue: [false, false, false],
+            totalSeconds: 180,
+            remainingSeconds: 180,
+            running: false,
+            matchEnded: false,
+            matchFinished: false,
+            matchNumber: 1,
+            started: false,       // true desde que el reloj corre por primera vez
+            period: 1,
+            history: []
+        };
+
+        let timerInterval = null;
+
+        // Estado descanso
+        let ds = { total: 30, remaining: 30, running: false };
+        let dsInterval = null;
+
+        // ── AUDIO ──
+        function playBell() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                [880, 1108].forEach((freq, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.type = 'sine'; osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(i === 0 ? 0.6 : 0.35, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.5);
+                    osc.start(ctx.currentTime + i * 0.03);
+                    osc.stop(ctx.currentTime + 2.5);
+                });
+            } catch (e) { }
+        }
+
+        // ── PUNTOS ──
+        function addPoints(side, pts) {
+            // Solo se pueden agregar puntos con el reloj corriendo
+            if (!state.running) return;
+            state[side] += pts;
+            state.history.push({ side, pts });
+            const el = document.getElementById('score-' + side);
+            el.classList.add('bump');
+            setTimeout(() => el.classList.remove('bump'), 150);
+            update();
+        }
+
+        function undoLast() {
+            // Solo se puede deshacer si el reloj ha iniciado (started) y el periodo no termino
+            if (!state.started || state.matchEnded || state.matchFinished || ds.running) return;
+            if (!state.history.length) return;
+            const last = state.history.pop();
+            state[last.side] = Math.max(0, state[last.side] - last.pts);
+            update();
+        }
+
+        // ── ADVERTENCIAS ──
+        function toggleWarn(side, idx) {
+            const arr = side === 'red' ? state.warnsRed : state.warnsBlue;
+            arr[idx] = !arr[idx];
+            update();
+        }
+
+        // ── BOTON PRINCIPAL (contextual) ──
+        function handleMainButton() {
+            if (state.matchFinished) return; // combate terminado, solo reiniciar
+            if (state.matchEnded) {
+                toggleDescanso();
+            } else {
+                toggleTimer();
+            }
+        }
+
+        // ── TIMER COMBATE ──
+        function toggleTimer() {
+            if (state.running) {
+                clearInterval(timerInterval);
+                state.running = false;
+            } else {
+                if (state.remainingSeconds <= 0) return;
+                state.running = true;
+                state.started = true;  // marca que el combate ya inicio
+                timerInterval = setInterval(tick, 1000);
+            }
+            update();
+        }
+
+        function tick() {
+            if (state.remainingSeconds > 0) {
+                state.remainingSeconds--;
+                if (state.remainingSeconds === 0) {
+                    // Llego a 0: detener y evaluar fin de periodo
+                    clearInterval(timerInterval);
+                    state.running = false;
+                    playBell();
+                    const tied = state.red === state.blue;
+                    if (state.period === 3) {
+                        state.matchFinished = true;
+                        state.matchEnded = false;
+                    } else if (state.period === 2 && !tied) {
+                        state.matchFinished = true;
+                        state.matchEnded = false;
+                    } else {
+                        state.matchEnded = true;
+                        state.matchFinished = false;
+                    }
+                }
+                update();
+            }
+        }
+
+        function setTime(seconds, btn) {
+            // Solo antes de que empiece el combate (state.started lo garantiza)
+            if (state.started) return;
+            state.totalSeconds = seconds;
+            state.remainingSeconds = seconds;
+            document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            update();
+        }
+
+        // Extiende el tiempo DURANTE el combate (solo si pausado)
+        function extendTime(secs) {
+            if (state.running || state.matchEnded || state.matchFinished) return;
+            state.remainingSeconds += secs;
+            state.totalSeconds = Math.max(state.totalSeconds, state.remainingSeconds);
+            update();
+        }
+
+        // Auto-formato mientras escribe: inserta ':' automaticamente
+        // Ej: "130" → "1:30", "0015" → "00:15"
+        function maskTime(input) {
+            const cursor = input.selectionStart;
+            let digits = input.value.replace(/\D/g, '').substring(0, 4);
+            if (digits.length === 0) { input.value = ''; return; }
+            if (digits.length <= 2) {
+                input.value = digits;
+            } else {
+                // los ultimos 2 digitos son segundos
+                const mins = digits.substring(0, digits.length - 2);
+                const secs = digits.substring(digits.length - 2);
+                input.value = mins + ':' + secs;
+            }
+            // mantener cursor al final
+            const len = input.value.length;
+            input.setSelectionRange(len, len);
+        }
+
+        // Parsea mm:ss, MMSS (4 digitos) o segundos sueltos
+        function parseSecs(val) {
+            val = val.trim();
+            if (val.includes(':')) {
+                const p = val.split(':');
+                return parseInt(p[0]) * 60 + parseInt(p[1]);
+            }
+            if (val.length === 4 && /^\d+$/.test(val)) {
+                // formato MMSS: 0015 = 00 min 15 sec
+                return parseInt(val.substring(0, 2)) * 60 + parseInt(val.substring(2));
+            }
+            if (val.length === 3 && /^\d+$/.test(val)) {
+                // formato MSS: 115 = 1 min 15 sec
+                return parseInt(val.substring(0, 1)) * 60 + parseInt(val.substring(1));
+            }
+            return parseInt(val); // solo segundos
+        }
+
+        function setCustomTime() {
+            // Solo antes de que empiece el combate
+            if (state.started) return;
+            const secs = parseSecs(document.getElementById('custom-time').value);
+            if (isNaN(secs) || secs <= 0) return;
+            state.totalSeconds = secs;
+            state.remainingSeconds = secs;
+            document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+            update();
+        }
+
+        function setPeriod(p) {
+            // Nunca durante reloj corriendo o combate finalizado
+            if (state.running || state.matchFinished) return;
+            // No retroceder periodos una vez que el juego inicio
+            if (state.started && p < state.period) return;
+            // No cambiar mientras estamos a mitad de un periodo (pausado)
+            if (state.started && state.remainingSeconds < state.totalSeconds) return;
+            // OT solo si hay empate
+            if (p === 3 && state.red !== state.blue) return;
+            state.period = p;
+            ['p1', 'p2', 'p3'].forEach(id => document.getElementById(id).classList.remove('active'));
+            document.getElementById('p' + p).classList.add('active');
+            // Si se salta de periodo manualmente, resetear started y reloj
+            if (!state.started) {
+                state.remainingSeconds = state.totalSeconds;
+            }
+            update();
+        }
+
+        function resetAll() {
+            if (!confirm('Reiniciar el encuentro?')) return;
+            clearInterval(timerInterval); clearInterval(dsInterval);
+            state.matchNumber++;
+            state.red = 0; state.blue = 0;
+            state.warnsRed = [false, false, false]; state.warnsBlue = [false, false, false];
+            state.remainingSeconds = state.totalSeconds;
+            state.running = false; state.matchEnded = false; state.matchFinished = false; state.started = false;
+            state.period = 1;
+            ['p1', 'p2', 'p3'].forEach(id => document.getElementById(id).classList.remove('active'));
+            document.getElementById('p1').classList.add('active');
+            state.history = [];
+            ds.running = false; ds.remaining = ds.total;
+            updateDescanso();
+            update();
+        }
+
+        function formatTime(s) {
+            return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+        }
+
+        // ── RENDER ──
+        function update() {
+            document.getElementById('score-red').textContent = state.red;
+            document.getElementById('score-blue').textContent = state.blue;
+
+            const diff = Math.abs(state.red - state.blue);
+            const tied = state.red === state.blue;
+
+            document.getElementById('alert-superiority').classList.toggle('show', diff >= 10 && !state.matchFinished);
+            document.getElementById('alert-match-end').classList.toggle('show', state.matchEnded && !ds.running);
+
+            // Alerta de fin de combate real
+            let finEl = document.getElementById('alert-finished');
+            if (finEl) finEl.classList.toggle('show', state.matchFinished);
+
+            const clock = document.getElementById('clock');
+            clock.textContent = formatTime(state.remainingSeconds);
+            clock.className = 'clock-display';
+            if (state.remainingSeconds === 0) clock.classList.add('danger');
+            else if (state.running) clock.classList.add('running');
+            else clock.classList.add('paused');
+
+            const btn = document.getElementById('btn-ss');
+            if (state.matchFinished) {
+                btn.textContent = 'Combate finalizado — Reiniciar para el siguiente';
+                btn.className = 'btn-start';
+                btn.style.opacity = '0.45';
+                btn.style.cursor = 'default';
+            } else if (state.matchEnded && !ds.running) {
+                btn.style.opacity = ''; btn.style.cursor = '';
+                btn.textContent = 'Iniciar descanso (Espacio)';
+                btn.className = 'btn-start waiting';
+            } else if (state.matchEnded && ds.running) {
+                btn.textContent = 'Descanso en curso...';
+                btn.className = 'btn-start';
+                btn.style.opacity = '0.5';
+                btn.style.cursor = 'default';
+            } else {
+                btn.style.opacity = ''; btn.style.cursor = '';
+                btn.textContent = state.running ? 'Pausar' : (state.remainingSeconds <= 0 ? 'Fin' : 'Iniciar');
+                btn.className = 'btn-start' + (state.running ? ' running' : '');
+            }
+
+            // OT solo disponible si hay empate
+            const otBtn = document.getElementById('p3');
+            otBtn.disabled = !tied;
+            otBtn.style.opacity = tied ? '' : '0.25';
+            otBtn.style.cursor = tied ? '' : 'not-allowed';
+            otBtn.title = tied ? 'Tiempo extra (OT)' : 'Solo disponible con marcador empatado';
+
+            // Deshacer: condiciones identicas a undoLast()
+            const canUndo = state.started && !state.matchEnded && !state.matchFinished && !ds.running && state.history.length > 0;
+            const undoBtn = document.querySelector('.btn-ctrl:not(.danger)');
+            if (undoBtn) {
+                undoBtn.disabled = !canUndo;
+                undoBtn.style.opacity = canUndo ? '' : '0.2';
+                undoBtn.style.cursor = canUndo ? '' : 'not-allowed';
+                undoBtn.title = !state.started ? 'El reloj no ha iniciado'
+                    : (state.matchEnded || state.matchFinished) ? 'No se puede deshacer al terminar el periodo'
+                        : ds.running ? 'No se puede deshacer durante el descanso'
+                            : (!state.history.length ? 'Sin puntos para deshacer' : 'Deshacer ultimo punto (Z)');
+            }
+
+            // Botones de punto: solo activos con el reloj corriendo
+            const blockPoints = !state.running;
+            document.querySelectorAll('.pt-btn').forEach(b => {
+                b.disabled = blockPoints;
+                b.style.opacity = blockPoints ? '0.2' : '';
+                b.style.cursor = blockPoints ? 'not-allowed' : '';
+            });
+            // Tooltips utiles segun el estado
+            const ptTitle = state.matchFinished ? 'Combate finalizado'
+                : state.matchEnded ? 'Periodo terminado'
+                    : ds.running ? 'Descanso en curso'
+                        : !state.started ? 'Inicia el reloj primero'
+                            : !state.running ? 'Reloj pausado'
+                                : '';
+            document.querySelectorAll('.pt-btn').forEach(b => b.title = ptTitle);
+
+            // Selector de tiempo: bloqueado si el combate ya arranco
+            const matchStarted = state.started || state.matchEnded || state.matchFinished;
+            const timeOpacity = matchStarted ? '0.2' : '';
+            const timeCursor = matchStarted ? 'not-allowed' : '';
+            document.querySelectorAll('.time-btn').forEach(b => {
+                b.disabled = matchStarted;
+                b.style.opacity = timeOpacity;
+                b.style.cursor = timeCursor;
+            });
+            const ctInput = document.getElementById('custom-time');
+            const ctBtn = ctInput ? ctInput.nextElementSibling : null;
+            if (ctInput) { ctInput.disabled = matchStarted; ctInput.style.opacity = timeOpacity; }
+            if (ctBtn) { ctBtn.disabled = matchStarted; ctBtn.style.opacity = timeOpacity; ctBtn.style.cursor = timeCursor; }
+
+            // Botones de extension: solo visibles cuando el reloj esta PAUSADO a mitad de un periodo en curso
+            // (started=true y remainingSeconds < totalSeconds = tiempo consumido)
+            const showExtend = state.started && !state.running
+                && state.remainingSeconds < state.totalSeconds
+                && !state.matchEnded && !state.matchFinished && !ds.running;
+            document.getElementById('time-extend').style.display = showExtend ? 'flex' : 'none';
+
+            ['red', 'blue'].forEach(side => {
+                const arr = side === 'red' ? state.warnsRed : state.warnsBlue;
+                document.getElementById('warns-' + side).querySelectorAll('.warn-dot')
+                    .forEach((d, i) => d.classList.toggle('active', arr[i]));
+            });
+
+            const track = document.getElementById('history');
+            track.innerHTML = '';
+            state.history.slice(-14).forEach((item, i, arr) => {
+                const chip = document.createElement('div');
+                chip.className = 'h-chip ' + (item.side === 'red' ? 'r' : 'b');
+                if (i === arr.length - 1) chip.classList.add('last');
+                chip.textContent = item.pts;
+                track.appendChild(chip);
+            });
+
+            syncPublic();
+        }
+
+        // ── DESCANSO ──
+        function setDescanso(secs, btn) {
+            if (ds.running) return;
+            ds.total = secs; ds.remaining = secs;
+            document.querySelectorAll('.ds-preset').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            updateDescanso();
+        }
+
+        function setDescansoCustom() {
+            if (ds.running) return;
+            const secs = parseSecs(document.getElementById('ds-custom-input').value);
+            if (isNaN(secs) || secs <= 0) return;
+            ds.total = secs; ds.remaining = secs;
+            document.querySelectorAll('.ds-preset').forEach(b => b.classList.remove('active'));
+            updateDescanso();
+        }
+
+        function toggleDescanso() {
+            // Solo disponible cuando el periodo termino (matchEnded) y el combate no finalizo
+            if (state.matchFinished) return;
+            if (!state.matchEnded && !ds.running) return; // no se puede iniciar antes de que termine el periodo
+            if (ds.running) {
+                clearInterval(dsInterval);
+                ds.running = false;
+            } else {
+                if (ds.remaining <= 0) ds.remaining = ds.total;
+                ds.running = true;
+                dsInterval = setInterval(tickDescanso, 1000);
+            }
+            updateDescanso();
+            update();
+        }
+
+        function tickDescanso() {
+            if (ds.remaining > 0) {
+                ds.remaining--;
+                updateDescanso();
+                if (ds.remaining === 0) {
+                    clearInterval(dsInterval);
+                    ds.running = false;
+                    playBell();
+                    // Avanzar al siguiente periodo automaticamente
+                    if (state.period < 3) {
+                        state.period++;
+                        ['p1', 'p2', 'p3'].forEach(id => document.getElementById(id).classList.remove('active'));
+                        document.getElementById('p' + state.period).classList.add('active');
+                    }
+                    // Resetear reloj Y started para el nuevo periodo
+                    state.matchEnded = false;
+                    state.remainingSeconds = state.totalSeconds;
+                    state.running = false;
+                    state.started = false; // el nuevo periodo aun no ha comenzado
+                    updateDescanso();
+                    update();
+                }
+            }
+        }
+
+        function updateDescanso() {
+            const clock = document.getElementById('ds-clock');
+            clock.textContent = formatTime(ds.remaining);
+            clock.className = 'descanso-clock';
+            if (ds.remaining === 0) clock.classList.add('danger');
+            else if (ds.running) clock.classList.add('running');
+
+            const btn = document.getElementById('btn-descanso');
+            const panel = document.getElementById('descanso-panel');
+
+            // El descanso solo se puede usar cuando el periodo termino (matchEnded)
+            const canBreak = state.matchEnded && !state.matchFinished;
+
+            if (ds.running) {
+                btn.textContent = 'Detener descanso';
+                btn.className = 'btn-descanso running';
+                btn.disabled = false;
+                btn.style.opacity = '';
+                btn.style.cursor = '';
+                btn.title = '';
+            } else if (canBreak) {
+                btn.textContent = 'Iniciar descanso';
+                btn.className = 'btn-descanso';
+                btn.disabled = false;
+                btn.style.opacity = '';
+                btn.style.cursor = '';
+                btn.title = 'Iniciar el tiempo de descanso';
+            } else {
+                btn.textContent = 'Iniciar descanso';
+                btn.className = 'btn-descanso';
+                btn.disabled = true;
+                btn.style.opacity = '0.2';
+                btn.style.cursor = 'not-allowed';
+                btn.title = state.matchFinished
+                    ? 'El combate ya finalizo'
+                    : 'Disponible cuando termine el periodo';
+            }
+
+            panel.classList.toggle('active', ds.running);
+            syncPublic();
+        }
+
+        // ── SYNC PUBLICA ──
+        function syncPublic() {
+            const periodLabels = ['', 'Periodo 1', 'Periodo 2', 'Tiempo Extra (OT)'];
+            localStorage.setItem('scoreboard_state', JSON.stringify({
+                red: state.red,
+                blue: state.blue,
+                nameRed: document.getElementById('name-red').value || 'Rojo',
+                nameBlue: document.getElementById('name-blue').value || 'Azul',
+                time: formatTime(state.remainingSeconds),
+                running: state.running,
+                period: state.period,
+                periodLabel: periodLabels[state.period] || 'Periodo 1',
+                warnsRed: state.warnsRed,
+                warnsBlue: state.warnsBlue,
+                matchFinished: state.matchFinished,
+                matchNumber: state.matchNumber,
+                descanso: ds.running ? formatTime(ds.remaining) : (state.matchEnded ? 'waiting' : null),
+                ts: Date.now()
+            }));
+        }
+
+        // ── TECLADO ──
+        document.addEventListener('keydown', e => {
+            if (e.target.tagName === 'INPUT') return;
+            switch (e.code) {
+                case 'Space':
+                    e.preventDefault();
+                    if (state.matchFinished) break; // combate terminado, no hacer nada
+                    if (state.matchEnded) {
+                        toggleDescanso();
+                    } else {
+                        toggleTimer();
+                    }
+                    break;
+                case 'KeyZ':
+                    if (!state.matchEnded && !state.matchFinished) undoLast();
+                    break;
+                case 'KeyR': resetAll(); break;
+            }
+        });
+
+        update();
+    </script>
+</body>
+
+</html>
