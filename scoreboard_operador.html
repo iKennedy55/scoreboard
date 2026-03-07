@@ -594,53 +594,71 @@
             box-shadow: 0 0 16px rgba(0, 255, 91, 0.6);
         }
 
+        .history-panel {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 24px 20px;
+            border-top: 1px solid var(--border);
+            align-items: center;
+            background: #000;
+        }
+
         .history-label {
-            font-size: 9px;
+            font-size: 10px;
             color: var(--muted);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            align-self: flex-start;
-            font-weight: 700;
+            letter-spacing: 3px;
+            font-weight: 800;
         }
 
         .history-track {
             display: flex;
-            gap: 6px;
+            gap: 10px;
             flex-wrap: wrap;
             justify-content: center;
-            min-height: 28px;
+            min-height: 40px;
+            width: 100%;
         }
 
         .h-chip {
-            width: 26px;
-            height: 26px;
-            border-radius: 4px;
+            width: 38px;
+            height: 38px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            font-weight: 800;
+            font-size: 16px;
+            font-weight: 900;
             font-family: 'Roboto Mono', monospace;
             background: transparent;
         }
 
         .h-chip.r {
             color: var(--red);
-            border: 1px solid var(--red);
-            box-shadow: 0 0 8px rgba(255, 0, 60, 0.3);
+            border: 1px solid rgba(255, 0, 60, 0.4);
+            background: rgba(255, 0, 60, 0.05);
         }
 
         .h-chip.b {
             color: var(--blue);
-            border: 1px solid var(--blue);
-            box-shadow: 0 0 8px rgba(0, 225, 255, 0.3);
+            border: 1px solid rgba(0, 136, 255, 0.4);
+            background: rgba(0, 136, 255, 0.05);
         }
 
-        .h-chip.last {
-            background: #fff;
+        .h-chip.last.r {
+            background: var(--red);
             color: #000 !important;
-            border-color: #fff;
-            box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+            border-color: var(--red);
+            box-shadow: 0 0 16px rgba(255, 0, 60, 0.6);
+        }
+
+        .h-chip.last.b {
+            background: var(--blue);
+            color: #000 !important;
+            border-color: var(--blue);
+            box-shadow: 0 0 16px rgba(0, 136, 255, 0.6);
         }
 
         .controls {
@@ -1075,8 +1093,6 @@
                 <button class="period-btn" id="p2" onclick="setPeriod(2)">2</button>
                 <button class="period-btn" id="p3" onclick="setPeriod(3)">OT</button>
             </div>
-            <span class="history-label">Historial</span>
-            <div class="history-track" id="history"></div>
             <div class="controls">
                 <button class="btn-start" id="btn-ss" onclick="handleMainButton()">Iniciar</button>
                 <div class="ctrl-row">
@@ -1102,6 +1118,12 @@
                 <div class="warn-dot" onclick="toggleWarn('blue',1)"></div>
                 <div class="warn-dot" onclick="toggleWarn('blue',2)"></div>
             </div>
+        </div>
+
+        <!-- ── HISTORY PANEL ── -->
+        <div class="history-panel">
+            <span class="history-label">Historial de Puntos</span>
+            <div class="history-track" id="history"></div>
         </div>
     </div>
 
@@ -1461,7 +1483,7 @@
 
             const track = document.getElementById('history');
             track.innerHTML = '';
-            state.history.slice(-14).forEach((item, i, arr) => {
+            state.history.slice(-24).forEach((item, i, arr) => {
                 const chip = document.createElement('div');
                 chip.className = 'h-chip ' + (item.side === 'red' ? 'r' : 'b');
                 if (i === arr.length - 1) chip.classList.add('last');
