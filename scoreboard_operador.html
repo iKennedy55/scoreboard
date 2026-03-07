@@ -177,11 +177,27 @@
         }
 
         .alert-bar.superiority {
-            background: #000;
+            background: rgba(255, 234, 0, 0.1);
             border: 1px solid #ffea00;
             color: #ffea00;
-            box-shadow: 0 0 16px rgba(255, 234, 0, 0.3);
-            animation: pulse-a 1s infinite;
+            box-shadow: 0 0 20px rgba(255, 234, 0, 0.2);
+            padding: 14px 20px;
+            font-size: 13px;
+            animation: pulse-warn 1.5s infinite;
+        }
+
+        @keyframes pulse-warn {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(255, 234, 0, 0.2);
+                background: rgba(255, 234, 0, 0.1);
+            }
+
+            50% {
+                box-shadow: 0 0 30px rgba(255, 234, 0, 0.4);
+                background: rgba(255, 234, 0, 0.2);
+            }
         }
 
         .alert-bar.match-end {
@@ -446,6 +462,30 @@
             }
         }
 
+        .btn-edit-time {
+            position: absolute;
+            right: -10px;
+            bottom: -5px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            color: var(--muted);
+            font-size: 9px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: none;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .btn-edit-time:hover {
+            border-color: #fff;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
         .time-selector {
             display: flex;
             gap: 6px;
@@ -685,7 +725,7 @@
             color: var(--green);
         }
 
-        .btn-start:not([style*="opacity"]):not([style*="cursor: default"]):hover {
+        .btn-start:not([style*="opacity"]):not([style*="cursor: default"]):not(.running):hover {
             background: var(--green);
             color: #000;
             box-shadow: 0 0 20px rgba(0, 255, 91, 0.5);
@@ -697,7 +737,7 @@
             color: var(--red);
         }
 
-        .btn-start.running:hover {
+        .btn-start:not([style*="opacity"]):not([style*="cursor: default"]).running:hover {
             background: var(--red);
             color: #000;
             box-shadow: 0 0 20px rgba(255, 0, 60, 0.5);
@@ -1071,7 +1111,10 @@
         </div>
 
         <div class="center">
-            <div class="clock-display paused" id="clock">3:00</div>
+            <div style="position: relative; width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <div class="clock-display paused" id="clock">3:00</div>
+                <button class="btn-edit-time" id="btn-edit-time" onclick="promptEditTime()">✏️ Editar Tiempo</button>
+            </div>
             <div class="time-selector">
                 <button class="time-btn" onclick="setTime(60,this)">1:00</button>
                 <button class="time-btn active" onclick="setTime(180,this)">3:00</button>
@@ -1335,6 +1378,20 @@
             update();
         }
 
+        function promptEditTime() {
+            if (state.running || state.matchFinished) return;
+            const res = prompt("Edita el tiempo restante (M:SS o MM:SS):", formatTime(state.remainingSeconds));
+            if (!res) return;
+            const secs = parseSecs(res);
+            if (!isNaN(secs)) {
+                state.remainingSeconds = secs;
+                if (state.remainingSeconds > state.totalSeconds) {
+                    state.totalSeconds = state.remainingSeconds;
+                }
+                update();
+            }
+        }
+
         function setPeriod(p) {
             // Nunca durante reloj corriendo o combate finalizado
             if (state.running || state.matchFinished) return;
@@ -1467,6 +1524,11 @@
             const ctBtn = ctInput ? ctInput.nextElementSibling : null;
             if (ctInput) { ctInput.disabled = matchStarted; ctInput.style.opacity = timeOpacity; }
             if (ctBtn) { ctBtn.disabled = matchStarted; ctBtn.style.opacity = timeOpacity; ctBtn.style.cursor = timeCursor; }
+
+            const editBtn = document.getElementById('btn-edit-time');
+            if (editBtn) {
+                editBtn.style.display = (!state.running && !state.matchFinished && !state.matchEnded && !ds.running && state.started) ? 'block' : 'none';
+            }
 
             // Botones de extension: solo visibles cuando el reloj esta PAUSADO a mitad de un periodo en curso
             // (started=true y remainingSeconds < totalSeconds = tiempo consumido)
