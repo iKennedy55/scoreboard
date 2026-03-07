@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scoreboard — Sistema de Marcador</title>
+    <meta name="description"
+        content="Sistema de marcador deportivo en tiempo real con pantalla de operador y pantalla pública." />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --red: #e84040;
+            --blue: #3a8fd4;
+            --green: #2ecc71;
+            --bg: #0c0c0e;
+            --surface: #111214;
+            --border: rgba(255, 255, 255, 0.07);
+            --muted: #44474d;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: 'Inter', sans-serif;
+            color: #f0f0f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 20px;
+            gap: 0;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 52px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            padding: 4px 14px;
+            border-radius: 20px;
+            background: var(--surface);
+        }
+
+        .hero h1 {
+            font-family: 'Roboto Mono', monospace;
+            font-size: clamp(36px, 7vw, 72px);
+            font-weight: 900;
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+
+        .hero h1 span.r {
+            color: var(--red);
+        }
+
+        .hero h1 span.sep {
+            color: #222;
+            margin: 0 6px;
+        }
+
+        .hero h1 span.b {
+            color: var(--blue);
+        }
+
+        .hero-sub {
+            font-size: 14px;
+            color: var(--muted);
+            max-width: 380px;
+            line-height: 1.6;
+        }
+
+        /* ── CARDS ── */
+        .cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            width: 100%;
+            max-width: 640px;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 28px 26px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .card.operator::before {
+            background: radial-gradient(ellipse at top left, rgba(232, 64, 64, 0.07), transparent 60%);
+        }
+
+        .card.public::before {
+            background: radial-gradient(ellipse at top left, rgba(58, 143, 212, 0.07), transparent 60%);
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.14);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .card.operator .card-icon {
+            background: rgba(232, 64, 64, 0.12);
+        }
+
+        .card.public .card-icon {
+            background: rgba(58, 143, 212, 0.12);
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: -0.2px;
+        }
+
+        .card-desc {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        .card-arrow {
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap 0.15s;
+        }
+
+        .card.operator .card-arrow {
+            color: var(--red);
+        }
+
+        .card.public .card-arrow {
+            color: var(--blue);
+        }
+
+        .card:hover .card-arrow {
+            gap: 10px;
+        }
+
+        /* ── INSTRUCCIONES ── */
+        .how {
+            margin-top: 48px;
+            width: 100%;
+            max-width: 640px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px 28px;
+        }
+
+        .how h2 {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--muted);
+            margin-bottom: 18px;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .step {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .step-num {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--muted);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .step-text {
+            font-size: 13px;
+            color: #888;
+            line-height: 1.5;
+        }
+
+        .step-text strong {
+            color: #ccc;
+            font-weight: 600;
+        }
+
+        /* ── FOOTER ── */
+        .footer {
+            margin-top: 40px;
+            font-size: 11px;
+            color: #222;
+            text-align: center;
+        }
+
+        @media (max-width: 520px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hero">
+        <span class="hero-badge">Sistema de Marcador</span>
+        <h1>
+            <span class="r">03</span>
+            <span class="sep">:</span>
+            <span class="b">00</span>
+        </h1>
+        <p class="hero-sub">Marcador deportivo en tiempo real. Abre ambas pantallas en el mismo dispositivo o red local.
+        </p>
+    </div>
+
+    <div class="cards">
+        <a class="card operator" href="scoreboard_operador.html">
+            <div class="card-icon">🎛️</div>
+            <div>
+                <div class="card-title">Operador</div>
+                <p class="card-desc">Panel de control completo para gestionar tiempos, puntajes, descansos y periodos.
+                </p>
+            </div>
+            <span class="card-arrow">Abrir panel →</span>
+        </a>
+
+        <a class="card public" href="scoreboard_publico.html" target="_blank">
+            <div class="card-icon">📺</div>
+            <div>
+                <div class="card-title">Pantalla Pública</div>
+                <p class="card-desc">Vista de espectador en tiempo real. Proyectar en pantalla grande o TV.</p>
+            </div>
+            <span class="card-arrow">Abrir vista →</span>
+        </a>
+    </div>
+
+    <div class="how">
+        <h2>Cómo usar</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <p class="step-text">Abre el <strong>Panel de Operador</strong> en tu dispositivo (computadora o
+                    tablet).</p>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <p class="step-text">Abre la <strong>Pantalla Pública</strong> en otro monitor o TV en modo pantalla
+                    completa.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <p class="step-text">Ambas pantallas se sincronizan automáticamente vía <strong>localStorage</strong> —
+                    no requiere internet ni servidor.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <p class="step-text">Usa <strong>Espacio</strong> para iniciar/pausar, <strong>Z</strong> para deshacer
+                    y <strong>R</strong> para reiniciar.</p>
+            </div>
+        </div>
+    </div>
+
+    <p class="footer">Funciona 100% en el navegador — sin internet requerido después de cargar</p>
+
+</body>
+
+</html>
