@@ -144,6 +144,48 @@
             }
         }
 
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            body {
+                background: white;
+            }
+
+            .page {
+                margin: 0;
+                box-shadow: none;
+                min-height: auto;
+                padding: 40px 0;
+            }
+
+            .cover {
+                padding: 40px 0;
+            }
+
+            .card {
+                overflow: visible !important;
+                break-inside: auto;
+                page-break-inside: auto;
+            }
+
+            .card-header {
+                border-top-left-radius: 13px;
+                border-top-right-radius: 13px;
+            }
+
+            .feat-group,
+            .del-box,
+            tr,
+            .platform,
+            .rec {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+
         /* TYPOGRAPHY */
         .eyebrow {
             display: block;
