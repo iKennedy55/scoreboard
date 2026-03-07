@@ -857,7 +857,7 @@
             transition: all 0.2s;
         }
 
-        .ds-preset:hover {
+        .ds-preset:not(:disabled):hover {
             border-color: #fff;
             color: #000;
             background: #fff;
@@ -910,7 +910,7 @@
             text-transform: uppercase;
         }
 
-        .ds-set:hover {
+        .ds-set:not(:disabled):hover {
             background: #fff;
             color: #000;
             border-color: #fff;
@@ -1600,8 +1600,26 @@
             const btn = document.getElementById('btn-descanso');
             const panel = document.getElementById('descanso-panel');
 
-            // El descanso solo se puede usar cuando el periodo termino (matchEnded)
             const canBreak = state.matchEnded && !state.matchFinished;
+            const allowEdits = !ds.running;
+
+            document.querySelectorAll('.ds-preset').forEach(b => {
+                b.disabled = !allowEdits;
+                b.style.opacity = allowEdits ? '' : '0.3';
+                b.style.cursor = allowEdits ? '' : 'not-allowed';
+            });
+
+            const dsInput = document.getElementById('ds-custom-input');
+            const dsSetBtn = dsInput ? dsInput.nextElementSibling : null;
+            if (dsInput) {
+                dsInput.disabled = !allowEdits;
+                dsInput.style.opacity = allowEdits ? '' : '0.3';
+            }
+            if (dsSetBtn) {
+                dsSetBtn.disabled = !allowEdits;
+                dsSetBtn.style.opacity = allowEdits ? '' : '0.3';
+                dsSetBtn.style.cursor = allowEdits ? '' : 'not-allowed';
+            }
 
             if (ds.running) {
                 btn.textContent = 'Detener descanso';
@@ -1673,6 +1691,7 @@
             }
         });
 
+        updateDescanso();
         update();
     </script>
 </body>
