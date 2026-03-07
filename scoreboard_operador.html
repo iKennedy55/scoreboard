@@ -934,7 +934,7 @@
             white-space: nowrap;
         }
 
-        .btn-descanso:hover {
+        .btn-descanso:not(:disabled):hover {
             background: var(--green);
             color: #000;
             border-color: var(--green);
@@ -946,7 +946,7 @@
             color: var(--red);
         }
 
-        .btn-descanso.running:hover {
+        .btn-descanso.running:not(:disabled):hover {
             background: var(--red);
             color: #000;
             border-color: var(--red);
@@ -1528,6 +1528,7 @@
             });
 
             syncPublic();
+            updateDescanso();
         }
 
         // ── DESCANSO ──
