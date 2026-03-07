@@ -18,9 +18,9 @@
         }
 
         body {
-            background: #080808;
+            background: #000000;
             font-family: 'Inter', sans-serif;
-            color: #f0f0f0;
+            color: #e0e0e0;
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -34,22 +34,23 @@
             top: 14px;
             right: 14px;
             background: transparent;
-            border: none;
-            color: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.3);
             padding: 8px;
-            border-radius: 6px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: color 0.2s, background 0.2s;
+            transition: all 0.2s;
             z-index: 5;
             line-height: 0;
         }
 
         .fs-btn:hover {
-            color: rgba(255, 255, 255, 0.55);
-            background: rgba(255, 255, 255, 0.06);
+            color: #000;
+            background: #fff;
+            border-color: #fff;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
         }
 
-        /* BANNER FIN DE COMBATE — sutil, arriba */
         .fin-banner {
             position: fixed;
             top: 0;
@@ -61,16 +62,18 @@
             font-weight: 700;
             letter-spacing: 4px;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.35);
+            color: #fff;
             z-index: 10;
             display: none;
+            background: #000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
         }
 
         .fin-banner.show {
             display: block;
         }
 
-        /* BOARD */
         .board {
             width: 100%;
             max-width: 1280px;
@@ -91,17 +94,25 @@
 
         .fighter-name {
             font-size: clamp(14px, 2vw, 22px);
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: 3px;
             text-transform: uppercase;
             color: #fff;
             text-align: center;
         }
 
+        .side.r .fighter-name {
+            text-shadow: 0 0 12px rgba(255, 0, 60, 0.4);
+        }
+
+        .side.b .fighter-name {
+            text-shadow: 0 0 12px rgba(0, 225, 255, 0.4);
+        }
+
         .score-box {
             width: clamp(140px, 20vw, 240px);
             height: clamp(110px, 16vw, 200px);
-            border-radius: clamp(10px, 1.5vw, 18px);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -110,6 +121,7 @@
             font-weight: 900;
             color: #fff;
             transition: transform 0.15s ease, box-shadow 0.3s ease;
+            background: #000;
         }
 
         .score-box.bump {
@@ -117,16 +129,19 @@
         }
 
         .side.r .score-box {
-            background: #c0392b;
-            box-shadow: 0 0 60px rgba(192, 57, 43, 0.25);
+            color: #ff003c;
+            border: 2px solid #ff003c;
+            box-shadow: 0 0 40px rgba(255, 0, 60, 0.25);
+            text-shadow: 0 0 24px rgba(255, 0, 60, 0.5);
         }
 
         .side.b .score-box {
-            background: #2471a3;
-            box-shadow: 0 0 60px rgba(36, 113, 163, 0.25);
+            color: #00e1ff;
+            border: 2px solid #00e1ff;
+            box-shadow: 0 0 40px rgba(0, 225, 255, 0.25);
+            text-shadow: 0 0 24px rgba(0, 225, 255, 0.5);
         }
 
-        /* NEON GANADOR */
         .side.r .score-box.winner {
             animation: neon-red 0.9s infinite alternate;
         }
@@ -137,33 +152,38 @@
 
         @keyframes neon-red {
             from {
-                box-shadow: 0 0 30px rgba(192, 57, 43, 0.5), 0 0 80px rgba(192, 57, 43, 0.2);
+                box-shadow: 0 0 20px rgba(255, 0, 60, 0.3);
             }
 
             to {
-                box-shadow: 0 0 60px rgba(255, 80, 60, 0.9), 0 0 140px rgba(255, 80, 60, 0.45), 0 0 200px rgba(255, 80, 60, 0.15);
+                box-shadow: 0 0 50px rgba(255, 0, 60, 0.7), 0 0 100px rgba(255, 0, 60, 0.3);
+                border-color: #ff3366;
             }
         }
 
         @keyframes neon-blue {
             from {
-                box-shadow: 0 0 30px rgba(36, 113, 163, 0.5), 0 0 80px rgba(36, 113, 163, 0.2);
+                box-shadow: 0 0 20px rgba(0, 225, 255, 0.3);
             }
 
             to {
-                box-shadow: 0 0 60px rgba(60, 160, 240, 0.9), 0 0 140px rgba(60, 160, 240, 0.45), 0 0 200px rgba(60, 160, 240, 0.15);
+                box-shadow: 0 0 50px rgba(0, 225, 255, 0.7), 0 0 100px rgba(0, 225, 255, 0.3);
+                border-color: #33eaff;
             }
         }
 
-        /* Perdedor: se atenúa un poco */
         .side.r .score-box.loser {
-            opacity: 0.45;
+            opacity: 0.3;
             box-shadow: none;
+            border-color: rgba(255, 0, 60, 0.3);
+            text-shadow: none;
         }
 
         .side.b .score-box.loser {
-            opacity: 0.45;
+            opacity: 0.3;
             box-shadow: none;
+            border-color: rgba(0, 225, 255, 0.3);
+            text-shadow: none;
         }
 
         .warn-row {
@@ -177,19 +197,21 @@
             border-radius: 50%;
             border: 2px solid rgba(255, 255, 255, 0.15);
             transition: all 0.2s;
+            background: transparent;
         }
 
         .side.r .warn-circle.on {
-            background: #c0392b;
-            border-color: #c0392b;
+            background: #ff003c;
+            border-color: #ff003c;
+            box-shadow: 0 0 16px rgba(255, 0, 60, 0.6);
         }
 
         .side.b .warn-circle.on {
-            background: #2471a3;
-            border-color: #2471a3;
+            background: #00e1ff;
+            border-color: #00e1ff;
+            box-shadow: 0 0 16px rgba(0, 225, 255, 0.6);
         }
 
-        /* CENTER */
         .center {
             display: flex;
             flex-direction: column;
@@ -201,43 +223,45 @@
 
         .period-tag {
             font-size: clamp(10px, 1.2vw, 14px);
-            font-weight: 700;
-            letter-spacing: 3px;
+            font-weight: 800;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.5);
+            color: #888;
         }
 
         .clock {
             font-family: 'Roboto Mono', monospace;
             font-size: clamp(52px, 9vw, 108px);
             font-weight: 900;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
             line-height: 1;
             transition: color 0.3s;
         }
 
         .clock.paused {
-            color: rgba(255, 255, 255, 0.18);
+            color: #888;
         }
 
         .clock.running {
-            color: #f0d060;
+            color: #ffea00;
+            text-shadow: 0 0 30px rgba(255, 234, 0, 0.5);
         }
 
         .clock.danger {
-            color: #e74c3c;
-            animation: blink 0.5s infinite;
+            color: #ff003c;
+            text-shadow: 0 0 30px rgba(255, 0, 60, 0.5);
+            animation: blink-c 0.5s infinite;
         }
 
-        @keyframes blink {
+        @keyframes blink-c {
 
             0%,
             100% {
-                opacity: 1
+                opacity: 1;
             }
 
             50% {
-                opacity: 0.3
+                opacity: 0.3;
             }
         }
 
@@ -245,12 +269,13 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.06);
+            background: #1a1a1a;
             transition: background 0.3s;
         }
 
         .status-dot.running {
-            background: #27ae60;
+            background: #00ff5b;
+            box-shadow: 0 0 12px rgba(0, 255, 91, 0.6);
             animation: pulse 1.2s infinite;
         }
 
@@ -273,33 +298,49 @@
             left: 0;
             right: 0;
             padding: 14px;
-            background: #1a1400;
-            border-top: 2px solid #c0a000;
+            background: #000;
+            border-top: 2px solid #ffea00;
             text-align: center;
             font-size: clamp(14px, 2vw, 18px);
-            font-weight: 700;
-            color: #f0d060;
+            font-weight: 800;
+            color: #ffea00;
             letter-spacing: 2px;
             text-transform: uppercase;
             display: none;
+            box-shadow: 0 -4px 30px rgba(255, 234, 0, 0.3);
         }
 
         .superiority-banner.show {
             display: block;
-            animation: blink 1s infinite;
+            animation: blink-sup 1s infinite;
+        }
+
+        @keyframes blink-sup {
+
+            0%,
+            100% {
+                opacity: 1;
+                box-shadow: 0 -4px 30px rgba(255, 234, 0, 0.3);
+            }
+
+            50% {
+                opacity: 0.7;
+                box-shadow: 0 -4px 50px rgba(255, 234, 0, 0.6);
+            }
         }
 
         /* DESCANSO OVERLAY */
         .descanso-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(5, 5, 5, 0.82);
+            background: rgba(0, 0, 0, 0.95);
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 20px;
+            gap: 24px;
             z-index: 15;
+            backdrop-filter: blur(8px);
         }
 
         .descanso-overlay.show {
@@ -307,49 +348,53 @@
         }
 
         .ds-ov-label {
-            font-size: clamp(12px, 1.8vw, 16px);
-            font-weight: 700;
+            font-size: clamp(12px, 1.8vw, 18px);
+            font-weight: 800;
             letter-spacing: 5px;
             text-transform: uppercase;
-            color: #ffffff;
+            color: rgba(255, 255, 255, 0.4);
             transition: color 0.4s;
         }
 
         .ds-ov-label.active {
-            color: #2ecc71;
+            color: #00ff5b;
+            text-shadow: 0 0 16px rgba(0, 255, 91, 0.5);
         }
 
         .ds-ov-clock {
             font-family: 'Roboto Mono', monospace;
             font-size: clamp(90px, 20vw, 220px);
             font-weight: 900;
-            color: rgba(39, 174, 96, 0.15);
+            color: rgba(255, 255, 255, 0.05);
             letter-spacing: 6px;
             line-height: 1;
-            transition: color 0.4s;
+            transition: color 0.4s, text-shadow 0.4s;
         }
 
         .ds-ov-clock.active {
-            color: #27ae60;
+            color: #00ff5b;
+            text-shadow: 0 0 60px rgba(0, 255, 91, 0.6);
         }
 
         .ds-ov-sub {
             font-size: clamp(10px, 1.2vw, 13px);
-            color: rgba(255, 255, 255, 0.8);
-            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: 800;
+            letter-spacing: 4px;
             text-transform: uppercase;
             transition: color 0.4s;
         }
 
         .ds-ov-sub.active {
-            color: rgba(46, 204, 113, 0.9);
+            color: #fff;
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
         }
 
         /* NO SIGNAL */
         .no-signal {
             position: fixed;
             inset: 0;
-            background: #080808;
+            background: #000;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -359,10 +404,10 @@
         }
 
         .no-signal p {
-            color: #181818;
+            color: #333;
             font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 3px;
+            font-weight: 800;
+            letter-spacing: 4px;
             text-transform: uppercase;
         }
 
@@ -372,10 +417,10 @@
         }
 
         .bounce span {
-            width: 7px;
-            height: 7px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: #181818;
+            background: #222;
             animation: b 1.2s infinite;
         }
 
@@ -391,12 +436,14 @@
 
             0%,
             100% {
-                transform: translateY(0)
+                transform: translateY(0);
+                box-shadow: none;
             }
 
             50% {
                 transform: translateY(-7px);
-                background: #282828;
+                background: #fff;
+                box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
             }
         }
 
