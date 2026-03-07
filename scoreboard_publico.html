@@ -288,49 +288,6 @@
             }
         }
 
-        /* SUPERIORIDAD */
-        .superiority-banner {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 18px 40px;
-            border-radius: 12px;
-            background: rgba(255, 234, 0, 0.15);
-            border: 2px solid #ffea00;
-            text-align: center;
-            font-size: clamp(16px, 2.5vw, 24px);
-            font-weight: 900;
-            color: #ffea00;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            display: none;
-            box-shadow: 0 0 40px rgba(255, 234, 0, 0.3);
-            backdrop-filter: blur(10px);
-            z-index: 20;
-        }
-
-        .superiority-banner.show {
-            display: block;
-            animation: blink-sup 1.5s infinite;
-        }
-
-        @keyframes blink-sup {
-
-            0%,
-            100% {
-                opacity: 1;
-                box-shadow: 0 0 40px rgba(255, 234, 0, 0.3);
-                background: rgba(255, 234, 0, 0.15);
-            }
-
-            50% {
-                opacity: 0.8;
-                box-shadow: 0 0 60px rgba(255, 234, 0, 0.6);
-                background: rgba(255, 234, 0, 0.25);
-            }
-        }
-
         /* DESCANSO OVERLAY */
         .descanso-overlay {
             position: fixed;
@@ -535,8 +492,6 @@
         </div>
     </div>
 
-    <div class="superiority-banner" id="superiority-banner">Superioridad Tecnica</div>
-
     <script>
         let lastTs = 0, prevRed = -1, prevBlue = -1;
 
@@ -633,10 +588,6 @@
                     .querySelectorAll('.warn-circle')
                     .forEach((d, i) => d.classList.toggle('on', arr && arr[i]));
             });
-
-            // Superioridad (oculta si el combate ya termino)
-            document.getElementById('superiority-banner')
-                .classList.toggle('show', Math.abs(s.red - s.blue) >= 10 && !s.matchFinished);
         }
 
         function poll() {

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scoreboard — Operador</title>
+    <title>Scoreboard - Operador</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet" />
@@ -174,30 +174,6 @@
 
         .alert-bar.show {
             display: block;
-        }
-
-        .alert-bar.superiority {
-            background: rgba(255, 234, 0, 0.1);
-            border: 1px solid #ffea00;
-            color: #ffea00;
-            box-shadow: 0 0 20px rgba(255, 234, 0, 0.2);
-            padding: 14px 20px;
-            font-size: 13px;
-            animation: pulse-warn 1.5s infinite;
-        }
-
-        @keyframes pulse-warn {
-
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(255, 234, 0, 0.2);
-                background: rgba(255, 234, 0, 0.1);
-            }
-
-            50% {
-                box-shadow: 0 0 30px rgba(255, 234, 0, 0.4);
-                background: rgba(255, 234, 0, 0.2);
-            }
         }
 
         .alert-bar.match-end {
@@ -1075,21 +1051,20 @@
 
     <div class="names-row">
         <div class="name-input-wrap r">
-            <label>Nombre — Esquina Roja</label>
+            <label>Nombre - Esquina Roja</label>
             <input class="name-input r" id="name-red" type="text" placeholder="Nombre del luchador rojo"
                 oninput="syncPublic()" maxlength="30" />
         </div>
         <div class="name-input-wrap b">
-            <label>Nombre — Esquina Azul</label>
+            <label>Nombre - Esquina Azul</label>
             <input class="name-input b" id="name-blue" type="text" placeholder="Nombre del luchador azul"
                 oninput="syncPublic()" maxlength="30" />
         </div>
     </div>
 
-    <div class="alert-bar superiority" id="alert-superiority">Superioridad tecnica — diferencia de 10 puntos</div>
-    <div class="alert-bar match-end" id="alert-match-end">Tiempo terminado — Presiona Espacio para iniciar el descanso
+    <div class="alert-bar match-end" id="alert-match-end">Tiempo terminado - Presiona Espacio para iniciar el descanso
     </div>
-    <div class="alert-bar finished" id="alert-finished">Combate finalizado — Puedes reiniciar para el siguiente
+    <div class="alert-bar finished" id="alert-finished">Combate finalizado - Puedes reiniciar para el siguiente
         encuentro</div>
 
     <div class="scoreboard">
@@ -1440,7 +1415,6 @@
             const diff = Math.abs(state.red - state.blue);
             const tied = state.red === state.blue;
 
-            document.getElementById('alert-superiority').classList.toggle('show', diff >= 10 && !state.matchFinished);
             document.getElementById('alert-match-end').classList.toggle('show', state.matchEnded && !ds.running);
 
             // Alerta de fin de combate real
@@ -1456,7 +1430,7 @@
 
             const btn = document.getElementById('btn-ss');
             if (state.matchFinished) {
-                btn.textContent = 'Combate finalizado — Reiniciar para el siguiente';
+                btn.textContent = 'Combate finalizado - Reiniciar para el siguiente';
                 btn.className = 'btn-start';
                 btn.style.opacity = '0.45';
                 btn.style.cursor = 'default';
