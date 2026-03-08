@@ -154,11 +154,6 @@
                 background: white;
             }
 
-            .cover {
-                page-break-after: always;
-                break-after: page;
-            }
-
             .page {
                 max-width: 100%;
                 padding: 36px 48px;
@@ -166,41 +161,8 @@
                 box-shadow: none;
             }
 
-            .card-header {
-                page-break-after: avoid;
-                break-after: avoid;
-            }
-
-            .feat-group {
-                page-break-inside: avoid;
-                break-inside: avoid;
-            }
-
-            .delivery {
-                page-break-inside: avoid;
-                break-inside: avoid;
-            }
-
-            .views-grid {
-                page-break-inside: avoid;
-                break-inside: avoid;
-            }
-
-            .rec {
-                page-break-inside: avoid;
-                break-inside: avoid;
-            }
-
-            h2,
-            h3,
-            h4 {
-                page-break-after: avoid;
-                break-after: avoid;
-            }
-
-            .eyebrow {
-                page-break-after: avoid;
-                break-after: avoid;
+            .card {
+                overflow: visible !important;
             }
 
             .spacer {
@@ -978,10 +940,6 @@
                 background: white;
             }
 
-            .cover {
-                page-break-after: always;
-            }
-
             .page {
                 margin: 0;
                 box-shadow: none;
@@ -1141,8 +1099,9 @@
                     <div class="mock-pub-score">7</div>
                 </div>
             </div>
-            <p class="mockup-caption">Vista del publico. Limpia, sin controles, se actualiza en tiempo real desde la
-                pantalla del operador.</p>
+            <p class="mockup-caption">Vista pública dedicada: nombres de los luchadores, marcador de gran formato,
+                periodo activo, reloj en cuenta regresiva y estado visual sincronizado. Se actualiza en tiempo real
+                desde el panel del operador.</p>
         </div>
 
         <!-- PROPUESTA A -->
@@ -1153,12 +1112,14 @@
         <div class="card">
             <div class="card-header a">
                 <h3>Scoreboard Lite</h3>
-                <p class="sub">Lista para usar el mismo día de entrega. Sin datos guardados, sin configuración.</p>
+                <p class="sub">Versión operativa enfocada en ejecución inmediata del combate, sin dependencias de base
+                    de datos ni infraestructura externa.</p>
                 <span class="badge lite">Versión Operativa</span>
             </div>
             <div class="card-body">
-                <p class="philosophy">La idea es que se abra el navegador y funcione de inmediato. Sin registro, sin
-                    base de datos. Para competencias donde solo se necesita marcar puntos y controlar el tiempo.</p>
+                <p class="philosophy">Solución ejecutable localmente desde el navegador del operador, sin instalación
+                    compleja ni parametrización técnica previa. Para competencias donde se necesita marcar puntos,
+                    controlar el tiempo y proyectar resultados de inmediato.</p>
 
                 <div class="feat-group">
                     <p class="feat-title">Puntuación y Control del Encuentro</p>
@@ -1179,13 +1140,15 @@
                 </div>
 
                 <div class="feat-group">
-                    <p class="feat-title">Temporizador Avanzado</p>
+                    <p class="feat-title">Temporizador y Control Contextual del Combate</p>
                     <ul class="feat-list">
                         <li>Barra espaciadora para pausar y reanudar sin tocar el mouse</li>
                         <li>Tiempo seleccionable: 1, 3 o 5 minutos, o un valor personalizado</li>
-                        <li>Sistema de descanso: Cronometro independiente al terminar un periodo oficial</li>
+                        <li>Sistema de descanso: cronómetro independiente al terminar un periodo oficial</li>
                         <li>Edicion manual "al vuelo" del temporizador para ajustes arbitrales</li>
-                        <li>Indicador visual claro cuando el tiempo esta corriendo o pausado</li>
+                        <li><strong>Control contextual del combate:</strong> el botón principal cambia según el estado
+                            del reloj y del periodo (inicio, pausa, descanso, cierre), reduciendo el margen de error del
+                            operador</li>
                         <li>Alerta visual cuando el reloj llega a cero</li>
                     </ul>
                 </div>
@@ -1203,12 +1166,12 @@
                             </ul>
                         </div>
                         <div class="view-box">
-                            <div class="vlabel pub">Publico</div>
+                            <div class="vlabel pub">Público</div>
                             <ul>
-                                <li>Marcador grande y limpio</li>
-                                <li>Tiempo visible</li>
-                                <li>Sin controles</li>
-                                <li>Optimizada para TV o proyector</li>
+                                <li>Nombres, marcador y periodo</li>
+                                <li>Reloj en tiempo real</li>
+                                <li>Advertencias por esquina</li>
+                                <li>Para TV o proyector en red local</li>
                             </ul>
                         </div>
                     </div>
@@ -1218,9 +1181,9 @@
                     <h4>Plataforma: aplicacion web local</h4>
                     <div class="platform-grid">
                         <div class="plat-item">
-                            <div class="pk">Pantalla publica</div>
-                            <div class="pv">Despliegue dual nativo (Requiere TV/Proyector en la misma red local del
-                                operador)</div>
+                            <div class="pk">Pantalla pública</div>
+                            <div class="pv">Vista pública separada para segundo monitor, TV o dispositivo en red local
+                                del evento</div>
                         </div>
                         <div class="plat-item">
                             <div class="pk">Instalacion</div>
@@ -1240,12 +1203,12 @@
 
                 <div class="delivery">
                     <div class="del-box time">
-                        <div class="dk">Tiempo de desarrollo</div>
-                        <div class="dv">5 a 7 dias</div>
+                        <div class="dk">Desarrollo estimado</div>
+                        <div class="dv">5 a 7 días hábiles</div>
                     </div>
                     <div class="del-box cost">
-                        <div class="dk">Inversion relativa</div>
-                        <div class="dv">Baja</div>
+                        <div class="dk">Puesta en marcha</div>
+                        <div class="dv">Lista al momento de entrega</div>
                     </div>
                 </div>
             </div>
@@ -1276,34 +1239,39 @@
                 </div>
 
                 <div class="feat-group">
-                    <p class="feat-title">Gestion Completa de Atletas</p>
+                    <p class="feat-title">Gestión de Atletas</p>
                     <ul class="feat-list">
-                        <li>Registro de luchadores</li>
-                        <li>Emparejamiento automatico con candados de seguridad (no permite cruces de genero o pesos
+                        <li>Registro de luchadores por nombre, delegación y categoría de peso</li>
+                        <li>Emparejamiento automático con candados de seguridad (no permite cruces de género o peso
                             distintos por error)</li>
-                        <li>Configuracion y generacion de lista de combates diarios</li>
-                        <li>Busqueda y filtrado intantaneo desde el panel del operador</li>
+                        <li>Búsqueda y filtrado instantáneo desde el panel del operador</li>
                     </ul>
                 </div>
 
                 <div class="feat-group">
-                    <p class="feat-title">Emparejamiento Aleatorio y Adaptabilidad</p>
+                    <p class="feat-title">Gestión de Combates</p>
                     <ul class="feat-list">
-                        <li><strong>Matches aleatorios:</strong> Opcion para que el sistema asigne cruces de forma
-                            automatica y al azar entre los luchadores registrados del mismo peso/genero.</li>
-                        <li><strong>Integracion a la medida:</strong> Flexibilidad para agregar botones especificos,
-                            atajos o sugerencias particulares de los arbitros una vez prueben la plataforma.</li>
-                        <li><strong>Ajustes de reglas internacionales:</strong> Se pueden modificar como se castigan las
-                            faltas o como fluye el tiempo segun las reglas internacionales.</li>
+                        <li>Generación de lista de combates diarios y asignación de turnos</li>
+                        <li>Emparejamiento aleatorio automático dentro del mismo peso y género</li>
+                        <li>Carga del encuentro activo: nombres aparecen solos en el marcador público</li>
                     </ul>
                 </div>
 
                 <div class="feat-group">
-                    <p class="feat-title">Historial del dia</p>
+                    <p class="feat-title">Control de Reglas</p>
                     <ul class="feat-list">
-                        <li>Registro de resultados: ganador, puntos finales y tiempo</li>
-                        <li>Opcion de exportar el resumen del dia en tabla imprimible</li>
-                        <li>Todo se guarda en el mismo equipo del operador y se puede exportar a un archivo local</li>
+                        <li>Integración a la medida: ajustes de flujo, botones o atajos solicitados por los árbitros
+                            después de prueba real</li>
+                        <li>Modificación de cómo se castigan faltas o cómo fluye el tiempo según reglamento vigente</li>
+                    </ul>
+                </div>
+
+                <div class="feat-group">
+                    <p class="feat-title">Reportes y Exportación</p>
+                    <ul class="feat-list">
+                        <li>Registro persistente de resultados: ganador, puntos finales y tiempo por combate</li>
+                        <li>Exportación del historial del día a archivo local imprimible</li>
+                        <li>Todo se almacena en el equipo del operador, sin servidores externos</li>
                     </ul>
                 </div>
 
@@ -1432,9 +1400,9 @@
         <h2>El valor de una herramienta a la medida</h2>
         <div class="rule"></div>
 
-        <p style="color:#555;margin-bottom:20px;">Existen cronómetros gratuitos en internet. La diferencia entre uno de
-            esos y esta herramienta es la misma que hay entre una hoja de cálculo y un sistema de nómina: ambos manejan
-            números, pero uno está hecho para el trabajo específico y el otro no.</p>
+        <p style="color:#555;margin-bottom:20px;">Un cronómetro genérico mide tiempo; este sistema además controla la
+            lógica operativa del combate. La diferencia entre los dos es la misma que hay entre una hoja de cálculo y un
+            sistema de nómina: ambos manejan números, pero uno está hecho para el trabajo específico y el otro no.</p>
 
         <table class="comp-table" style="margin-bottom:36px;">
             <thead>
@@ -1503,8 +1471,9 @@
         <h2>Costo del proyecto</h2>
         <div class="rule"></div>
 
-        <p style="color:#555;margin-bottom:20px;">El precio cubre el desarrollo completo, las pruebas y un mes de
-            ajustes posteriores a la entrega. No hay costos mensuales ni licencias ocultas.</p>
+        <p style="color:#555;margin-bottom:20px;">El precio cubre el desarrollo completo, las pruebas funcionales
+            previas a entrega en escenario de uso real o simulado, y un mes de ajustes post-entrega. Sin costos
+            mensuales ni licencias ocultas.</p>
 
         <div style="border:1px solid #e0e0e0;border-radius:14px;overflow:hidden;margin-bottom:36px;">
             <div style="background:#000000;padding:20px 28px;">
@@ -1578,23 +1547,28 @@
             <h3>Ruta sugerida</h3>
             <p>Para los encuentros internos de la federacion, <strong>la version Lite es la solucion correcta en este
                     momento</strong>. Resuelve el problema operativo inmediato: un marcador digital que funcione sin
-                depender
-                de internet, estable y listo para competencias de fogueo.</p>
+                depender de internet, estable y listo para competencias de fogueo.</p>
             <p>Más allá de solucionar el problema actual, <strong>la versión Lite sirve como una base tecnológica
                     validada</strong>.
                 Cuando la federación decida crecer el proyecto e integrar gestión de llaves y atletas, todo el trabajo y
                 la lógica de la Lite se aprovecha íntegramente para evolucionar a la versión Pro sin necesidad de
                 rehacer el sistema desde cero ni pagar una segunda implementación doble.</p>
-            <p>La sugerencia concreta es iniciar con la version Lite, correr un par de torneos internos, asimilar la
+            <p>La sugerencia concreta es iniciar con la versión Lite, correr un par de torneos internos, asimilar la
                 digitalización y, con esa experiencia real y el código operando, escalar a la versión Pro con total
                 seguridad institucional.</p>
+            <p><strong>La versión Lite permite resolver el problema operativo actual sin sobredimensionar la inversión
+                    inicial.</strong></p>
         </div>
 
         <!-- CLOSING -->
         <div class="closing">
             <div class="closing-sig">
-                <strong>Propuesta para la Gerencia Administrativa</strong>
-                - Marzo 2026
+                <strong>Propuesta para la Gerencia Administrativa</strong> &mdash; Marzo 2026
+            </div>
+            <div style="margin-top: 16px; font-size: 13px; color: #555; line-height: 1.8;">
+                <strong>Elaborada por:</strong> Ing. Kevin Bonifacio<br>
+                <strong>Correo:</strong> kevinjbonifacio7@gmail.com<br>
+                <strong>Tel:</strong> 7601-1149
             </div>
         </div>
 
