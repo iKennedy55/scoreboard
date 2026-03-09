@@ -1049,18 +1049,7 @@
         </div>
     </div>
 
-    <div class="names-row">
-        <div class="name-input-wrap r">
-            <label>Nombre - Esquina Roja</label>
-            <input class="name-input r" id="name-red" type="text" placeholder="Nombre del luchador rojo"
-                oninput="syncPublic()" maxlength="30" />
-        </div>
-        <div class="name-input-wrap b">
-            <label>Nombre - Esquina Azul</label>
-            <input class="name-input b" id="name-blue" type="text" placeholder="Nombre del luchador azul"
-                oninput="syncPublic()" maxlength="30" />
-        </div>
-    </div>
+
 
     <div class="alert-bar match-end" id="alert-match-end">Tiempo terminado - Presiona Espacio para iniciar el descanso
     </div>
@@ -1095,21 +1084,12 @@
                 <button class="time-btn active" onclick="setTime(180,this)">3:00</button>
                 <button class="time-btn" onclick="setTime(300,this)">5:00</button>
             </div>
-            <div class="time-custom">
-                <input type="text" id="custom-time" placeholder="1:30" maxlength="5" oninput="maskTime(this)" />
-                <button class="set-btn" onclick="setCustomTime()">Set</button>
-            </div>
-            <!-- Extension de tiempo: solo visible cuando el combate ya inicio -->
-            <div class="time-extend" id="time-extend" style="display:none">
-                <button class="ext-btn" onclick="extendTime(30)">+30s</button>
-                <button class="ext-btn" onclick="extendTime(60)">+1:00</button>
-                <button class="ext-btn" onclick="extendTime(120)">+2:00</button>
-            </div>
+
+
             <div class="period-row">
                 <span class="period-label">Periodo</span>
                 <button class="period-btn active" id="p1" onclick="setPeriod(1)">1</button>
                 <button class="period-btn" id="p2" onclick="setPeriod(2)">2</button>
-                <button class="period-btn" id="p3" onclick="setPeriod(3)">OT</button>
             </div>
             <div class="controls">
                 <button class="btn-start" id="btn-ss" onclick="handleMainButton()">Iniciar</button>
@@ -1271,11 +1251,7 @@
                     clearInterval(timerInterval);
                     state.running = false;
                     playBell();
-                    const tied = state.red === state.blue;
-                    if (state.period === 3) {
-                        state.matchFinished = true;
-                        state.matchEnded = false;
-                    } else if (state.period === 2 && !tied) {
+                    if (state.period === 2) {
                         state.matchFinished = true;
                         state.matchEnded = false;
                     } else {
@@ -1297,13 +1273,7 @@
             update();
         }
 
-        // Extiende el tiempo DURANTE el combate (solo si pausado)
-        function extendTime(secs) {
-            if (state.running || state.matchEnded || state.matchFinished) return;
-            state.remainingSeconds += secs;
-            state.totalSeconds = Math.max(state.totalSeconds, state.remainingSeconds);
-            update();
-        }
+
 
         // Auto-formato mientras escribe: inserta ':' automaticamente
         // Ej: "130" → "1:30", "0015" → "00:15"
@@ -1342,16 +1312,7 @@
             return parseInt(val); // solo segundos
         }
 
-        function setCustomTime() {
-            // Solo antes de que empiece el combate
-            if (state.started) return;
-            const secs = parseSecs(document.getElementById('custom-time').value);
-            if (isNaN(secs) || secs <= 0) return;
-            state.totalSeconds = secs;
-            state.remainingSeconds = secs;
-            document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-            update();
-        }
+
 
         function promptEditTime() {
             if (state.running || state.matchFinished) return;
@@ -1368,18 +1329,13 @@
         }
 
         function setPeriod(p) {
-            // Nunca durante reloj corriendo o combate finalizado
             if (state.running || state.matchFinished) return;
-            // No retroceder periodos una vez que el juego inicio
             if (state.started && p < state.period) return;
-            // No cambiar mientras estamos a mitad de un periodo (pausado)
             if (state.started && state.remainingSeconds < state.totalSeconds) return;
-            // OT solo si hay empate
-            if (p === 3 && state.red !== state.blue) return;
+            if (p > 2) return;
             state.period = p;
-            ['p1', 'p2', 'p3'].forEach(id => document.getElementById(id).classList.remove('active'));
+            ['p1', 'p2'].forEach(id => document.getElementById(id).classList.remove('active'));
             document.getElementById('p' + p).classList.add('active');
-            // Si se salta de periodo manualmente, resetear started y reloj
             if (!state.started) {
                 state.remainingSeconds = state.totalSeconds;
             }
@@ -1395,7 +1351,7 @@
             state.remainingSeconds = state.totalSeconds;
             state.running = false; state.matchEnded = false; state.matchFinished = false; state.started = false;
             state.period = 1;
-            ['p1', 'p2', 'p3'].forEach(id => document.getElementById(id).classList.remove('active'));
+            ['p1', 'p2'].forEach(id => document.getElementById(id).classList.remove('active'));
             document.getElementById('p1').classList.add('active');
             state.history = [];
             ds.running = false; ds.remaining = ds.total;
@@ -1449,12 +1405,7 @@
                 btn.className = 'btn-start' + (state.running ? ' running' : '');
             }
 
-            // OT solo disponible si hay empate
-            const otBtn = document.getElementById('p3');
-            otBtn.disabled = !tied;
-            otBtn.style.opacity = tied ? '' : '0.25';
-            otBtn.style.cursor = tied ? '' : 'not-allowed';
-            otBtn.title = tied ? 'Tiempo extra (OT)' : 'Solo disponible con marcador empatado';
+
 
             // Deshacer: condiciones identicas a undoLast()
             const canUndo = state.started && !state.matchEnded && !state.matchFinished && !ds.running && state.history.length > 0;
@@ -1494,22 +1445,14 @@
                 b.style.opacity = timeOpacity;
                 b.style.cursor = timeCursor;
             });
-            const ctInput = document.getElementById('custom-time');
-            const ctBtn = ctInput ? ctInput.nextElementSibling : null;
-            if (ctInput) { ctInput.disabled = matchStarted; ctInput.style.opacity = timeOpacity; }
-            if (ctBtn) { ctBtn.disabled = matchStarted; ctBtn.style.opacity = timeOpacity; ctBtn.style.cursor = timeCursor; }
+
 
             const editBtn = document.getElementById('btn-edit-time');
             if (editBtn) {
                 editBtn.style.display = (!state.running && !state.matchFinished && !state.matchEnded && !ds.running && state.started) ? 'block' : 'none';
             }
 
-            // Botones de extension: solo visibles cuando el reloj esta PAUSADO a mitad de un periodo en curso
-            // (started=true y remainingSeconds < totalSeconds = tiempo consumido)
-            const showExtend = state.started && !state.running
-                && state.remainingSeconds < state.totalSeconds
-                && !state.matchEnded && !state.matchFinished && !ds.running;
-            document.getElementById('time-extend').style.display = showExtend ? 'flex' : 'none';
+
 
             ['red', 'blue'].forEach(side => {
                 const arr = side === 'red' ? state.warnsRed : state.warnsBlue;
@@ -1574,9 +1517,9 @@
                     ds.running = false;
                     playBell();
                     // Avanzar al siguiente periodo automaticamente
-                    if (state.period < 3) {
+                    if (state.period < 2) {
                         state.period++;
-                        ['p1', 'p2', 'p3'].forEach(id => document.getElementById(id).classList.remove('active'));
+                        ['p1', 'p2'].forEach(id => document.getElementById(id).classList.remove('active'));
                         document.getElementById('p' + state.period).classList.add('active');
                     }
                     // Resetear reloj Y started para el nuevo periodo
@@ -1652,12 +1595,12 @@
 
         // ── SYNC PUBLICA ──
         function syncPublic() {
-            const periodLabels = ['', 'Periodo 1', 'Periodo 2', 'Tiempo Extra (OT)'];
+            const periodLabels = ['', 'Periodo 1', 'Periodo 2'];
             localStorage.setItem('scoreboard_state', JSON.stringify({
                 red: state.red,
                 blue: state.blue,
-                nameRed: document.getElementById('name-red').value || 'Rojo',
-                nameBlue: document.getElementById('name-blue').value || 'Azul',
+                nameRed: 'Rojo',
+                nameBlue: 'Azul',
                 time: formatTime(state.remainingSeconds),
                 running: state.running,
                 period: state.period,
