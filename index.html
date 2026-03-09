@@ -21,7 +21,7 @@
 
         :root {
             --red: #ff003c;
-            --blue: #00e1ff;
+            --blue: #0088ff;
             --green: #00ff5b;
             --bg: #000000;
             --surface: #000000;
@@ -129,7 +129,7 @@
         }
 
         .card.public::before {
-            background: radial-gradient(ellipse at top left, rgba(0, 225, 255, 0.15), transparent 60%);
+            background: radial-gradient(ellipse at top left, rgba(0, 136, 255, 0.15), transparent 60%);
         }
 
         .card:hover {
@@ -160,7 +160,7 @@
 
         .card.public:hover .card-icon {
             border-color: var(--blue);
-            box-shadow: 0 0 16px rgba(0, 225, 255, 0.4);
+            box-shadow: 0 0 16px rgba(0, 136, 255, 0.4);
         }
 
         .card.operator .card-icon {
@@ -168,7 +168,7 @@
         }
 
         .card.public .card-icon {
-            background: rgba(0, 225, 255, 0.12);
+            background: rgba(0, 136, 255, 0.12);
         }
 
         .card-title {
@@ -299,7 +299,8 @@
 
     <div class="cards">
         <a class="card operator" href="scoreboard_operador.html">
-            <div class="card-icon">🎛️</div>
+            <div class="card-icon"
+                style="font-family:'Roboto Mono',monospace;font-size:16px;font-weight:900;color:var(--red);">OP</div>
             <div>
                 <div class="card-title">Operador</div>
                 <p class="card-desc">Panel de control completo para gestionar tiempos, puntajes, descansos y periodos.
@@ -309,7 +310,8 @@
         </a>
 
         <a class="card public" href="scoreboard_publico.html" target="_blank">
-            <div class="card-icon">📺</div>
+            <div class="card-icon"
+                style="font-family:'Roboto Mono',monospace;font-size:16px;font-weight:900;color:var(--blue);">TV</div>
             <div>
                 <div class="card-title">Pantalla Pública</div>
                 <p class="card-desc">Vista de espectador en tiempo real. Proyectar en pantalla grande o TV.</p>
