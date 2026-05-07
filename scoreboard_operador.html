@@ -281,7 +281,7 @@
             background: rgba(0, 136, 255, 0.30);
             border-color: #0088ff;
             box-shadow: inset 0 0 80px rgba(0, 136, 255, 0.45), 0 0 60px rgba(0, 136, 255, 0.45);
-
+            text-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
         }
 
         /* Botones de puntos */
@@ -1080,7 +1080,7 @@
                 <button class="btn-edit-time" id="btn-edit-time" onclick="promptEditTime()">EDICION MANUAL</button>
             </div>
             <div class="time-selector">
-                <button class="time-btn" onclick="setTime(60,this)">1:00</button>
+                <button class="time-btn" onclick="setTime(120,this)">2:00</button>
                 <button class="time-btn active" onclick="setTime(180,this)">3:00</button>
                 <button class="time-btn" onclick="setTime(300,this)">5:00</button>
             </div>
@@ -1136,7 +1136,7 @@
         </div>
         <div class="ds-custom">
             <input type="text" id="ds-custom-input" placeholder="1:30" maxlength="5" oninput="maskTime(this)" />
-            <button class="ds-set" onclick="setDescansoCustom()">Set</button>
+            <button class="ds-set" onclick="setDescansoCustom()">Personalizado</button>
         </div>
         <button class="btn-descanso" id="btn-descanso" onclick="toggleDescanso()">Iniciar descanso</button>
     </div>
