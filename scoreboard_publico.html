@@ -219,7 +219,7 @@
         }
 
         .period-tag {
-            font-size: clamp(40px, 2vw, 26px);
+            font-size: clamp(14px, 2vw, 26px);
             font-weight: 800;
             letter-spacing: 4px;
             text-transform: uppercase;
@@ -317,8 +317,8 @@
         }
 
         .ds-ov-label.active {
-            color: #00ff5b;
-            text-shadow: 0 0 16px rgba(0, 255, 91, 0.5);
+            color: #fff;
+            text-shadow: 0 0 16px rgba(255, 255, 255, 0.4);
         }
 
         .ds-ov-clock {
@@ -332,8 +332,56 @@
         }
 
         .ds-ov-clock.active {
-            color: #00ff5b;
-            text-shadow: 0 0 60px rgba(0, 255, 91, 0.6);
+            color: #fff;
+            text-shadow: 0 0 60px rgba(255, 255, 255, 0.5);
+        }
+
+        /* ACTIVITY TIME OVERLAY */
+        .activity-overlay {
+            position: fixed;
+            bottom: 6vh;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.92);
+            border: 3px solid #fff;
+            border-radius: 10px;
+            padding: 18px 56px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            backdrop-filter: blur(6px);
+            transition: opacity 0.3s, border-color 0.3s;
+        }
+
+        .activity-overlay.show {
+            display: flex;
+        }
+
+        .activity-overlay.red {
+            border-color: #ff003c;
+        }
+
+        .activity-overlay.blue {
+            border-color: #0088ff;
+        }
+
+        .activity-overlay.paused {
+            opacity: 0.45;
+        }
+
+        .act-ov-clock {
+            font-family: 'Roboto Mono', monospace;
+            font-size: clamp(56px, 10vw, 120px);
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+            letter-spacing: 4px;
+        }
+
+        .act-ov-clock.danger {
+            color: #ff003c;
+            animation: blink-c 0.4s infinite;
         }
 
 
@@ -395,22 +443,167 @@
             }
         }
 
+        /* ── LARGE SCREENS / TV ── */
+        @media (min-width: 1600px) {
+            .board {
+                max-width: 100%;
+                padding: 0 3vw;
+            }
+
+            .score-box {
+                width: clamp(500px, 28vw, 780px);
+                height: clamp(440px, 24vw, 680px);
+                font-size: clamp(440px, 22vw, 740px);
+            }
+
+            .center {
+                min-width: clamp(420px, 26vw, 680px);
+            }
+
+            .clock {
+                font-size: clamp(180px, 16vw, 300px);
+            }
+
+            .period-tag {
+                font-size: clamp(22px, 2vw, 40px);
+            }
+
+            .fighter-name {
+                font-size: clamp(36px, 3.5vw, 64px);
+            }
+
+            .warn-circle {
+                width: clamp(36px, 2.8vw, 56px);
+                height: clamp(36px, 2.8vw, 56px);
+            }
+
+            .act-ov-clock {
+                font-size: clamp(100px, 12vw, 200px);
+            }
+
+            .activity-overlay {
+                padding: 28px 80px;
+                border-width: 4px;
+                border-radius: 16px;
+                bottom: 8vh;
+            }
+        }
+
+        /* ── 4K TV ── */
+        @media (min-width: 2400px) {
+            .score-box {
+                width: clamp(780px, 26vw, 1200px);
+                height: clamp(680px, 22vw, 1060px);
+                font-size: clamp(680px, 20vw, 1100px);
+            }
+
+            .center {
+                min-width: clamp(680px, 24vw, 1100px);
+            }
+
+            .clock {
+                font-size: clamp(260px, 14vw, 480px);
+            }
+
+            .period-tag {
+                font-size: clamp(36px, 2vw, 60px);
+            }
+
+            .fighter-name {
+                font-size: clamp(52px, 3.2vw, 90px);
+            }
+
+            .warn-circle {
+                width: clamp(52px, 2.4vw, 80px);
+                height: clamp(52px, 2.4vw, 80px);
+            }
+
+            .act-ov-clock {
+                font-size: clamp(160px, 10vw, 320px);
+            }
+
+            .activity-overlay {
+                padding: 44px 120px;
+                border-width: 5px;
+            }
+
+            .ds-ov-clock {
+                font-size: clamp(280px, 28vw, 600px);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .score-box {
+                width: clamp(180px, 22vw, 340px);
+                height: clamp(160px, 18vw, 280px);
+                font-size: clamp(160px, 18vw, 320px);
+            }
+
+            .center {
+                min-width: clamp(180px, 22vw, 340px);
+            }
+
+            .clock {
+                font-size: clamp(72px, 12vw, 150px);
+            }
+        }
+
+
         @media (max-width: 600px) {
             .board {
                 grid-template-columns: 1fr;
-                padding: 20px;
-                gap: 16px;
+                padding: 16px;
+                gap: 12px;
             }
 
             .center {
                 order: -1;
+                min-width: unset;
+                width: 100%;
             }
 
             .side {
                 flex-direction: row;
                 justify-content: space-between;
+                align-items: center;
                 width: 100%;
-                padding: 16px;
+                padding: 12px 16px;
+                gap: 2vw;
+            }
+
+            .score-box {
+                width: clamp(110px, 28vw, 180px);
+                height: clamp(90px, 22vw, 150px);
+                font-size: clamp(90px, 22vw, 160px);
+            }
+
+            .clock {
+                font-size: clamp(48px, 14vw, 100px);
+            }
+
+            .activity-overlay {
+                padding: 12px 28px;
+                bottom: 4vh;
+            }
+
+            .act-ov-clock {
+                font-size: clamp(36px, 8vw, 72px);
+            }
+        }
+
+        @media (max-width: 400px) {
+            .score-box {
+                width: clamp(80px, 24vw, 120px);
+                height: clamp(70px, 18vw, 100px);
+                font-size: clamp(70px, 18vw, 110px);
+            }
+
+            .clock {
+                font-size: clamp(36px, 12vw, 72px);
+            }
+
+            .fighter-name {
+                font-size: clamp(14px, 4vw, 24px);
             }
         }
     </style>
@@ -478,8 +671,44 @@
         </div>
     </div>
 
+    <!-- ACTIVITY TIME OVERLAY -->
+    <div class="activity-overlay" id="activity-overlay">
+        <div class="act-ov-clock" id="act-ov-clock">0:30</div>
+    </div>
+
     <script>
         let lastTs = 0, prevRed = -1, prevBlue = -1;
+        let rafId = null;
+
+        function formatPubTime(s) {
+            return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+        }
+
+        function formatTimeCenti(ms) {
+            const totalSecs = Math.floor(ms / 1000);
+            const mins = Math.floor(totalSecs / 60);
+            const secs = totalSecs % 60;
+            const centi = Math.floor((ms % 1000) / 10);
+            return mins + ':' + String(secs).padStart(2, '0') + '.' + String(centi).padStart(2, '0');
+        }
+
+        function startCentiLoop(remainingMs, ts) {
+            cancelAnimationFrame(rafId);
+            const clock = document.getElementById('pub-clock');
+            function frame() {
+                const rem = Math.max(remainingMs - (Date.now() - ts), 0);
+                clock.textContent = formatTimeCenti(rem);
+                clock.style.fontSize = 'clamp(48px, 9vw, 110px)';
+                if (rem > 0) rafId = requestAnimationFrame(frame);
+            }
+            rafId = requestAnimationFrame(frame);
+        }
+
+        function stopCentiLoop() {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+            document.getElementById('pub-clock').style.fontSize = '';
+        }
 
         function render(s) {
             document.getElementById('no-signal').style.display = 'none';
@@ -495,6 +724,18 @@
                 dsOverlay.classList.add('show');
                 dsLabel.textContent = 'Descanso'; dsLabel.classList.add('active');
                 dsClock.textContent = s.descanso; dsClock.classList.add('active');
+            }
+
+            // ── Overlay activity time ──
+            const actOverlay = document.getElementById('activity-overlay');
+            const actClock = document.getElementById('act-ov-clock');
+            if (s.activity) {
+                const rem = Math.max(s.activity.remaining, 0);
+                actOverlay.className = 'activity-overlay show ' + (s.activity.side || '') + (s.activity.paused ? ' paused' : '');
+                actClock.textContent = formatPubTime(rem);
+                actClock.className = 'act-ov-clock' + (rem <= 10 && !s.activity.paused ? ' danger' : '');
+            } else {
+                actOverlay.className = 'activity-overlay';
             }
 
             // ── Banner fin de combate ──
@@ -524,18 +765,8 @@
             redEl.textContent = s.red;
             blueEl.textContent = s.blue;
 
-            // Neon al ganador cuando el combate termina
-            redEl.classList.remove('winner', 'loser');
-            blueEl.classList.remove('winner', 'loser');
-            if (s.matchFinished && s.red !== s.blue) {
-                if (s.red > s.blue) {
-                    redEl.classList.add('winner');
-                    blueEl.classList.add('loser');
-                } else {
-                    blueEl.classList.add('winner');
-                    redEl.classList.add('loser');
-                }
-            }
+
+
 
             // Nombres
             const nameRedEl = document.getElementById('pub-name-red');
@@ -546,14 +777,19 @@
 
             // Reloj
             const clock = document.getElementById('pub-clock');
-            clock.textContent = s.time;
-            clock.className = 'clock';
-            if (s.running) {
-                const p = s.time.split(':');
-                const rem = parseInt(p[0]) * 60 + parseInt(p[1]);
-                clock.classList.add(rem <= 10 ? 'danger' : 'running');
+            if (s.remainingMs != null && s.running) {
+                startCentiLoop(s.remainingMs, s.ts);
+                clock.className = 'clock danger';
             } else {
-                clock.classList.add('paused');
+                stopCentiLoop();
+                clock.textContent = s.time;
+                clock.className = 'clock';
+                if (s.running) {
+                    const rem = s.remInPeriod != null ? s.remInPeriod : 999;
+                    clock.classList.add(rem <= 10 ? 'danger' : 'running');
+                } else {
+                    clock.classList.add('paused');
+                }
             }
 
             // Dot

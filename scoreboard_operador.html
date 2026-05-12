@@ -208,7 +208,7 @@
             width: 100%;
             max-width: 960px;
             display: grid;
-            grid-template-columns: 1fr 220px 1fr;
+            grid-template-columns: 1fr 280px 1fr;
             border-radius: 8px;
             overflow: hidden;
             border: 1px solid var(--border);
@@ -287,7 +287,7 @@
         /* Botones de puntos */
         .point-buttons {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 7px;
             width: 100%;
         }
@@ -395,7 +395,7 @@
         /* ── CENTER ── */
         .center {
             background: var(--center);
-            padding: 20px 16px;
+            padding: 20px 6px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -801,8 +801,8 @@
         }
 
         .descanso-panel.active {
-            border-color: var(--green);
-            box-shadow: 0 0 24px rgba(0, 255, 91, 0.2);
+            border-color: #fff;
+            box-shadow: 0 0 24px rgba(255, 255, 255, 0.15);
         }
 
         .descanso-label {
@@ -815,7 +815,7 @@
         }
 
         .descanso-panel.active .descanso-label {
-            color: var(--green);
+            color: #fff;
         }
 
         .descanso-clock {
@@ -829,8 +829,8 @@
         }
 
         .descanso-clock.running {
-            color: var(--green);
-            text-shadow: 0 0 20px rgba(0, 255, 91, 0.5);
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
         }
 
         .descanso-clock.danger {
@@ -866,10 +866,10 @@
         }
 
         .ds-preset.active {
-            border-color: var(--green);
-            background: var(--green);
+            border-color: #fff;
+            background: #fff;
             color: #000;
-            box-shadow: 0 0 16px rgba(0, 255, 91, 0.5);
+            box-shadow: 0 0 16px rgba(255, 255, 255, 0.4);
         }
 
         .ds-custom {
@@ -893,8 +893,8 @@
         }
 
         .ds-custom input:focus {
-            border-color: var(--green);
-            box-shadow: 0 0 12px rgba(0, 255, 91, 0.3);
+            border-color: #fff;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
         }
 
         .ds-set {
@@ -921,7 +921,7 @@
         .btn-descanso {
             padding: 10px 20px;
             border-radius: 4px;
-            border: 1px solid rgba(0, 255, 91, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             font-size: 11px;
             font-weight: 800;
             cursor: pointer;
@@ -929,17 +929,17 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             background: transparent;
-            color: var(--green);
+            color: #fff;
             transition: all 0.2s;
             margin-left: auto;
             white-space: nowrap;
         }
 
         .btn-descanso:not(:disabled):hover {
-            background: var(--green);
+            background: #fff;
             color: #000;
-            border-color: var(--green);
-            box-shadow: 0 0 16px rgba(0, 255, 91, 0.5);
+            border-color: #fff;
+            box-shadow: 0 0 16px rgba(255, 255, 255, 0.4);
         }
 
         .btn-descanso.running {
@@ -952,6 +952,44 @@
             color: #000;
             border-color: var(--red);
             box-shadow: 0 0 16px rgba(255, 0, 60, 0.5);
+        }
+
+        /* ── ACTIVITY TIME ── */
+        .btn-activity {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 170, 0, 0.4);
+            font-size: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: 'Roboto Mono', monospace;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            background: transparent;
+            color: #ffaa00;
+            transition: all 0.2s;
+        }
+
+        .btn-activity:not(:disabled):hover {
+            background: #ffaa00;
+            color: #000;
+            border-color: #ffaa00;
+        }
+
+        .btn-activity.active {
+            background: #ffaa00;
+            color: #000;
+            border-color: #ffaa00;
+            box-shadow: 0 0 16px rgba(255, 170, 0, 0.5);
+            animation: blink 0.8s infinite;
+        }
+
+        .btn-activity.danger {
+            background: var(--red);
+            color: #fff;
+            border-color: var(--red);
+            animation: blink 0.4s infinite;
         }
 
         /* ── INSTRUCTIONS ── */
@@ -1002,7 +1040,33 @@
             flex-shrink: 0;
         }
 
+        @media (max-width: 900px) {
+            .scoreboard {
+                grid-template-columns: 1fr 220px 1fr;
+            }
+
+            .score-display {
+                width: 150px;
+                height: 118px;
+                font-size: 88px;
+            }
+
+            .clock-display {
+                font-size: 56px;
+            }
+
+            .pt-btn {
+                height: 44px;
+                font-size: 17px;
+            }
+        }
+
         @media (max-width: 640px) {
+            body {
+                padding: 10px 10px;
+                gap: 8px;
+            }
+
             .scoreboard {
                 grid-template-columns: 1fr;
             }
@@ -1011,12 +1075,42 @@
                 border: 1px solid var(--border);
                 border-radius: 8px;
                 width: 100%;
+                order: -1;
             }
 
             .side.red,
             .side.blue {
                 border: 1px solid var(--border);
                 border-radius: 8px;
+                border-top: 2px solid;
+            }
+
+            .side {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 14px 12px;
+                gap: 10px;
+            }
+
+            .score-display {
+                width: 120px;
+                height: 96px;
+                font-size: 70px;
+            }
+
+            .point-buttons {
+                flex: 1;
+                min-width: 160px;
+            }
+
+            .pt-btn {
+                height: 40px;
+                font-size: 15px;
+            }
+
+            .clock-display {
+                font-size: 48px;
             }
 
             .instructions ul {
@@ -1035,6 +1129,33 @@
             .btn-descanso {
                 margin-left: 0;
                 width: 100%;
+            }
+
+            .btn-activity {
+                font-size: 9px;
+                padding: 6px 8px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .score-display {
+                width: 100px;
+                height: 80px;
+                font-size: 58px;
+            }
+
+            .clock-display {
+                font-size: 38px;
+            }
+
+            .pt-btn {
+                height: 36px;
+                font-size: 13px;
+            }
+
+            .top-btn {
+                font-size: 9px;
+                padding: 5px 10px;
             }
         }
     </style>
@@ -1063,6 +1184,7 @@
             <div class="point-buttons">
                 <button class="pt-btn" onclick="addPoints('red',1)">1</button>
                 <button class="pt-btn" onclick="addPoints('red',2)">2</button>
+                <button class="pt-btn" onclick="addPoints('red',3)">3</button>
                 <button class="pt-btn" onclick="addPoints('red',4)">4</button>
                 <button class="pt-btn" onclick="addPoints('red',5)">5</button>
             </div>
@@ -1072,17 +1194,18 @@
                 <div class="warn-dot" onclick="toggleWarn('red',1)"></div>
                 <div class="warn-dot" onclick="toggleWarn('red',2)"></div>
             </div>
+            <button class="btn-activity" id="act-red" onclick="toggleActivity('red')" disabled>Pasividad</button>
         </div>
 
         <div class="center">
             <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                <div class="clock-display paused" id="clock">3:00</div>
+                <div class="clock-display paused" id="clock">4:00</div>
                 <button class="btn-edit-time" id="btn-edit-time" onclick="promptEditTime()">EDICION MANUAL</button>
             </div>
             <div class="time-selector">
-                <button class="time-btn" onclick="setTime(120,this)">2:00</button>
-                <button class="time-btn active" onclick="setTime(180,this)">3:00</button>
-                <button class="time-btn" onclick="setTime(300,this)">5:00</button>
+                <button class="time-btn active" onclick="setTime(240,this)">4:00</button>
+                <button class="time-btn" onclick="setTime(360,this)">6:00</button>
+                <button class="time-btn" onclick="setTime(480,this)">8:00</button>
             </div>
 
 
@@ -1106,6 +1229,7 @@
             <div class="point-buttons">
                 <button class="pt-btn" onclick="addPoints('blue',1)">1</button>
                 <button class="pt-btn" onclick="addPoints('blue',2)">2</button>
+                <button class="pt-btn" onclick="addPoints('blue',3)">3</button>
                 <button class="pt-btn" onclick="addPoints('blue',4)">4</button>
                 <button class="pt-btn" onclick="addPoints('blue',5)">5</button>
             </div>
@@ -1115,6 +1239,7 @@
                 <div class="warn-dot" onclick="toggleWarn('blue',1)"></div>
                 <div class="warn-dot" onclick="toggleWarn('blue',2)"></div>
             </div>
+            <button class="btn-activity" id="act-blue" onclick="toggleActivity('blue')" disabled>Pasividad</button>
         </div>
 
         <!-- ── HISTORY PANEL ── -->
@@ -1127,17 +1252,7 @@
     <!-- DESCANSO -->
     <div class="descanso-panel" id="descanso-panel">
         <span class="descanso-label">Descanso</span>
-        <div class="descanso-clock" id="ds-clock">0:30</div>
-        <div class="descanso-presets">
-            <button class="ds-preset active" onclick="setDescanso(30,this)">0:30</button>
-            <button class="ds-preset" onclick="setDescanso(60,this)">1:00</button>
-            <button class="ds-preset" onclick="setDescanso(120,this)">2:00</button>
-            <button class="ds-preset" onclick="setDescanso(300,this)">5:00</button>
-        </div>
-        <div class="ds-custom">
-            <input type="text" id="ds-custom-input" placeholder="1:30" maxlength="5" oninput="maskTime(this)" />
-            <button class="ds-set" onclick="setDescansoCustom()">Personalizado</button>
-        </div>
+        <div class="descanso-clock" id="ds-clock">0:00</div>
         <button class="btn-descanso" id="btn-descanso" onclick="toggleDescanso()">Iniciar descanso</button>
     </div>
 
@@ -1156,22 +1271,30 @@
             red: 0, blue: 0,
             warnsRed: [false, false, false],
             warnsBlue: [false, false, false],
-            totalSeconds: 180,
-            remainingSeconds: 180,
+            periodDuration: 120,
+            remainingSeconds: 240,
             running: false,
             matchEnded: false,
             matchFinished: false,
             matchNumber: 1,
-            started: false,       // true desde que el reloj corre por primera vez
+            started: false,
             period: 1,
             history: []
         };
 
         let timerInterval = null;
+        let timerEpoch = 0, timerBase = 0;
 
         // Estado descanso
-        let ds = { total: 30, remaining: 30, running: false };
+        let ds = { total: 30, elapsed: 0, running: false };
         let dsInterval = null;
+        let dsEpoch = 0, dsBase = 0;
+
+        // Estado activity time
+        const ACTIVITY_DURATION = 30;
+        let activity = { side: null, elapsed: 0, running: false, paused: false };
+        let actInterval = null;
+        let actEpoch = 0, actBase = 0;
 
         // ── AUDIO ──
         function playBell() {
@@ -1233,40 +1356,62 @@
             if (state.running) {
                 clearInterval(timerInterval);
                 state.running = false;
+                // Pausar activity si estaba corriendo
+                if (activity.running) {
+                    clearInterval(actInterval);
+                    activity.running = false;
+                    activity.paused = true;
+                    updateActivity();
+                    syncPublic();
+                }
             } else {
                 if (state.remainingSeconds <= 0) return;
+                timerBase = state.remainingSeconds;
+                timerEpoch = Date.now();
                 state.running = true;
-                state.started = true;  // marca que el combate ya inicio
-                timerInterval = setInterval(tick, 1000);
+                state.started = true;
+                timerInterval = setInterval(tick, 50);
+                // Reanudar activity si estaba pausado
+                if (activity.paused) {
+                    actBase = activity.elapsed;
+                    actEpoch = Date.now();
+                    activity.running = true;
+                    activity.paused = false;
+                    actInterval = setInterval(tickActivity, 250);
+                    updateActivity();
+                    syncPublic();
+                }
             }
             update();
         }
 
         function tick() {
-            if (state.remainingSeconds > 0) {
-                state.remainingSeconds--;
-                if (state.remainingSeconds === 0) {
-                    // Llego a 0: detener y evaluar fin de periodo
-                    clearInterval(timerInterval);
-                    state.running = false;
-                    playBell();
-                    if (state.period === 2) {
-                        state.matchFinished = true;
-                        state.matchEnded = false;
-                    } else {
-                        state.matchEnded = true;
-                        state.matchFinished = false;
-                    }
+            const secsElapsed = Math.floor((Date.now() - timerEpoch) / 1000);
+            const next = Math.max(timerBase - secsElapsed, 0);
+            if (next === state.remainingSeconds) return;
+            state.remainingSeconds = next;
+            const periodEnd = state.period === 1 ? state.periodDuration : 0;
+            if (state.remainingSeconds <= periodEnd) {
+                state.remainingSeconds = periodEnd;
+                clearInterval(timerInterval);
+                state.running = false;
+                cancelActivity();
+                playBell();
+                if (state.period === 2) {
+                    state.matchFinished = true;
+                    state.matchEnded = false;
+                } else {
+                    state.matchEnded = true;
+                    state.matchFinished = false;
                 }
-                update();
             }
+            update();
         }
 
-        function setTime(seconds, btn) {
-            // Solo antes de que empiece el combate (state.started lo garantiza)
+        function setTime(totalSeconds, btn) {
             if (state.started) return;
-            state.totalSeconds = seconds;
-            state.remainingSeconds = seconds;
+            state.periodDuration = Math.floor(totalSeconds / 2);
+            state.remainingSeconds = totalSeconds;
             document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
             update();
@@ -1315,14 +1460,12 @@
 
         function promptEditTime() {
             if (state.running || state.matchFinished) return;
-            const res = prompt("Edita el tiempo restante (M:SS o MM:SS):", formatTime(state.remainingSeconds));
+            const res = prompt('Duracion total del combate (M:SS):', formatTime(state.periodDuration * 2));
             if (!res) return;
             const secs = parseSecs(res);
-            if (!isNaN(secs)) {
-                state.remainingSeconds = secs;
-                if (state.remainingSeconds > state.totalSeconds) {
-                    state.totalSeconds = state.remainingSeconds;
-                }
+            if (!isNaN(secs) && secs > 0) {
+                state.periodDuration = Math.floor(secs / 2);
+                if (!state.started) state.remainingSeconds = secs;
                 update();
             }
         }
@@ -1330,14 +1473,12 @@
         function setPeriod(p) {
             if (state.running || state.matchFinished) return;
             if (state.started && p < state.period) return;
-            if (state.started && state.remainingSeconds < state.totalSeconds) return;
+            if (state.started && state.remainingSeconds < state.periodDuration * 2) return;
             if (p > 2) return;
             state.period = p;
             ['p1', 'p2'].forEach(id => document.getElementById(id).classList.remove('active'));
             document.getElementById('p' + p).classList.add('active');
-            if (!state.started) {
-                state.remainingSeconds = state.totalSeconds;
-            }
+            if (!state.started) state.remainingSeconds = state.periodDuration * 2;
             update();
         }
 
@@ -1347,19 +1488,27 @@
             state.matchNumber++;
             state.red = 0; state.blue = 0;
             state.warnsRed = [false, false, false]; state.warnsBlue = [false, false, false];
-            state.remainingSeconds = state.totalSeconds;
+            state.remainingSeconds = state.periodDuration * 2;
             state.running = false; state.matchEnded = false; state.matchFinished = false; state.started = false;
             state.period = 1;
             ['p1', 'p2'].forEach(id => document.getElementById(id).classList.remove('active'));
             document.getElementById('p1').classList.add('active');
             state.history = [];
-            ds.running = false; ds.remaining = ds.total;
+            ds.running = false; ds.elapsed = 0;
             updateDescanso();
             update();
         }
 
         function formatTime(s) {
             return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+        }
+
+        function formatTimeCenti(ms) {
+            const totalSecs = Math.floor(ms / 1000);
+            const mins = Math.floor(totalSecs / 60);
+            const secs = totalSecs % 60;
+            const centi = Math.floor((ms % 1000) / 10);
+            return mins + ':' + String(secs).padStart(2, '0') + '.' + String(centi).padStart(2, '0');
         }
 
         // ── RENDER ──
@@ -1377,9 +1526,20 @@
             if (finEl) finEl.classList.toggle('show', state.matchFinished);
 
             const clock = document.getElementById('clock');
-            clock.textContent = formatTime(state.remainingSeconds);
+            const periodEnd = state.period === 1 ? state.periodDuration : 0;
+            const remInPeriod = state.remainingSeconds - periodEnd;
+            const showCenti = remInPeriod <= 10 && remInPeriod > 0 && state.running;
+            if (showCenti) {
+                const remainingMs = Math.max(timerBase * 1000 - (Date.now() - timerEpoch), periodEnd * 1000);
+                clock.textContent = formatTimeCenti(remainingMs);
+                clock.style.fontSize = '48px';
+            } else {
+                clock.textContent = formatTime(state.remainingSeconds);
+                clock.style.fontSize = '';
+            }
             clock.className = 'clock-display';
-            if (state.remainingSeconds === 0) clock.classList.add('danger');
+            if (remInPeriod <= 0 && state.started) clock.classList.add('danger');
+            else if (remInPeriod <= 10 && state.running) clock.classList.add('danger');
             else if (state.running) clock.classList.add('running');
             else clock.classList.add('paused');
 
@@ -1448,7 +1608,7 @@
 
             const editBtn = document.getElementById('btn-edit-time');
             if (editBtn) {
-                editBtn.style.display = (!state.running && !state.matchFinished && !state.matchEnded && !ds.running) ? 'block' : 'none';
+                editBtn.style.display = (!state.running && !state.matchFinished) ? 'block' : 'none';
             }
 
 
@@ -1471,97 +1631,146 @@
 
             syncPublic();
             updateDescanso();
+            updateActivity();
         }
 
-        // ── DESCANSO ──
-        function setDescanso(secs, btn) {
-            if (ds.running) return;
-            ds.total = secs; ds.remaining = secs;
-            document.querySelectorAll('.ds-preset').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-            updateDescanso();
+
+        // ── ACTIVITY TIME ──
+        function toggleActivity(side) {
+            if (!state.started || state.matchEnded || state.matchFinished) return;
+            if ((activity.running || activity.paused) && activity.side !== side) return;
+            if (activity.running || activity.paused) {
+                cancelActivity();
+            } else {
+                activity.side = side;
+                activity.elapsed = 0;
+                actBase = 0;
+                if (state.running) {
+                    actEpoch = Date.now();
+                    activity.running = true;
+                    actInterval = setInterval(tickActivity, 250);
+                } else {
+                    // clock paused — queue activity in paused state
+                    activity.paused = true;
+                }
+            }
+            updateActivity();
+            syncPublic();
         }
 
-        function setDescansoCustom() {
-            if (ds.running) return;
-            const secs = parseSecs(document.getElementById('ds-custom-input').value);
-            if (isNaN(secs) || secs <= 0) return;
-            ds.total = secs; ds.remaining = secs;
-            document.querySelectorAll('.ds-preset').forEach(b => b.classList.remove('active'));
-            updateDescanso();
+        function cancelActivity() {
+            clearInterval(actInterval);
+            activity.running = false;
+            activity.paused = false;
+            activity.side = null;
+            activity.elapsed = 0;
+            updateActivity();
+            syncPublic();
+        }
+
+        function tickActivity() {
+            const elapsed = actBase + Math.floor((Date.now() - actEpoch) / 1000);
+            const next = Math.min(elapsed, ACTIVITY_DURATION);
+            if (next === activity.elapsed) return;
+            activity.elapsed = next;
+            updateActivity();
+            syncPublic();
+            if (activity.elapsed >= ACTIVITY_DURATION) {
+                clearInterval(actInterval);
+                activity.running = false;
+                playBell();
+                updateActivity();
+                syncPublic();
+                setTimeout(cancelActivity, 5000);
+            }
+        }
+
+        function updateActivity() {
+            const remaining = ACTIVITY_DURATION - activity.elapsed;
+            const canActivate = state.started && !state.matchEnded && !state.matchFinished;
+            ['red', 'blue'].forEach(side => {
+                const btn = document.getElementById('act-' + side);
+                if (!btn) return;
+                btn.disabled = false;
+                btn.style.opacity = '';
+                btn.style.cursor = '';
+                if (activity.running && activity.side === side) {
+                    btn.textContent = '▶ ' + formatTime(remaining);
+                    btn.className = 'btn-activity' + (remaining <= 10 ? ' danger' : ' active');
+                } else if (activity.paused && activity.side === side) {
+                    btn.textContent = '⏸ ' + formatTime(remaining);
+                    btn.className = 'btn-activity active';
+                } else if (activity.running || activity.paused) {
+                    btn.textContent = 'Pasividad';
+                    btn.className = 'btn-activity';
+                    btn.disabled = true;
+                    btn.style.opacity = '0.25';
+                    btn.style.cursor = 'not-allowed';
+                } else if (!canActivate) {
+                    btn.textContent = 'Pasividad';
+                    btn.className = 'btn-activity';
+                    btn.disabled = true;
+                    btn.style.opacity = '0.25';
+                    btn.style.cursor = 'not-allowed';
+                } else {
+                    btn.textContent = 'Pasividad';
+                    btn.className = 'btn-activity';
+                }
+            });
         }
 
         function toggleDescanso() {
-            // Solo disponible cuando el periodo termino (matchEnded) y el combate no finalizo
             if (state.matchFinished) return;
-            if (!state.matchEnded && !ds.running) return; // no se puede iniciar antes de que termine el periodo
+            if (!state.matchEnded && !ds.running) return;
             if (ds.running) {
                 clearInterval(dsInterval);
                 ds.running = false;
             } else {
-                if (ds.remaining <= 0) ds.remaining = ds.total;
+                if (ds.elapsed >= ds.total) ds.elapsed = 0;
+                dsBase = ds.elapsed;
+                dsEpoch = Date.now();
                 ds.running = true;
-                dsInterval = setInterval(tickDescanso, 1000);
+                dsInterval = setInterval(tickDescanso, 250);
             }
             updateDescanso();
             update();
         }
 
         function tickDescanso() {
-            if (ds.remaining > 0) {
-                ds.remaining--;
-                updateDescanso();
-                if (ds.remaining === 0) {
-                    clearInterval(dsInterval);
-                    ds.running = false;
-                    playBell();
-                    // Avanzar al siguiente periodo automaticamente
-                    if (state.period < 2) {
-                        state.period++;
-                        ['p1', 'p2'].forEach(id => document.getElementById(id).classList.remove('active'));
-                        document.getElementById('p' + state.period).classList.add('active');
-                    }
-                    // Resetear reloj Y started para el nuevo periodo
-                    state.matchEnded = false;
-                    state.remainingSeconds = state.totalSeconds;
-                    state.running = false;
-                    state.started = false; // el nuevo periodo aun no ha comenzado
-                    updateDescanso();
-                    update();
+            const elapsed = dsBase + Math.floor((Date.now() - dsEpoch) / 1000);
+            const next = Math.min(elapsed, ds.total);
+            if (next === ds.elapsed) return;
+            ds.elapsed = next;
+            updateDescanso();
+            if (ds.elapsed >= ds.total) {
+                clearInterval(dsInterval);
+                ds.running = false;
+                playBell();
+                if (state.period < 2) {
+                    state.period++;
+                    ['p1', 'p2'].forEach(id => document.getElementById(id).classList.remove('active'));
+                    document.getElementById('p' + state.period).classList.add('active');
                 }
+                state.matchEnded = false;
+                // remainingSeconds already at periodDuration where period 1 stopped
+                state.running = false;
+                state.started = false;
+                updateDescanso();
+                update();
             }
         }
 
         function updateDescanso() {
             const clock = document.getElementById('ds-clock');
-            clock.textContent = formatTime(ds.remaining);
+            const dsRemaining = ds.total - ds.elapsed;
+            clock.textContent = formatTime(dsRemaining);
             clock.className = 'descanso-clock';
-            if (ds.remaining === 0) clock.classList.add('danger');
+            if (dsRemaining <= 0) clock.classList.add('danger');
             else if (ds.running) clock.classList.add('running');
 
             const btn = document.getElementById('btn-descanso');
             const panel = document.getElementById('descanso-panel');
-
             const canBreak = state.matchEnded && !state.matchFinished;
-            const allowEdits = !ds.running;
-
-            document.querySelectorAll('.ds-preset').forEach(b => {
-                b.disabled = !allowEdits;
-                b.style.opacity = allowEdits ? '' : '0.3';
-                b.style.cursor = allowEdits ? '' : 'not-allowed';
-            });
-
-            const dsInput = document.getElementById('ds-custom-input');
-            const dsSetBtn = dsInput ? dsInput.nextElementSibling : null;
-            if (dsInput) {
-                dsInput.disabled = !allowEdits;
-                dsInput.style.opacity = allowEdits ? '' : '0.3';
-            }
-            if (dsSetBtn) {
-                dsSetBtn.disabled = !allowEdits;
-                dsSetBtn.style.opacity = allowEdits ? '' : '0.3';
-                dsSetBtn.style.cursor = allowEdits ? '' : 'not-allowed';
-            }
 
             if (ds.running) {
                 btn.textContent = 'Detener descanso';
@@ -1569,23 +1778,18 @@
                 btn.disabled = false;
                 btn.style.opacity = '';
                 btn.style.cursor = '';
-                btn.title = '';
             } else if (canBreak) {
                 btn.textContent = 'Iniciar descanso';
                 btn.className = 'btn-descanso';
                 btn.disabled = false;
                 btn.style.opacity = '';
                 btn.style.cursor = '';
-                btn.title = 'Iniciar el tiempo de descanso';
             } else {
                 btn.textContent = 'Iniciar descanso';
                 btn.className = 'btn-descanso';
                 btn.disabled = true;
                 btn.style.opacity = '0.2';
                 btn.style.cursor = 'not-allowed';
-                btn.title = state.matchFinished
-                    ? 'El combate ya finalizo'
-                    : 'Disponible cuando termine el periodo';
             }
 
             panel.classList.toggle('active', ds.running);
@@ -1601,6 +1805,15 @@
                 nameRed: 'Rojo',
                 nameBlue: 'Azul',
                 time: formatTime(state.remainingSeconds),
+                remainingSeconds: state.remainingSeconds,
+                remInPeriod: state.remainingSeconds - (state.period === 1 ? state.periodDuration : 0),
+                remainingMs: (() => {
+                    const pEnd = state.period === 1 ? state.periodDuration : 0;
+                    const rem = state.remainingSeconds - pEnd;
+                    return (rem <= 10 && rem > 0 && state.running)
+                        ? Math.max(timerBase * 1000 - (Date.now() - timerEpoch), pEnd * 1000)
+                        : null;
+                })(),
                 running: state.running,
                 period: state.period,
                 periodLabel: periodLabels[state.period] || 'Periodo 1',
@@ -1608,7 +1821,10 @@
                 warnsBlue: state.warnsBlue,
                 matchFinished: state.matchFinished,
                 matchNumber: state.matchNumber,
-                descanso: ds.running ? formatTime(ds.remaining) : (state.matchEnded ? (ds.remaining < ds.total ? formatTime(ds.remaining) : 'waiting') : null),
+                descanso: ds.running ? formatTime(ds.total - ds.elapsed) : (state.matchEnded ? 'waiting' : null),
+                activity: (activity.running || activity.paused || activity.elapsed >= ACTIVITY_DURATION)
+                    ? { side: activity.side, remaining: ACTIVITY_DURATION - activity.elapsed, expired: activity.elapsed >= ACTIVITY_DURATION, paused: activity.paused }
+                    : null,
                 ts: Date.now()
             }));
         }
@@ -1631,6 +1847,12 @@
                     break;
                 case 'KeyR': resetAll(); break;
             }
+        });
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) return;
+            if (state.running) tick();
+            if (ds.running) tickDescanso();
         });
 
         updateDescanso();
