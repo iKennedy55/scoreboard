@@ -1397,6 +1397,7 @@
             const periodEnd = state.period === 1 ? state.periodDuration : 0;
             state.remainingSeconds = Math.max(periodEnd + 1, Math.min(state.selectedDuration, state.remainingSeconds + delta));
             timerBase = state.remainingSeconds;
+            frozenMs = null;
             update();
         }
 
@@ -1477,7 +1478,7 @@
             const totalSecs = Math.floor(ms / 1000);
             const secs = totalSecs % 60;
             const tenth = Math.floor((ms % 1000) / 100);
-            if (totalSecs < 10) return String(secs).padStart(2, '0') + '.' + tenth;
+            if (totalSecs <= 10) return String(secs).padStart(2, '0') + '.' + tenth;
             const mins = Math.floor(totalSecs / 60);
             return mins + ':' + String(secs).padStart(2, '0') + '.' + tenth;
         }

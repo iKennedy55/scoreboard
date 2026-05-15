@@ -655,7 +655,7 @@
             const totalSecs = Math.floor(ms / 1000);
             const secs = totalSecs % 60;
             const tenth = Math.floor((ms % 1000) / 100);
-            if (totalSecs < 10) return String(secs).padStart(2, '0') + '.' + tenth;
+            if (totalSecs <= 10) return String(secs).padStart(2, '0') + '.' + tenth;
             const mins = Math.floor(totalSecs / 60);
             return mins + ':' + String(secs).padStart(2, '0') + '.' + tenth;
         }
@@ -667,7 +667,7 @@
                 const rem = Math.max(remainingMs - (Date.now() - ts), 0);
                 const totalSecs = Math.floor(rem / 1000);
                 clock.textContent = formatTimeCenti(rem);
-                clock.className = totalSecs >= 10 ? 'clock centi-long' : 'clock';
+                clock.className = totalSecs > 10 ? 'clock centi-long' : 'clock';
                 if (rem > 0) rafId = requestAnimationFrame(frame);
             }
             rafId = requestAnimationFrame(frame);
@@ -756,7 +756,7 @@
                 stopCentiLoop();
                 clock.textContent = formatTimeCenti(s.remainingMs);
                 const totalSecs = Math.floor(s.remainingMs / 1000);
-                clock.className = totalSecs >= 10 ? 'clock centi-long paused' : 'clock paused';
+                clock.className = totalSecs > 10 ? 'clock centi-long paused' : 'clock paused';
             } else {
                 stopCentiLoop();
                 clock.textContent = s.time;
