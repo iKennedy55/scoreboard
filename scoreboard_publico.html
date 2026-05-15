@@ -80,7 +80,7 @@
             display: grid;
             grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            padding: 0 2vw;
+            padding: 0;
         }
 
         .side {
@@ -88,7 +88,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2vw 1vw;
+            padding: 2vw 0;
             gap: 4vh;
         }
 
@@ -219,48 +219,27 @@
         }
 
         .period-tag {
-            font-size: clamp(14px, 2vw, 26px);
-            font-weight: 800;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: #ffffff;
+            display: none;
         }
 
         .clock {
             font-family: 'Roboto Mono', monospace;
-            font-size: clamp(100px, 16vw, 200px);
+            font-size: clamp(130px, 20.8vw, 260px);
             font-weight: 900;
             letter-spacing: 6px;
             line-height: 1;
-            transition: color 0.3s;
-        }
-
-        .clock.paused {
             color: #fff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 0 8px;
         }
 
-        .clock.running {
-            color: #ffffff;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        .clock.halftime {
+            background: #ffffff;
+            color: #000000;
         }
 
-        .clock.danger {
-            color: #ff003c;
-            text-shadow: 0 0 30px rgba(255, 0, 60, 0.5);
-            animation: blink-c 0.5s infinite;
-        }
-
-        @keyframes blink-c {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.3;
-            }
+        .clock.centi-long {
+            font-size: clamp(85px, 13.5vw, 170px);
         }
 
         .status-dot {
@@ -336,52 +315,31 @@
             text-shadow: 0 0 60px rgba(255, 255, 255, 0.5);
         }
 
-        /* ACTIVITY TIME OVERLAY */
-        .activity-overlay {
-            position: fixed;
-            bottom: 6vh;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.92);
-            border: 3px solid #fff;
-            border-radius: 10px;
-            padding: 18px 56px;
+        /* ACTIVITY TIME — inline under each fighter */
+        .activity-tag {
+            background: #f5c400;
+            border-radius: 8px;
+            padding: 10px 36px;
             display: none;
             align-items: center;
             justify-content: center;
-            z-index: 20;
-            backdrop-filter: blur(6px);
-            transition: opacity 0.3s, border-color 0.3s;
         }
 
-        .activity-overlay.show {
+        .activity-tag.show {
             display: flex;
         }
 
-        .activity-overlay.red {
-            border-color: #ff003c;
-        }
-
-        .activity-overlay.blue {
-            border-color: #0088ff;
-        }
-
-        .activity-overlay.paused {
-            opacity: 0.45;
+        .activity-tag.paused {
+            opacity: 0.55;
         }
 
         .act-ov-clock {
             font-family: 'Roboto Mono', monospace;
             font-size: clamp(56px, 10vw, 120px);
             font-weight: 900;
-            color: #fff;
+            color: #000;
             line-height: 1;
             letter-spacing: 4px;
-        }
-
-        .act-ov-clock.danger {
-            color: #ff003c;
-            animation: blink-c 0.4s infinite;
         }
 
 
@@ -461,11 +419,11 @@
             }
 
             .clock {
-                font-size: clamp(180px, 16vw, 300px);
+                font-size: clamp(234px, 20.8vw, 390px);
             }
 
-            .period-tag {
-                font-size: clamp(22px, 2vw, 40px);
+            .clock.centi-long {
+                font-size: clamp(152px, 13.5vw, 254px);
             }
 
             .fighter-name {
@@ -481,11 +439,9 @@
                 font-size: clamp(100px, 12vw, 200px);
             }
 
-            .activity-overlay {
-                padding: 28px 80px;
-                border-width: 4px;
-                border-radius: 16px;
-                bottom: 8vh;
+            .activity-tag {
+                padding: 14px 56px;
+                border-radius: 12px;
             }
         }
 
@@ -502,11 +458,11 @@
             }
 
             .clock {
-                font-size: clamp(260px, 14vw, 480px);
+                font-size: clamp(338px, 18.2vw, 624px);
             }
 
-            .period-tag {
-                font-size: clamp(36px, 2vw, 60px);
+            .clock.centi-long {
+                font-size: clamp(220px, 11.8vw, 406px);
             }
 
             .fighter-name {
@@ -522,9 +478,8 @@
                 font-size: clamp(160px, 10vw, 320px);
             }
 
-            .activity-overlay {
-                padding: 44px 120px;
-                border-width: 5px;
+            .activity-tag {
+                padding: 20px 80px;
             }
 
             .ds-ov-clock {
@@ -544,7 +499,11 @@
             }
 
             .clock {
-                font-size: clamp(72px, 12vw, 150px);
+                font-size: clamp(94px, 15.6vw, 195px);
+            }
+
+            .clock.centi-long {
+                font-size: clamp(61px, 10vw, 127px);
             }
         }
 
@@ -578,12 +537,15 @@
             }
 
             .clock {
-                font-size: clamp(48px, 14vw, 100px);
+                font-size: clamp(62px, 18.2vw, 130px);
             }
 
-            .activity-overlay {
-                padding: 12px 28px;
-                bottom: 4vh;
+            .clock.centi-long {
+                font-size: clamp(40px, 11.8vw, 85px);
+            }
+
+            .activity-tag {
+                padding: 8px 18px;
             }
 
             .act-ov-clock {
@@ -599,7 +561,11 @@
             }
 
             .clock {
-                font-size: clamp(36px, 12vw, 72px);
+                font-size: clamp(47px, 15.6vw, 94px);
+            }
+
+            .clock.centi-long {
+                font-size: clamp(30px, 10vw, 61px);
             }
 
             .fighter-name {
@@ -623,7 +589,7 @@
     </div>
 
     <!-- Banner sutil de fin de combate (encima del marcador) -->
-    <div class="fin-banner" id="fin-banner">Fin del Combate 1</div>
+
 
     <button class="fs-btn" id="fs-btn" onclick="toggleFullscreen()" title="Pantalla completa">
         <!-- icono expandir -->
@@ -653,6 +619,9 @@
                 <div class="warn-circle"></div>
                 <div class="warn-circle"></div>
             </div>
+            <div class="activity-tag" id="activity-tag-red">
+                <div class="act-ov-clock" id="act-ov-clock-red">0:30</div>
+            </div>
         </div>
 
         <div class="center">
@@ -668,12 +637,10 @@
                 <div class="warn-circle"></div>
                 <div class="warn-circle"></div>
             </div>
+            <div class="activity-tag" id="activity-tag-blue">
+                <div class="act-ov-clock" id="act-ov-clock-blue">0:30</div>
+            </div>
         </div>
-    </div>
-
-    <!-- ACTIVITY TIME OVERLAY -->
-    <div class="activity-overlay" id="activity-overlay">
-        <div class="act-ov-clock" id="act-ov-clock">0:30</div>
     </div>
 
     <script>
@@ -686,10 +653,11 @@
 
         function formatTimeCenti(ms) {
             const totalSecs = Math.floor(ms / 1000);
-            const mins = Math.floor(totalSecs / 60);
             const secs = totalSecs % 60;
-            const centi = Math.floor((ms % 1000) / 10);
-            return mins + ':' + String(secs).padStart(2, '0') + '.' + String(centi).padStart(2, '0');
+            const tenth = Math.floor((ms % 1000) / 100);
+            if (totalSecs < 10) return String(secs).padStart(2, '0') + '.' + tenth;
+            const mins = Math.floor(totalSecs / 60);
+            return mins + ':' + String(secs).padStart(2, '0') + '.' + tenth;
         }
 
         function startCentiLoop(remainingMs, ts) {
@@ -697,8 +665,9 @@
             const clock = document.getElementById('pub-clock');
             function frame() {
                 const rem = Math.max(remainingMs - (Date.now() - ts), 0);
+                const totalSecs = Math.floor(rem / 1000);
                 clock.textContent = formatTimeCenti(rem);
-                clock.style.fontSize = 'clamp(48px, 9vw, 110px)';
+                clock.className = totalSecs >= 10 ? 'clock centi-long' : 'clock';
                 if (rem > 0) rafId = requestAnimationFrame(frame);
             }
             rafId = requestAnimationFrame(frame);
@@ -707,7 +676,6 @@
         function stopCentiLoop() {
             cancelAnimationFrame(rafId);
             rafId = null;
-            document.getElementById('pub-clock').style.fontSize = '';
         }
 
         function render(s) {
@@ -726,26 +694,29 @@
                 dsClock.textContent = s.descanso; dsClock.classList.add('active');
             }
 
-            // ── Overlay activity time ──
-            const actOverlay = document.getElementById('activity-overlay');
-            const actClock = document.getElementById('act-ov-clock');
+            // ── Activity time — shown under the active fighter ──
+            const tagRed = document.getElementById('activity-tag-red');
+            const tagBlue = document.getElementById('activity-tag-blue');
+            const clockRed = document.getElementById('act-ov-clock-red');
+            const clockBlue = document.getElementById('act-ov-clock-blue');
             if (s.activity) {
                 const rem = Math.max(s.activity.remaining, 0);
-                actOverlay.className = 'activity-overlay show ' + (s.activity.side || '') + (s.activity.paused ? ' paused' : '');
-                actClock.textContent = formatPubTime(rem);
-                actClock.className = 'act-ov-clock' + (rem <= 10 && !s.activity.paused ? ' danger' : '');
+                const timeStr = formatPubTime(rem);
+                const paused = s.activity.paused ? ' paused' : '';
+                if (s.activity.side === 'red') {
+                    tagRed.className = 'activity-tag show' + paused;
+                    clockRed.textContent = timeStr;
+                    tagBlue.className = 'activity-tag';
+                } else {
+                    tagBlue.className = 'activity-tag show' + paused;
+                    clockBlue.textContent = timeStr;
+                    tagRed.className = 'activity-tag';
+                }
             } else {
-                actOverlay.className = 'activity-overlay';
+                tagRed.className = 'activity-tag';
+                tagBlue.className = 'activity-tag';
             }
 
-            // ── Banner fin de combate ──
-            const finBanner = document.getElementById('fin-banner');
-            if (s.matchFinished) {
-                finBanner.classList.add('show');
-                finBanner.textContent = 'Fin del Combate';
-            } else {
-                finBanner.classList.remove('show');
-            }
 
             // ── Scores ──
             const redEl = document.getElementById('pub-score-red');
@@ -777,18 +748,24 @@
 
             // Reloj
             const clock = document.getElementById('pub-clock');
+            const atHalftime = !s.running && s.remInPeriod != null && s.remInPeriod <= 0 && (s.remainingSeconds > 0 || s.matchFinished || s.matchEnded);
             if (s.remainingMs != null && s.running) {
                 startCentiLoop(s.remainingMs, s.ts);
-                clock.className = 'clock danger';
+                clock.className = 'clock';
+            } else if (s.remainingMs != null && !s.running) {
+                stopCentiLoop();
+                clock.textContent = formatTimeCenti(s.remainingMs);
+                const totalSecs = Math.floor(s.remainingMs / 1000);
+                clock.className = totalSecs >= 10 ? 'clock centi-long paused' : 'clock paused';
             } else {
                 stopCentiLoop();
                 clock.textContent = s.time;
-                clock.className = 'clock';
-                if (s.running) {
-                    const rem = s.remInPeriod != null ? s.remInPeriod : 999;
-                    clock.classList.add(rem <= 10 ? 'danger' : 'running');
+                if (atHalftime) {
+                    clock.className = 'clock halftime';
+                } else if (s.running) {
+                    clock.className = 'clock running';
                 } else {
-                    clock.classList.add('paused');
+                    clock.className = 'clock paused';
                 }
             }
 

@@ -408,8 +408,9 @@
             font-weight: 900;
             letter-spacing: 2px;
             line-height: 1;
-            transition: color 0.3s, text-shadow 0.3s;
             text-align: center;
+            border-radius: 6px;
+            padding: 4px 12px;
         }
 
         .clock-display.paused {
@@ -417,26 +418,12 @@
         }
 
         .clock-display.running {
-            color: #ffea00;
-            text-shadow: 0 0 24px rgba(255, 234, 0, 0.5);
+            color: var(--text);
         }
 
         .clock-display.danger {
-            color: var(--red);
-            text-shadow: 0 0 24px rgba(255, 0, 60, 0.5);
-            animation: blink 0.5s infinite;
-        }
-
-        @keyframes blink {
-
-            0%,
-            100% {
-                opacity: 1
-            }
-
-            50% {
-                opacity: 0.3
-            }
+            background: #ffffff;
+            color: #000000;
         }
 
         .btn-edit-time {
@@ -494,6 +481,32 @@
             color: #ffea00;
             border-color: #ffea00;
             box-shadow: 0 0 12px rgba(255, 234, 0, 0.3);
+        }
+
+        .time-adjust {
+            display: none;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        .adj-btn {
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 234, 0, 0.35);
+            background: transparent;
+            color: #ffea00;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Roboto Mono', monospace;
+            transition: all 0.2s;
+        }
+
+        .adj-btn:hover {
+            background: #ffea00;
+            color: #000;
+            border-color: #ffea00;
+            box-shadow: 0 0 10px rgba(255, 234, 0, 0.4);
         }
 
         .time-custom {
@@ -573,43 +586,7 @@
             cursor: not-allowed;
         }
 
-        .period-row {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-            margin-top: 4px;
-        }
 
-        .period-label {
-            font-size: 9px;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-right: 2px;
-            font-weight: 700;
-        }
-
-        .period-btn {
-            min-width: 32px;
-            padding: 0 9px;
-            height: 28px;
-            border-radius: 4px;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--muted);
-            font-size: 11px;
-            font-weight: 800;
-            cursor: pointer;
-            font-family: 'Roboto Mono', monospace;
-            transition: all 0.2s;
-        }
-
-        .period-btn.active {
-            background: rgb(255, 255, 255);
-            color: #000;
-            border-color: rgb(255, 255, 255);
-
-        }
 
         .history-panel {
             grid-column: 1 / -1;
@@ -835,8 +812,6 @@
 
         .descanso-clock.danger {
             color: var(--red);
-            text-shadow: 0 0 20px rgba(255, 0, 60, 0.5);
-            animation: blink 0.5s infinite;
         }
 
         .descanso-presets {
@@ -943,15 +918,10 @@
         }
 
         .btn-descanso.running {
-            border-color: rgba(255, 0, 60, 0.4);
-            color: var(--red);
-        }
-
-        .btn-descanso.running:not(:disabled):hover {
-            background: var(--red);
-            color: #000;
-            border-color: var(--red);
-            box-shadow: 0 0 16px rgba(255, 0, 60, 0.5);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #fff;
+            cursor: not-allowed;
+            opacity: 0.6;
         }
 
         /* ── ACTIVITY TIME ── */
@@ -982,14 +952,13 @@
             color: #000;
             border-color: #ffaa00;
             box-shadow: 0 0 16px rgba(255, 170, 0, 0.5);
-            animation: blink 0.8s infinite;
         }
 
         .btn-activity.danger {
-            background: var(--red);
-            color: #fff;
-            border-color: var(--red);
-            animation: blink 0.4s infinite;
+            background: #ffaa00;
+            color: #000;
+            border-color: #ffaa00;
+            box-shadow: 0 0 16px rgba(255, 170, 0, 0.5);
         }
 
         /* ── INSTRUCTIONS ── */
@@ -1167,16 +1136,13 @@
         <span class="top-bar-title">Vista del Operador</span>
         <div class="top-bar-actions">
             <a class="top-btn" href="scoreboard_publico.html" target="_blank">Abrir pantalla publica</a>
-            <button class="top-btn" onclick="resetAll()">Reiniciar todo</button>
         </div>
     </div>
 
 
 
-    <div class="alert-bar match-end" id="alert-match-end">Tiempo terminado - Presiona Espacio para iniciar el descanso
-    </div>
-    <div class="alert-bar finished" id="alert-finished">Combate finalizado - Puedes reiniciar para el siguiente
-        encuentro</div>
+
+
 
     <div class="scoreboard">
         <div class="side red">
@@ -1188,40 +1154,39 @@
                 <button class="pt-btn" onclick="addPoints('red',4)">4</button>
                 <button class="pt-btn" onclick="addPoints('red',5)">5</button>
             </div>
-            <span class="warns-label">Advertencias</span>
+            <span class="warns-label">Amonestaciones</span>
             <div class="warnings" id="warns-red">
                 <div class="warn-dot" onclick="toggleWarn('red',0)"></div>
                 <div class="warn-dot" onclick="toggleWarn('red',1)"></div>
                 <div class="warn-dot" onclick="toggleWarn('red',2)"></div>
             </div>
-            <button class="btn-activity" id="act-red" onclick="toggleActivity('red')" disabled>Pasividad</button>
+            <button class="btn-activity" id="act-red" onclick="toggleActivity('red')" disabled>Actividad</button>
         </div>
 
         <div class="center">
             <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                <div class="clock-display paused" id="clock">4:00</div>
-                <button class="btn-edit-time" id="btn-edit-time" onclick="promptEditTime()">EDICION MANUAL</button>
+                <div class="clock-display paused" id="clock">6:00</div>
+                <div class="time-adjust" id="time-adjust">
+                    <button class="adj-btn" onclick="adjustTime(-1)">−</button>
+                    <button class="adj-btn" onclick="adjustTime(1)">+</button>
+                </div>
             </div>
             <div class="time-selector">
-                <button class="time-btn active" onclick="setTime(240,this)">4:00</button>
-                <button class="time-btn" onclick="setTime(360,this)">6:00</button>
-                <button class="time-btn" onclick="setTime(480,this)">8:00</button>
+                <button class="time-btn active" onclick="setTime(360,false,this)">6:00</button>
+                <button class="time-btn" onclick="setTime(240,false,this)">4:00</button>
+                <button class="time-btn" onclick="setTime(180,true,this)">3:00</button>
             </div>
 
 
-            <div class="period-row">
-                <span class="period-label">Periodo</span>
-                <button class="period-btn active" id="p1" onclick="setPeriod(1)">1</button>
-                <button class="period-btn" id="p2" onclick="setPeriod(2)">2</button>
-            </div>
+
             <div class="controls">
                 <button class="btn-start" id="btn-ss" onclick="handleMainButton()">Iniciar</button>
                 <div class="ctrl-row">
                     <button class="btn-ctrl" onclick="undoLast()">Deshacer ultimo</button>
-                    <button class="btn-ctrl danger" onclick="resetAll()">Reiniciar</button>
+                    <button class="btn-ctrl danger" onclick="resetAll()">Reiniciar todo</button>
                 </div>
             </div>
-            <span class="spacebar-hint">Espacio = pausar / reanudar / iniciar descanso</span>
+
         </div>
 
         <div class="side blue">
@@ -1233,13 +1198,13 @@
                 <button class="pt-btn" onclick="addPoints('blue',4)">4</button>
                 <button class="pt-btn" onclick="addPoints('blue',5)">5</button>
             </div>
-            <span class="warns-label">Advertencias</span>
+            <span class="warns-label">Amonestaciones</span>
             <div class="warnings" id="warns-blue">
                 <div class="warn-dot" onclick="toggleWarn('blue',0)"></div>
                 <div class="warn-dot" onclick="toggleWarn('blue',1)"></div>
                 <div class="warn-dot" onclick="toggleWarn('blue',2)"></div>
             </div>
-            <button class="btn-activity" id="act-blue" onclick="toggleActivity('blue')" disabled>Pasividad</button>
+            <button class="btn-activity" id="act-blue" onclick="toggleActivity('blue')" disabled>Actividad</button>
         </div>
 
         <!-- ── HISTORY PANEL ── -->
@@ -1256,14 +1221,7 @@
         <button class="btn-descanso" id="btn-descanso" onclick="toggleDescanso()">Iniciar descanso</button>
     </div>
 
-    <div class="instructions">
-        <h4>Atajos de teclado</h4>
-        <ul>
-            <li><span class="key">Espacio</span> Pausar / reanudar / iniciar descanso al terminar</li>
-            <li><span class="key">Z</span> Deshacer el ultimo punto ingresado</li>
-            <li><span class="key">R</span> Reiniciar el encuentro (pide confirmacion)</li>
-        </ul>
-    </div>
+
 
     <script>
         // ── ESTADO ──
@@ -1271,8 +1229,9 @@
             red: 0, blue: 0,
             warnsRed: [false, false, false],
             warnsBlue: [false, false, false],
-            periodDuration: 120,
-            remainingSeconds: 240,
+            periodDuration: 180,
+            remainingSeconds: 360,
+            selectedDuration: 360,
             running: false,
             matchEnded: false,
             matchFinished: false,
@@ -1284,6 +1243,7 @@
 
         let timerInterval = null;
         let timerEpoch = 0, timerBase = 0;
+        let frozenMs = null;
 
         // Estado descanso
         let ds = { total: 30, elapsed: 0, running: false };
@@ -1315,8 +1275,7 @@
 
         // ── PUNTOS ──
         function addPoints(side, pts) {
-            // Solo se pueden agregar puntos con el reloj corriendo
-            if (!state.running) return;
+            if (!state.started || state.matchEnded) return;
             state[side] += pts;
             state.history.push({ side, pts });
             const el = document.getElementById('score-' + side);
@@ -1326,8 +1285,7 @@
         }
 
         function undoLast() {
-            // Solo se puede deshacer si el reloj ha iniciado (started) y el periodo no termino
-            if (!state.started || state.matchEnded || state.matchFinished || ds.running) return;
+            if (!state.started || state.matchEnded || ds.running) return;
             if (!state.history.length) return;
             const last = state.history.pop();
             state[last.side] = Math.max(0, state[last.side] - last.pts);
@@ -1343,7 +1301,6 @@
 
         // ── BOTON PRINCIPAL (contextual) ──
         function handleMainButton() {
-            if (state.matchFinished) return; // combate terminado, solo reiniciar
             if (state.matchEnded) {
                 toggleDescanso();
             } else {
@@ -1356,6 +1313,13 @@
             if (state.running) {
                 clearInterval(timerInterval);
                 state.running = false;
+                const pEnd = state.period === 1 ? state.periodDuration : 0;
+                const remAtPause = state.remainingSeconds - pEnd;
+                if (remAtPause <= 10 && remAtPause > 0) {
+                    frozenMs = Math.max(timerBase * 1000 - (Date.now() - timerEpoch), pEnd * 1000);
+                } else {
+                    frozenMs = null;
+                }
                 // Pausar activity si estaba corriendo
                 if (activity.running) {
                     clearInterval(actInterval);
@@ -1366,8 +1330,10 @@
                 }
             } else {
                 if (state.remainingSeconds <= 0) return;
+                if (state.matchFinished) state.matchFinished = false;
                 timerBase = state.remainingSeconds;
                 timerEpoch = Date.now();
+                frozenMs = null;
                 state.running = true;
                 state.started = true;
                 timerInterval = setInterval(tick, 50);
@@ -1388,7 +1354,15 @@
         function tick() {
             const secsElapsed = Math.floor((Date.now() - timerEpoch) / 1000);
             const next = Math.max(timerBase - secsElapsed, 0);
-            if (next === state.remainingSeconds) return;
+            if (next === state.remainingSeconds) {
+                const periodEnd = state.period === 1 ? state.periodDuration : 0;
+                const rem = next - periodEnd;
+                if (rem <= 10 && rem > 0 && state.running) {
+                    const remainingMs = Math.max(timerBase * 1000 - (Date.now() - timerEpoch), periodEnd * 1000);
+                    document.getElementById('clock').textContent = formatTimeCenti(remainingMs);
+                }
+                return;
+            }
             state.remainingSeconds = next;
             const periodEnd = state.period === 1 ? state.periodDuration : 0;
             if (state.remainingSeconds <= periodEnd) {
@@ -1396,7 +1370,6 @@
                 clearInterval(timerInterval);
                 state.running = false;
                 cancelActivity();
-                playBell();
                 if (state.period === 2) {
                     state.matchFinished = true;
                     state.matchEnded = false;
@@ -1408,9 +1381,10 @@
             update();
         }
 
-        function setTime(totalSeconds, btn) {
+        function setTime(totalSeconds, noBreak, btn) {
             if (state.started) return;
-            state.periodDuration = Math.floor(totalSeconds / 2);
+            state.selectedDuration = totalSeconds;
+            state.periodDuration = noBreak ? 0 : Math.floor(totalSeconds / 2);
             state.remainingSeconds = totalSeconds;
             document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
@@ -1418,6 +1392,13 @@
         }
 
 
+        function adjustTime(delta) {
+            if (state.running || !state.started || state.matchEnded) return;
+            const periodEnd = state.period === 1 ? state.periodDuration : 0;
+            state.remainingSeconds = Math.max(periodEnd + 1, Math.min(state.selectedDuration, state.remainingSeconds + delta));
+            timerBase = state.remainingSeconds;
+            update();
+        }
 
         // Auto-formato mientras escribe: inserta ':' automaticamente
         // Ej: "130" → "1:30", "0015" → "00:15"
@@ -1470,17 +1451,7 @@
             }
         }
 
-        function setPeriod(p) {
-            if (state.running || state.matchFinished) return;
-            if (state.started && p < state.period) return;
-            if (state.started && state.remainingSeconds < state.periodDuration * 2) return;
-            if (p > 2) return;
-            state.period = p;
-            ['p1', 'p2'].forEach(id => document.getElementById(id).classList.remove('active'));
-            document.getElementById('p' + p).classList.add('active');
-            if (!state.started) state.remainingSeconds = state.periodDuration * 2;
-            update();
-        }
+
 
         function resetAll() {
             if (!confirm('Reiniciar el encuentro?')) return;
@@ -1488,13 +1459,12 @@
             state.matchNumber++;
             state.red = 0; state.blue = 0;
             state.warnsRed = [false, false, false]; state.warnsBlue = [false, false, false];
-            state.remainingSeconds = state.periodDuration * 2;
+            state.remainingSeconds = state.selectedDuration;
             state.running = false; state.matchEnded = false; state.matchFinished = false; state.started = false;
             state.period = 1;
-            ['p1', 'p2'].forEach(id => document.getElementById(id).classList.remove('active'));
-            document.getElementById('p1').classList.add('active');
             state.history = [];
             ds.running = false; ds.elapsed = 0;
+            frozenMs = null;
             updateDescanso();
             update();
         }
@@ -1505,10 +1475,11 @@
 
         function formatTimeCenti(ms) {
             const totalSecs = Math.floor(ms / 1000);
-            const mins = Math.floor(totalSecs / 60);
             const secs = totalSecs % 60;
-            const centi = Math.floor((ms % 1000) / 10);
-            return mins + ':' + String(secs).padStart(2, '0') + '.' + String(centi).padStart(2, '0');
+            const tenth = Math.floor((ms % 1000) / 100);
+            if (totalSecs < 10) return String(secs).padStart(2, '0') + '.' + tenth;
+            const mins = Math.floor(totalSecs / 60);
+            return mins + ':' + String(secs).padStart(2, '0') + '.' + tenth;
         }
 
         // ── RENDER ──
@@ -1519,18 +1490,18 @@
             const diff = Math.abs(state.red - state.blue);
             const tied = state.red === state.blue;
 
-            document.getElementById('alert-match-end').classList.toggle('show', state.matchEnded && !ds.running);
+            document.getElementById('alert-match-end') && document.getElementById('alert-match-end').classList.toggle('show', false);
 
-            // Alerta de fin de combate real
-            let finEl = document.getElementById('alert-finished');
-            if (finEl) finEl.classList.toggle('show', state.matchFinished);
+
 
             const clock = document.getElementById('clock');
             const periodEnd = state.period === 1 ? state.periodDuration : 0;
             const remInPeriod = state.remainingSeconds - periodEnd;
-            const showCenti = remInPeriod <= 10 && remInPeriod > 0 && state.running;
+            const showCenti = remInPeriod <= 10 && remInPeriod > 0;
             if (showCenti) {
-                const remainingMs = Math.max(timerBase * 1000 - (Date.now() - timerEpoch), periodEnd * 1000);
+                const remainingMs = state.running
+                    ? Math.max(timerBase * 1000 - (Date.now() - timerEpoch), periodEnd * 1000)
+                    : (frozenMs != null ? frozenMs : state.remainingSeconds * 1000);
                 clock.textContent = formatTimeCenti(remainingMs);
                 clock.style.fontSize = '48px';
             } else {
@@ -1539,26 +1510,21 @@
             }
             clock.className = 'clock-display';
             if (remInPeriod <= 0 && state.started) clock.classList.add('danger');
-            else if (remInPeriod <= 10 && state.running) clock.classList.add('danger');
             else if (state.running) clock.classList.add('running');
             else clock.classList.add('paused');
 
             const btn = document.getElementById('btn-ss');
             if (state.matchFinished) {
-                btn.textContent = 'Combate finalizado - Reiniciar para el siguiente';
-                btn.className = 'btn-start';
-                btn.style.opacity = '0.45';
-                btn.style.cursor = 'default';
-            } else if (state.matchEnded && !ds.running) {
+                btn.style.display = '';
                 btn.style.opacity = ''; btn.style.cursor = '';
-                btn.textContent = 'Iniciar descanso (Espacio)';
-                btn.className = 'btn-start waiting';
-            } else if (state.matchEnded && ds.running) {
-                btn.textContent = 'Descanso en curso...';
+                btn.textContent = 'Iniciar';
                 btn.className = 'btn-start';
-                btn.style.opacity = '0.5';
-                btn.style.cursor = 'default';
+            } else if (state.matchEnded && !ds.running) {
+                btn.style.display = 'none';
+            } else if (state.matchEnded && ds.running) {
+                btn.style.display = 'none';
             } else {
+                btn.style.display = '';
                 btn.style.opacity = ''; btn.style.cursor = '';
                 btn.textContent = state.running ? 'Pausar' : (state.remainingSeconds <= 0 ? 'Fin' : 'Iniciar');
                 btn.className = 'btn-start' + (state.running ? ' running' : '');
@@ -1566,21 +1532,20 @@
 
 
 
-            // Deshacer: condiciones identicas a undoLast()
-            const canUndo = state.started && !state.matchEnded && !state.matchFinished && !ds.running && state.history.length > 0;
+            const canUndo = state.started && !state.matchEnded && !ds.running && state.history.length > 0;
             const undoBtn = document.querySelector('.btn-ctrl:not(.danger)');
             if (undoBtn) {
                 undoBtn.disabled = !canUndo;
                 undoBtn.style.opacity = canUndo ? '' : '0.2';
                 undoBtn.style.cursor = canUndo ? '' : 'not-allowed';
                 undoBtn.title = !state.started ? 'El reloj no ha iniciado'
-                    : (state.matchEnded || state.matchFinished) ? 'No se puede deshacer al terminar el periodo'
+                    : state.matchEnded ? 'No se puede deshacer al terminar el periodo'
                         : ds.running ? 'No se puede deshacer durante el descanso'
                             : (!state.history.length ? 'Sin puntos para deshacer' : 'Deshacer ultimo punto (Z)');
             }
 
             // Botones de punto: solo activos con el reloj corriendo
-            const blockPoints = !state.running;
+            const blockPoints = !state.started || state.matchEnded;
             document.querySelectorAll('.pt-btn').forEach(b => {
                 b.disabled = blockPoints;
                 b.style.opacity = blockPoints ? '0.2' : '';
@@ -1591,8 +1556,7 @@
                 : state.matchEnded ? 'Periodo terminado'
                     : ds.running ? 'Descanso en curso'
                         : !state.started ? 'Inicia el reloj primero'
-                            : !state.running ? 'Reloj pausado'
-                                : '';
+                            : '';
             document.querySelectorAll('.pt-btn').forEach(b => b.title = ptTitle);
 
             // Selector de tiempo: bloqueado si el combate ya arranco
@@ -1606,10 +1570,7 @@
             });
 
 
-            const editBtn = document.getElementById('btn-edit-time');
-            if (editBtn) {
-                editBtn.style.display = (!state.running && !state.matchFinished) ? 'block' : 'none';
-            }
+
 
 
 
@@ -1628,6 +1589,11 @@
                 chip.textContent = item.pts;
                 track.appendChild(chip);
             });
+
+            const adjustRow = document.getElementById('time-adjust');
+            if (adjustRow) {
+                adjustRow.style.display = (state.started && !state.running && !state.matchEnded) ? 'flex' : 'none';
+            }
 
             syncPublic();
             updateDescanso();
@@ -1678,7 +1644,6 @@
             if (activity.elapsed >= ACTIVITY_DURATION) {
                 clearInterval(actInterval);
                 activity.running = false;
-                playBell();
                 updateActivity();
                 syncPublic();
                 setTimeout(cancelActivity, 5000);
@@ -1696,42 +1661,37 @@
                 btn.style.cursor = '';
                 if (activity.running && activity.side === side) {
                     btn.textContent = '▶ ' + formatTime(remaining);
-                    btn.className = 'btn-activity' + (remaining <= 10 ? ' danger' : ' active');
+                    btn.className = 'btn-activity active';
                 } else if (activity.paused && activity.side === side) {
                     btn.textContent = '⏸ ' + formatTime(remaining);
                     btn.className = 'btn-activity active';
                 } else if (activity.running || activity.paused) {
-                    btn.textContent = 'Pasividad';
+                    btn.textContent = 'Actividad';
                     btn.className = 'btn-activity';
                     btn.disabled = true;
                     btn.style.opacity = '0.25';
                     btn.style.cursor = 'not-allowed';
                 } else if (!canActivate) {
-                    btn.textContent = 'Pasividad';
+                    btn.textContent = 'Actividad';
                     btn.className = 'btn-activity';
                     btn.disabled = true;
                     btn.style.opacity = '0.25';
                     btn.style.cursor = 'not-allowed';
                 } else {
-                    btn.textContent = 'Pasividad';
+                    btn.textContent = 'Actividad';
                     btn.className = 'btn-activity';
                 }
             });
         }
 
         function toggleDescanso() {
-            if (state.matchFinished) return;
-            if (!state.matchEnded && !ds.running) return;
-            if (ds.running) {
-                clearInterval(dsInterval);
-                ds.running = false;
-            } else {
-                if (ds.elapsed >= ds.total) ds.elapsed = 0;
-                dsBase = ds.elapsed;
-                dsEpoch = Date.now();
-                ds.running = true;
-                dsInterval = setInterval(tickDescanso, 250);
-            }
+            if (state.matchFinished || ds.running) return;
+            if (!state.matchEnded) return;
+            if (ds.elapsed >= ds.total) ds.elapsed = 0;
+            dsBase = ds.elapsed;
+            dsEpoch = Date.now();
+            ds.running = true;
+            dsInterval = setInterval(tickDescanso, 250);
             updateDescanso();
             update();
         }
@@ -1745,11 +1705,8 @@
             if (ds.elapsed >= ds.total) {
                 clearInterval(dsInterval);
                 ds.running = false;
-                playBell();
                 if (state.period < 2) {
                     state.period++;
-                    ['p1', 'p2'].forEach(id => document.getElementById(id).classList.remove('active'));
-                    document.getElementById('p' + state.period).classList.add('active');
                 }
                 state.matchEnded = false;
                 // remainingSeconds already at periodDuration where period 1 stopped
@@ -1773,11 +1730,11 @@
             const canBreak = state.matchEnded && !state.matchFinished;
 
             if (ds.running) {
-                btn.textContent = 'Detener descanso';
+                btn.textContent = 'Descanso en curso';
                 btn.className = 'btn-descanso running';
-                btn.disabled = false;
+                btn.disabled = true;
                 btn.style.opacity = '';
-                btn.style.cursor = '';
+                btn.style.cursor = 'not-allowed';
             } else if (canBreak) {
                 btn.textContent = 'Iniciar descanso';
                 btn.className = 'btn-descanso';
@@ -1810,9 +1767,12 @@
                 remainingMs: (() => {
                     const pEnd = state.period === 1 ? state.periodDuration : 0;
                     const rem = state.remainingSeconds - pEnd;
-                    return (rem <= 10 && rem > 0 && state.running)
-                        ? Math.max(timerBase * 1000 - (Date.now() - timerEpoch), pEnd * 1000)
-                        : null;
+                    if (rem <= 10 && rem > 0) {
+                        return state.running
+                            ? Math.max(timerBase * 1000 - (Date.now() - timerEpoch), pEnd * 1000)
+                            : (frozenMs != null ? frozenMs : state.remainingSeconds * 1000);
+                    }
+                    return null;
                 })(),
                 running: state.running,
                 period: state.period,
@@ -1820,6 +1780,7 @@
                 warnsRed: state.warnsRed,
                 warnsBlue: state.warnsBlue,
                 matchFinished: state.matchFinished,
+                matchEnded: state.matchEnded,
                 matchNumber: state.matchNumber,
                 descanso: ds.running ? formatTime(ds.total - ds.elapsed) : (state.matchEnded ? 'waiting' : null),
                 activity: (activity.running || activity.paused || activity.elapsed >= ACTIVITY_DURATION)
