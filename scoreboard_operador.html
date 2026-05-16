@@ -1519,10 +1519,11 @@
                 btn.style.opacity = ''; btn.style.cursor = '';
                 btn.textContent = 'Iniciar';
                 btn.className = 'btn-start';
-            } else if (state.matchEnded && !ds.running) {
-                btn.style.display = 'none';
-            } else if (state.matchEnded && ds.running) {
-                btn.style.display = 'none';
+            } else if (state.matchEnded) {
+                btn.style.display = '';
+                btn.style.opacity = ''; btn.style.cursor = '';
+                btn.textContent = state.running ? 'Pausar' : 'Iniciar';
+                btn.className = 'btn-start' + (state.running ? ' running' : '');
             } else {
                 btn.style.display = '';
                 btn.style.opacity = ''; btn.style.cursor = '';
