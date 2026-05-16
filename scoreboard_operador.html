@@ -1390,9 +1390,9 @@
 
 
         function adjustTime(delta) {
-            if (state.running || !state.started || state.matchFinished) return;
+            if (state.running) return;
             const periodEnd = state.period === 1 ? state.periodDuration : 0;
-            const min = state.matchEnded ? periodEnd : periodEnd + 1;
+            const min = state.matchEnded ? periodEnd : (state.started ? periodEnd + 1 : 0);
             state.remainingSeconds = Math.max(min, Math.min(state.selectedDuration, state.remainingSeconds + delta));
             timerBase = state.remainingSeconds;
             frozenMs = null;
@@ -1573,15 +1573,13 @@
             state.history.slice(-24).forEach((item, i, arr) => {
                 const chip = document.createElement('div');
                 chip.className = 'h-chip ' + (item.side === 'red' ? 'r' : 'b');
-                if (i === arr.length - 1) chip.classList.add('last');
                 chip.textContent = item.pts;
                 track.appendChild(chip);
             });
 
             const adjustRow = document.getElementById('time-adjust');
             if (adjustRow) {
-                const canAdjust = state.started && !state.running && !state.matchFinished;
-                adjustRow.style.display = canAdjust ? 'flex' : 'none';
+                adjustRow.style.display = state.running ? 'none' : 'flex';
             }
 
             syncPublic();
@@ -1633,9 +1631,7 @@
             if (activity.elapsed >= ACTIVITY_DURATION) {
                 clearInterval(actInterval);
                 activity.running = false;
-                updateActivity();
-                syncPublic();
-                setTimeout(cancelActivity, 5000);
+                cancelActivity();
             }
         }
 
