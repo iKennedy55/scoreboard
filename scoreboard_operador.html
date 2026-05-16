@@ -1299,11 +1299,7 @@
 
         // ── BOTON PRINCIPAL (contextual) ──
         function handleMainButton() {
-            if (state.matchEnded) {
-                toggleDescanso();
-            } else {
-                toggleTimer();
-            }
+            toggleTimer();
         }
 
         // ── TIMER COMBATE ──
@@ -1786,12 +1782,7 @@
             switch (e.code) {
                 case 'Space':
                     e.preventDefault();
-                    if (state.matchFinished) break; // combate terminado, no hacer nada
-                    if (state.matchEnded) {
-                        toggleDescanso();
-                    } else {
-                        toggleTimer();
-                    }
+                    if (!state.matchFinished) toggleTimer();
                     break;
                 case 'KeyZ':
                     if (!state.matchEnded && !state.matchFinished) undoLast();
