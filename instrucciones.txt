@@ -6,10 +6,11 @@ ARCHIVOS PRINCIPALES
 3. scoreboard_publico.html  - Pantalla para la audiencia (abrir en ventana/monitor secundario).
 
 USO BÁSICO
-1. Abre 'index.html' en tu navegador principal.
-2. Haz clic en "Abrir pantalla pública" (esquina superior derecha) para abrir 'scoreboard_publico.html' en una nueva pestaña.
-3. Arrastra la pestaña de la pantalla pública al monitor secundario o TV y ponla en pantalla completa (usando F11 o el botón de la esquina superior derecha de la pantalla pública).
-4. Todo lo que hagas en la pantalla del operador se reflejará automáticamente en la pantalla pública.
+1. Abre 'index.html' en tu navegador principal. Verás el menú de inicio del sistema.
+2. Haz clic en "Operador" para abrir el panel de control en esa misma pestaña.
+3. Haz clic en "Pantalla Pública" para abrir la vista de la audiencia en una nueva pestaña.
+4. Arrastra la pestaña de la pantalla pública al monitor secundario o TV y ponla en pantalla completa (usando F11).
+5. Todo lo que hagas en la pantalla del operador se reflejará automáticamente en la pantalla pública.
 
 CONTROL DEL CRONÓMETRO PRINCIPAL
 - Botón Iniciar/Pausar: Controla el reloj del combate.
