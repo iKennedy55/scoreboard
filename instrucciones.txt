@@ -1,0 +1,43 @@
+INSTRUCCIONES DE USO - MARCADOR (SCOREBOARD)
+
+ARCHIVOS PRINCIPALES
+1. index.html               - Archivo principal para abrir el sistema (te lleva al operador).
+2. scoreboard_operador.html - Pantalla de control para el operador.
+3. scoreboard_publico.html  - Pantalla para la audiencia (abrir en ventana/monitor secundario).
+
+USO BÁSICO
+1. Abre 'index.html' en tu navegador principal.
+2. Haz clic en "Abrir pantalla pública" (esquina superior derecha) para abrir 'scoreboard_publico.html' en una nueva pestaña.
+3. Arrastra la pestaña de la pantalla pública al monitor secundario o TV y ponla en pantalla completa (usando F11 o el botón de la esquina superior derecha de la pantalla pública).
+4. Todo lo que hagas en la pantalla del operador se reflejará automáticamente en la pantalla pública.
+
+CONTROL DEL CRONÓMETRO PRINCIPAL
+- Botón Iniciar/Pausar: Controla el reloj del combate.
+- Tecla [ESPACIO]: Atajo rápido para Iniciar o Pausar el reloj.
+- Ajuste de tiempo (+ y -): Permiten agregar o quitar 1 segundo al reloj. Estos botones solo son visibles cuando el cronómetro está pausado.
+- Selectores de tiempo: Puedes elegir entre 6:00 (dos periodos de 3 min), 4:00, o 3:00 antes de iniciar el combate.
+
+PUNTUACIÓN Y AMONESTACIONES
+- Botones de Puntos (1, 2, 3, 4, 5): Siempre están disponibles para sumar puntos al luchador Rojo o Azul, incluso si el periodo ha terminado.
+- Amonestaciones: Puedes hacer clic en los círculos pequeños (hasta 3) debajo de los botones de puntos. En la pantalla pública se mostrarán en amarillo.
+- Deshacer punto: Si te equivocas, puedes usar el botón "Deshacer ultimo" o presionar la tecla [Z] para revertir la última acción de puntos. Siempre está disponible.
+
+TIEMPO DE ACTIVIDAD (30 SEGUNDOS)
+- El botón "Actividad" se encuentra debajo de las amonestaciones.
+- Al presionarlo, iniciará un cronómetro de 30 segundos (solo disponible si el reloj principal ha iniciado y el combate no ha terminado).
+- En la pantalla pública, este cronómetro aparecerá justo debajo del puntaje del luchador correspondiente.
+- El cronómetro de actividad desaparece automáticamente en cuanto llega a 0:00 o si se cancela volviendo a hacer clic en el botón.
+
+DESCANSO ENTRE PERIODOS
+- Cuando el primer periodo termina, el botón "Iniciar descanso" se habilitará en la parte inferior de la pantalla del operador.
+- Al hacer clic, iniciará el cronómetro de descanso en la pantalla pública (cubriendo la pantalla con el texto "Fin del periodo").
+- Nota: Mientras estás en el descanso o el periodo terminó, el botón principal "Iniciar/Pausar" seguirá disponible. Esto te permite agregar segundos al reloj principal (con los botones + y -) y reanudar el combate si el periodo terminó por error o hay una revisión.
+
+REINICIO
+- Botón "Reiniciar todo": Resetea puntajes, amonestaciones y tiempo para el siguiente combate.
+- Tecla [R]: Atajo rápido para reiniciar todo (te pedirá confirmación).
+
+ATAJOS DE TECLADO
+[ESPACIO] - Iniciar / Pausar el reloj.
+[Z]       - Deshacer el último punto agregado.
+[R]       - Reiniciar el encuentro completo.
