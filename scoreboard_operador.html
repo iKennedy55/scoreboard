@@ -1326,7 +1326,10 @@
                 if (state.remainingSeconds <= 0) return;
                 if (state.matchFinished) state.matchFinished = false;
                 timerBase = state.remainingSeconds;
-                timerEpoch = Date.now();
+                // if paused mid-millisecond zone, shift epoch so ms resume from exact frozen value
+                timerEpoch = frozenMs != null
+                    ? Date.now() - (state.remainingSeconds * 1000 - frozenMs)
+                    : Date.now();
                 frozenMs = null;
                 state.running = true;
                 state.started = true;
