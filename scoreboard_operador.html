@@ -1435,25 +1435,8 @@
             }
             return parseInt(val); // solo segundos
         }
-
-
-
-        function promptEditTime() {
-            if (state.running || state.matchFinished) return;
-            const res = prompt('Duracion total del combate (M:SS):', formatTime(state.periodDuration * 2));
-            if (!res) return;
-            const secs = parseSecs(res);
-            if (!isNaN(secs) && secs > 0) {
-                state.periodDuration = Math.floor(secs / 2);
-                if (!state.started) state.remainingSeconds = secs;
-                update();
-            }
-        }
-
-
-
         function resetAll() {
-            if (!confirm('Reiniciar el encuentro?')) return;
+            if (!confirm('¿Reiniciar el encuentro?')) return;
             clearInterval(timerInterval); clearInterval(dsInterval);
             state.matchNumber++;
             state.red = 0; state.blue = 0;
