@@ -1275,7 +1275,6 @@
 
         // ── PUNTOS ──
         function addPoints(side, pts) {
-            if (!state.started || state.matchEnded) return;
             state[side] += pts;
             state.history.push({ side, pts });
             const el = document.getElementById('score-' + side);
@@ -1285,7 +1284,6 @@
         }
 
         function undoLast() {
-            if (!state.started || state.matchEnded || ds.running) return;
             if (!state.history.length) return;
             const last = state.history.pop();
             state[last.side] = Math.max(0, state[last.side] - last.pts);
@@ -1393,9 +1391,10 @@
 
 
         function adjustTime(delta) {
-            if (state.running || !state.started || state.matchEnded) return;
+            if (state.running || !state.started || state.matchFinished) return;
             const periodEnd = state.period === 1 ? state.periodDuration : 0;
-            state.remainingSeconds = Math.max(periodEnd + 1, Math.min(state.selectedDuration, state.remainingSeconds + delta));
+            const min = state.matchEnded ? periodEnd : periodEnd + 1;
+            state.remainingSeconds = Math.max(min, Math.min(state.selectedDuration, state.remainingSeconds + delta));
             timerBase = state.remainingSeconds;
             frozenMs = null;
             update();
@@ -1533,32 +1532,20 @@
 
 
 
-            const canUndo = state.started && !state.matchEnded && !ds.running && state.history.length > 0;
             const undoBtn = document.querySelector('.btn-ctrl:not(.danger)');
             if (undoBtn) {
-                undoBtn.disabled = !canUndo;
-                undoBtn.style.opacity = canUndo ? '' : '0.2';
-                undoBtn.style.cursor = canUndo ? '' : 'not-allowed';
-                undoBtn.title = !state.started ? 'El reloj no ha iniciado'
-                    : state.matchEnded ? 'No se puede deshacer al terminar el periodo'
-                        : ds.running ? 'No se puede deshacer durante el descanso'
-                            : (!state.history.length ? 'Sin puntos para deshacer' : 'Deshacer ultimo punto (Z)');
+                undoBtn.disabled = false;
+                undoBtn.style.opacity = '';
+                undoBtn.style.cursor = '';
+                undoBtn.title = !state.history.length ? 'Sin puntos para deshacer' : 'Deshacer ultimo punto (Z)';
             }
 
-            // Botones de punto: solo activos con el reloj corriendo
-            const blockPoints = !state.started || state.matchEnded;
             document.querySelectorAll('.pt-btn').forEach(b => {
-                b.disabled = blockPoints;
-                b.style.opacity = blockPoints ? '0.2' : '';
-                b.style.cursor = blockPoints ? 'not-allowed' : '';
+                b.disabled = false;
+                b.style.opacity = '';
+                b.style.cursor = '';
+                b.title = '';
             });
-            // Tooltips utiles segun el estado
-            const ptTitle = state.matchFinished ? 'Combate finalizado'
-                : state.matchEnded ? 'Periodo terminado'
-                    : ds.running ? 'Descanso en curso'
-                        : !state.started ? 'Inicia el reloj primero'
-                            : '';
-            document.querySelectorAll('.pt-btn').forEach(b => b.title = ptTitle);
 
             // Selector de tiempo: bloqueado si el combate ya arranco
             const matchStarted = state.started || state.matchEnded || state.matchFinished;
@@ -1593,7 +1580,8 @@
 
             const adjustRow = document.getElementById('time-adjust');
             if (adjustRow) {
-                adjustRow.style.display = (state.started && !state.running && !state.matchEnded) ? 'flex' : 'none';
+                const canAdjust = state.started && !state.running && !state.matchFinished;
+                adjustRow.style.display = canAdjust ? 'flex' : 'none';
             }
 
             syncPublic();
